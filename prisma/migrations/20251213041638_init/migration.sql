@@ -1,9 +1,3 @@
-/*
-  Warnings:
-
-  - Added the required column `password` to the `Customer` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('ADMIN', 'RECEPTIONIST', 'CLEANING', 'TECHNICIAN');
 
@@ -20,13 +14,23 @@ CREATE TYPE "MaintenancePriority" AS ENUM ('LOW', 'HIGH', 'EMERGENCY');
 CREATE TYPE "MaintenanceStatus" AS ENUM ('PENDING', 'IN_PROGRESS', 'COMPLETED');
 
 -- CreateEnum
-CREATE TYPE "ReservationStatus" AS ENUM ('PENDING', 'CONFIRMED', 'CHECKED_IN', 'CHECKED_OUT', 'CANCELLED', 'NO_SHOW');
+CREATE TYPE "ReservationStatus" AS ENUM ('PENDING', 'CONFIRMED', 'CHECKED_IN', 'CHECKED_OUT', 'CANCELLED', 'NO_SHOW', 'REFUNDED');
 
 -- CreateEnum
 CREATE TYPE "TransactionStatus" AS ENUM ('PENDING', 'SUCCESS', 'FAILED');
 
--- AlterTable
-ALTER TABLE "Customer" ADD COLUMN     "password" VARCHAR(255) NOT NULL;
+-- CreateTable
+CREATE TABLE "Customer" (
+    "customer_id" TEXT NOT NULL,
+    "fullname" VARCHAR(100) NOT NULL,
+    "email" VARCHAR(100) NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
+    "phone_number" VARCHAR(20) NOT NULL,
+    "img_identity" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Customer_pkey" PRIMARY KEY ("customer_id")
+);
 
 -- CreateTable
 CREATE TABLE "Employee" (
@@ -93,6 +97,9 @@ CREATE TABLE "Transaction" (
 
     CONSTRAINT "Transaction_pkey" PRIMARY KEY ("transaction_id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Customer_email_key" ON "Customer"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Employee_email_key" ON "Employee"("email");
