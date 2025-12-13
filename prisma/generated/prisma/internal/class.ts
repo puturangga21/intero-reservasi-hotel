@@ -12,7 +12,7 @@
  */
 
 import * as runtime from "@prisma/client/runtime/client"
-import type * as Prisma from "./prismaNamespace.ts"
+import type * as Prisma from "./prismaNamespace.js"
 
 
 const config: runtime.GetPrismaClientConfig = {
@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.1.0",
   "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../prisma/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Customer {\n  customer_id  String   @id @default(cuid())\n  fullname     String   @db.VarChar(100)\n  email        String   @unique @db.VarChar(100)\n  phone_number String   @db.VarChar(20)\n  img_identity String   @db.VarChar(255)\n  created_at   DateTime @default(now())\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../prisma/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\n// ENUM\nenum Role {\n  ADMIN\n  RECEPTIONIST\n  CLEANING\n  TECHNICIAN\n}\n\nenum RoomType {\n  SINGLE\n  DOUBLE\n  SUITE\n}\n\nenum RoomStatus {\n  AVAILABLE\n  MAINTENANCE\n}\n\nenum MaintenancePriority {\n  LOW\n  HIGH\n  EMERGENCY\n}\n\nenum MaintenanceStatus {\n  PENDING\n  IN_PROGRESS\n  COMPLETED\n}\n\nenum ReservationStatus {\n  PENDING\n  CONFIRMED\n  CHECKED_IN\n  CHECKED_OUT\n  CANCELLED\n  NO_SHOW\n  REFUNDED\n}\n\nenum TransactionStatus {\n  PENDING\n  SUCCESS\n  FAILED\n}\n\n// MODEL\nmodel Customer {\n  customer_id  String   @id @default(cuid())\n  fullname     String   @db.VarChar(100)\n  email        String   @unique @db.VarChar(100)\n  password     String   @db.VarChar(255)\n  phone_number String   @db.VarChar(20)\n  img_identity String   @db.VarChar(255)\n  created_at   DateTime @default(now())\n\n  reservation Reservation[]\n}\n\nmodel Employee {\n  employee_id String @id @default(cuid())\n  fullname    String @db.VarChar(100)\n  email       String @unique @db.VarChar(100)\n  password    String @db.VarChar(255)\n  role        Role   @default(RECEPTIONIST)\n\n  reservation Reservation[]\n  maintenance Maintenance[]\n}\n\nmodel Room {\n  room_id         String     @id @default(cuid())\n  room_number     String     @unique @db.VarChar(20)\n  type            RoomType\n  price_per_night Decimal    @db.Decimal(10, 2)\n  status          RoomStatus @default(AVAILABLE)\n  description     String     @db.Text\n\n  reservation Reservation[]\n  maintenance Maintenance[]\n}\n\nmodel Maintenance {\n  maintenance_id    String              @id @default(cuid())\n  room_id           String\n  employee_id       String?\n  issue_description String              @db.Text\n  priority          MaintenancePriority @default(LOW)\n  status            MaintenanceStatus   @default(PENDING)\n  start_date        DateTime?\n  end_date          DateTime?\n\n  room     Room      @relation(fields: [room_id], references: [room_id])\n  employee Employee? @relation(fields: [employee_id], references: [employee_id])\n}\n\nmodel Reservation {\n  reservation_id String            @id @default(cuid())\n  customer_id    String\n  room_id        String\n  employee_id    String?\n  check_in_date  DateTime\n  check_out_date DateTime\n  total_price    Decimal           @db.Decimal(10, 2)\n  status         ReservationStatus @default(PENDING)\n  created_at     DateTime          @default(now())\n\n  customer Customer  @relation(fields: [customer_id], references: [customer_id])\n  room     Room      @relation(fields: [room_id], references: [room_id])\n  employee Employee? @relation(fields: [employee_id], references: [employee_id])\n\n  transaction Transaction[]\n}\n\nmodel Transaction {\n  transaction_id String            @id @default(cuid())\n  reservation_id String\n  amount         Decimal           @db.Decimal(10, 2)\n  payment_method String            @db.VarChar(50)\n  payment_date   DateTime          @default(now())\n  status         TransactionStatus @default(PENDING)\n  code           String            @unique @db.Text\n  invoice_url    String            @db.Text\n\n  reservation Reservation @relation(fields: [reservation_id], references: [reservation_id])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Customer\":{\"fields\":[{\"name\":\"customer_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone_number\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"img_identity\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Customer\":{\"fields\":[{\"name\":\"customer_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone_number\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"img_identity\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"reservation\",\"kind\":\"object\",\"type\":\"Reservation\",\"relationName\":\"CustomerToReservation\"}],\"dbName\":null},\"Employee\":{\"fields\":[{\"name\":\"employee_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"reservation\",\"kind\":\"object\",\"type\":\"Reservation\",\"relationName\":\"EmployeeToReservation\"},{\"name\":\"maintenance\",\"kind\":\"object\",\"type\":\"Maintenance\",\"relationName\":\"EmployeeToMaintenance\"}],\"dbName\":null},\"Room\":{\"fields\":[{\"name\":\"room_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"room_number\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"RoomType\"},{\"name\":\"price_per_night\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"RoomStatus\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reservation\",\"kind\":\"object\",\"type\":\"Reservation\",\"relationName\":\"ReservationToRoom\"},{\"name\":\"maintenance\",\"kind\":\"object\",\"type\":\"Maintenance\",\"relationName\":\"MaintenanceToRoom\"}],\"dbName\":null},\"Maintenance\":{\"fields\":[{\"name\":\"maintenance_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"room_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"employee_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"issue_description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"priority\",\"kind\":\"enum\",\"type\":\"MaintenancePriority\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"MaintenanceStatus\"},{\"name\":\"start_date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"end_date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"MaintenanceToRoom\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeToMaintenance\"}],\"dbName\":null},\"Reservation\":{\"fields\":[{\"name\":\"reservation_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"customer_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"room_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"employee_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"check_in_date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"check_out_date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"total_price\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ReservationStatus\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"customer\",\"kind\":\"object\",\"type\":\"Customer\",\"relationName\":\"CustomerToReservation\"},{\"name\":\"room\",\"kind\":\"object\",\"type\":\"Room\",\"relationName\":\"ReservationToRoom\"},{\"name\":\"employee\",\"kind\":\"object\",\"type\":\"Employee\",\"relationName\":\"EmployeeToReservation\"},{\"name\":\"transaction\",\"kind\":\"object\",\"type\":\"Transaction\",\"relationName\":\"ReservationToTransaction\"}],\"dbName\":null},\"Transaction\":{\"fields\":[{\"name\":\"transaction_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reservation_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"amount\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"payment_method\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"payment_date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"TransactionStatus\"},{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"invoice_url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reservation\",\"kind\":\"object\",\"type\":\"Reservation\",\"relationName\":\"ReservationToTransaction\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -183,6 +183,56 @@ export interface PrismaClient<
     * ```
     */
   get customer(): Prisma.CustomerDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.employee`: Exposes CRUD operations for the **Employee** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Employees
+    * const employees = await prisma.employee.findMany()
+    * ```
+    */
+  get employee(): Prisma.EmployeeDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.room`: Exposes CRUD operations for the **Room** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Rooms
+    * const rooms = await prisma.room.findMany()
+    * ```
+    */
+  get room(): Prisma.RoomDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.maintenance`: Exposes CRUD operations for the **Maintenance** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Maintenances
+    * const maintenances = await prisma.maintenance.findMany()
+    * ```
+    */
+  get maintenance(): Prisma.MaintenanceDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.reservation`: Exposes CRUD operations for the **Reservation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Reservations
+    * const reservations = await prisma.reservation.findMany()
+    * ```
+    */
+  get reservation(): Prisma.ReservationDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.transaction`: Exposes CRUD operations for the **Transaction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Transactions
+    * const transactions = await prisma.transaction.findMany()
+    * ```
+    */
+  get transaction(): Prisma.TransactionDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

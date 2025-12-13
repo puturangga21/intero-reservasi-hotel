@@ -8,5 +8,10 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Customer.ts'
-export type * from './commonInputTypes.ts'
+export type * from './models/Customer.js'
+export type * from './models/Employee.js'
+export type * from './models/Room.js'
+export type * from './models/Maintenance.js'
+export type * from './models/Reservation.js'
+export type * from './models/Transaction.js'
+export type * from './commonInputTypes.js'

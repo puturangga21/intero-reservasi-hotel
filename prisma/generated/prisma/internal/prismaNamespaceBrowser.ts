@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models.ts'
-export type * from './prismaNamespace.ts'
+export type * from '../models.js'
+export type * from './prismaNamespace.js'
 
 export const Decimal = runtime.Decimal
 
@@ -51,7 +51,12 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Customer: 'Customer'
+  Customer: 'Customer',
+  Employee: 'Employee',
+  Room: 'Room',
+  Maintenance: 'Maintenance',
+  Reservation: 'Reservation',
+  Transaction: 'Transaction'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -74,12 +79,79 @@ export const CustomerScalarFieldEnum = {
   customer_id: 'customer_id',
   fullname: 'fullname',
   email: 'email',
+  password: 'password',
   phone_number: 'phone_number',
   img_identity: 'img_identity',
   created_at: 'created_at'
 } as const
 
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
+
+
+export const EmployeeScalarFieldEnum = {
+  employee_id: 'employee_id',
+  fullname: 'fullname',
+  email: 'email',
+  password: 'password',
+  role: 'role'
+} as const
+
+export type EmployeeScalarFieldEnum = (typeof EmployeeScalarFieldEnum)[keyof typeof EmployeeScalarFieldEnum]
+
+
+export const RoomScalarFieldEnum = {
+  room_id: 'room_id',
+  room_number: 'room_number',
+  type: 'type',
+  price_per_night: 'price_per_night',
+  status: 'status',
+  description: 'description'
+} as const
+
+export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
+
+
+export const MaintenanceScalarFieldEnum = {
+  maintenance_id: 'maintenance_id',
+  room_id: 'room_id',
+  employee_id: 'employee_id',
+  issue_description: 'issue_description',
+  priority: 'priority',
+  status: 'status',
+  start_date: 'start_date',
+  end_date: 'end_date'
+} as const
+
+export type MaintenanceScalarFieldEnum = (typeof MaintenanceScalarFieldEnum)[keyof typeof MaintenanceScalarFieldEnum]
+
+
+export const ReservationScalarFieldEnum = {
+  reservation_id: 'reservation_id',
+  customer_id: 'customer_id',
+  room_id: 'room_id',
+  employee_id: 'employee_id',
+  check_in_date: 'check_in_date',
+  check_out_date: 'check_out_date',
+  total_price: 'total_price',
+  status: 'status',
+  created_at: 'created_at'
+} as const
+
+export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
+
+
+export const TransactionScalarFieldEnum = {
+  transaction_id: 'transaction_id',
+  reservation_id: 'reservation_id',
+  amount: 'amount',
+  payment_method: 'payment_method',
+  payment_date: 'payment_date',
+  status: 'status',
+  code: 'code',
+  invoice_url: 'invoice_url'
+} as const
+
+export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -96,4 +168,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
