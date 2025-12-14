@@ -29,7 +29,7 @@ export default function Hero() {
             size: 'lg',
             className: 'mt-6 uppercase text-xs',
           })}>
-          Book Now <ArrowRight />
+          Book a stay <ArrowRight />
         </Link>
 
         <div className="mt-12 flex flex-col items-center justify-center gap-4">

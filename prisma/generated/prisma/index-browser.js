@@ -144,7 +144,8 @@ exports.Prisma.RoomScalarFieldEnum = {
   type: 'type',
   price_per_night: 'price_per_night',
   status: 'status',
-  description: 'description'
+  description: 'description',
+  image: 'image'
 };
 
 exports.Prisma.MaintenanceScalarFieldEnum = {

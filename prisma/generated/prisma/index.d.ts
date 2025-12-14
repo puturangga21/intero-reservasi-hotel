@@ -3797,6 +3797,7 @@ export namespace Prisma {
     price_per_night: number
     status: number
     description: number
+    image: number
     _all: number
   }
 
@@ -3834,6 +3835,7 @@ export namespace Prisma {
     price_per_night?: true
     status?: true
     description?: true
+    image?: true
     _all?: true
   }
 
@@ -3930,6 +3932,7 @@ export namespace Prisma {
     price_per_night: Decimal
     status: $Enums.RoomStatus
     description: string
+    image: string[]
     _count: RoomCountAggregateOutputType | null
     _avg: RoomAvgAggregateOutputType | null
     _sum: RoomSumAggregateOutputType | null
@@ -3958,6 +3961,7 @@ export namespace Prisma {
     price_per_night?: boolean
     status?: boolean
     description?: boolean
+    image?: boolean
     reservation?: boolean | Room$reservationArgs<ExtArgs>
     maintenance?: boolean | Room$maintenanceArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
@@ -3970,6 +3974,7 @@ export namespace Prisma {
     price_per_night?: boolean
     status?: boolean
     description?: boolean
+    image?: boolean
   }, ExtArgs["result"]["room"]>
 
   export type RoomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3979,6 +3984,7 @@ export namespace Prisma {
     price_per_night?: boolean
     status?: boolean
     description?: boolean
+    image?: boolean
   }, ExtArgs["result"]["room"]>
 
   export type RoomSelectScalar = {
@@ -3988,9 +3994,10 @@ export namespace Prisma {
     price_per_night?: boolean
     status?: boolean
     description?: boolean
+    image?: boolean
   }
 
-  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"room_id" | "room_number" | "type" | "price_per_night" | "status" | "description", ExtArgs["result"]["room"]>
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"room_id" | "room_number" | "type" | "price_per_night" | "status" | "description" | "image", ExtArgs["result"]["room"]>
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reservation?: boolean | Room$reservationArgs<ExtArgs>
     maintenance?: boolean | Room$maintenanceArgs<ExtArgs>
@@ -4012,6 +4019,7 @@ export namespace Prisma {
       price_per_night: Prisma.Decimal
       status: $Enums.RoomStatus
       description: string
+      image: string[]
     }, ExtArgs["result"]["room"]>
     composites: {}
   }
@@ -4443,6 +4451,7 @@ export namespace Prisma {
     readonly price_per_night: FieldRef<"Room", 'Decimal'>
     readonly status: FieldRef<"Room", 'RoomStatus'>
     readonly description: FieldRef<"Room", 'String'>
+    readonly image: FieldRef<"Room", 'String[]'>
   }
     
 
@@ -8405,7 +8414,8 @@ export namespace Prisma {
     type: 'type',
     price_per_night: 'price_per_night',
     status: 'status',
-    description: 'description'
+    description: 'description',
+    image: 'image'
   };
 
   export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
@@ -8773,6 +8783,7 @@ export namespace Prisma {
     price_per_night?: DecimalFilter<"Room"> | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFilter<"Room"> | $Enums.RoomStatus
     description?: StringFilter<"Room"> | string
+    image?: StringNullableListFilter<"Room">
     reservation?: ReservationListRelationFilter
     maintenance?: MaintenanceListRelationFilter
   }
@@ -8784,6 +8795,7 @@ export namespace Prisma {
     price_per_night?: SortOrder
     status?: SortOrder
     description?: SortOrder
+    image?: SortOrder
     reservation?: ReservationOrderByRelationAggregateInput
     maintenance?: MaintenanceOrderByRelationAggregateInput
   }
@@ -8798,6 +8810,7 @@ export namespace Prisma {
     price_per_night?: DecimalFilter<"Room"> | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFilter<"Room"> | $Enums.RoomStatus
     description?: StringFilter<"Room"> | string
+    image?: StringNullableListFilter<"Room">
     reservation?: ReservationListRelationFilter
     maintenance?: MaintenanceListRelationFilter
   }, "room_id" | "room_number">
@@ -8809,6 +8822,7 @@ export namespace Prisma {
     price_per_night?: SortOrder
     status?: SortOrder
     description?: SortOrder
+    image?: SortOrder
     _count?: RoomCountOrderByAggregateInput
     _avg?: RoomAvgOrderByAggregateInput
     _max?: RoomMaxOrderByAggregateInput
@@ -8826,6 +8840,7 @@ export namespace Prisma {
     price_per_night?: DecimalWithAggregatesFilter<"Room"> | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusWithAggregatesFilter<"Room"> | $Enums.RoomStatus
     description?: StringWithAggregatesFilter<"Room"> | string
+    image?: StringNullableListFilter<"Room">
   }
 
   export type MaintenanceWhereInput = {
@@ -9204,6 +9219,7 @@ export namespace Prisma {
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
+    image?: RoomCreateimageInput | string[]
     reservation?: ReservationCreateNestedManyWithoutRoomInput
     maintenance?: MaintenanceCreateNestedManyWithoutRoomInput
   }
@@ -9215,6 +9231,7 @@ export namespace Prisma {
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
+    image?: RoomCreateimageInput | string[]
     reservation?: ReservationUncheckedCreateNestedManyWithoutRoomInput
     maintenance?: MaintenanceUncheckedCreateNestedManyWithoutRoomInput
   }
@@ -9226,6 +9243,7 @@ export namespace Prisma {
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
+    image?: RoomUpdateimageInput | string[]
     reservation?: ReservationUpdateManyWithoutRoomNestedInput
     maintenance?: MaintenanceUpdateManyWithoutRoomNestedInput
   }
@@ -9237,6 +9255,7 @@ export namespace Prisma {
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
+    image?: RoomUpdateimageInput | string[]
     reservation?: ReservationUncheckedUpdateManyWithoutRoomNestedInput
     maintenance?: MaintenanceUncheckedUpdateManyWithoutRoomNestedInput
   }
@@ -9248,6 +9267,7 @@ export namespace Prisma {
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
+    image?: RoomCreateimageInput | string[]
   }
 
   export type RoomUpdateManyMutationInput = {
@@ -9257,6 +9277,7 @@ export namespace Prisma {
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
+    image?: RoomUpdateimageInput | string[]
   }
 
   export type RoomUncheckedUpdateManyInput = {
@@ -9266,6 +9287,7 @@ export namespace Prisma {
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
+    image?: RoomUpdateimageInput | string[]
   }
 
   export type MaintenanceCreateInput = {
@@ -9678,6 +9700,14 @@ export namespace Prisma {
     not?: NestedEnumRoomStatusFilter<$PrismaModel> | $Enums.RoomStatus
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type RoomCountOrderByAggregateInput = {
     room_id?: SortOrder
     room_number?: SortOrder
@@ -9685,6 +9715,7 @@ export namespace Prisma {
     price_per_night?: SortOrder
     status?: SortOrder
     description?: SortOrder
+    image?: SortOrder
   }
 
   export type RoomAvgOrderByAggregateInput = {
@@ -10166,6 +10197,10 @@ export namespace Prisma {
     deleteMany?: MaintenanceScalarWhereInput | MaintenanceScalarWhereInput[]
   }
 
+  export type RoomCreateimageInput = {
+    set: string[]
+  }
+
   export type ReservationCreateNestedManyWithoutRoomInput = {
     create?: XOR<ReservationCreateWithoutRoomInput, ReservationUncheckedCreateWithoutRoomInput> | ReservationCreateWithoutRoomInput[] | ReservationUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: ReservationCreateOrConnectWithoutRoomInput | ReservationCreateOrConnectWithoutRoomInput[]
@@ -10208,6 +10243,11 @@ export namespace Prisma {
 
   export type EnumRoomStatusFieldUpdateOperationsInput = {
     set?: $Enums.RoomStatus
+  }
+
+  export type RoomUpdateimageInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type ReservationUpdateManyWithoutRoomNestedInput = {
@@ -10978,6 +11018,7 @@ export namespace Prisma {
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
+    image?: RoomCreateimageInput | string[]
     reservation?: ReservationCreateNestedManyWithoutRoomInput
   }
 
@@ -10988,6 +11029,7 @@ export namespace Prisma {
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
+    image?: RoomCreateimageInput | string[]
     reservation?: ReservationUncheckedCreateNestedManyWithoutRoomInput
   }
 
@@ -11037,6 +11079,7 @@ export namespace Prisma {
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
+    image?: RoomUpdateimageInput | string[]
     reservation?: ReservationUpdateManyWithoutRoomNestedInput
   }
 
@@ -11047,6 +11090,7 @@ export namespace Prisma {
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
+    image?: RoomUpdateimageInput | string[]
     reservation?: ReservationUncheckedUpdateManyWithoutRoomNestedInput
   }
 
@@ -11111,6 +11155,7 @@ export namespace Prisma {
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
+    image?: RoomCreateimageInput | string[]
     maintenance?: MaintenanceCreateNestedManyWithoutRoomInput
   }
 
@@ -11121,6 +11166,7 @@ export namespace Prisma {
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
+    image?: RoomCreateimageInput | string[]
     maintenance?: MaintenanceUncheckedCreateNestedManyWithoutRoomInput
   }
 
@@ -11231,6 +11277,7 @@ export namespace Prisma {
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
+    image?: RoomUpdateimageInput | string[]
     maintenance?: MaintenanceUpdateManyWithoutRoomNestedInput
   }
 
@@ -11241,6 +11288,7 @@ export namespace Prisma {
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
+    image?: RoomUpdateimageInput | string[]
     maintenance?: MaintenanceUncheckedUpdateManyWithoutRoomNestedInput
   }
 
