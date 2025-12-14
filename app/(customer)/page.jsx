@@ -1,7 +1,7 @@
 import Rooms from '@/components/custom/rooms';
 import Hero from '@/components/home/hero';
 import InfiniteGallery from '@/components/home/infinite-gallery';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
