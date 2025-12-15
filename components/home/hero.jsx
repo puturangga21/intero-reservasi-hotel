@@ -1,7 +1,8 @@
 import { Button, buttonVariants } from '@/components/ui/button';
-import { ArrowDown, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowDown02Icon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
 export default function Hero() {
   return (
@@ -18,7 +19,7 @@ export default function Hero() {
 
       <div className="relative z-10 max-w-200 mb-16 mx-auto px-4 text-center text-white">
         <p className="text-xs text-muted">PRIVATE ISLAND RESORT IN BALI</p>
-        <h1 className="text-6xl leading-[1.2] font-medium uppercase font-sprat tracking-wider">
+        <h1 className="text-5xl md:text-6xl leading-[1.2] font-medium uppercase font-sprat tracking-wider">
           The most exclusive private hotel
         </h1>
 
@@ -29,11 +30,11 @@ export default function Hero() {
             size: 'lg',
             className: 'mt-6 uppercase text-xs',
           })}>
-          Book a stay <ArrowRight />
+          Book a stay <HugeiconsIcon icon={ArrowRight01Icon} />
         </Link>
 
         <div className="mt-12 flex flex-col items-center justify-center gap-4">
-          <ArrowDown size={18} />
+          <HugeiconsIcon icon={ArrowDown02Icon} />
           <p className="text-xs text-muted uppercase">Scroll down</p>
         </div>
       </div>

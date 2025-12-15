@@ -46,7 +46,7 @@ export async function POST(request) {
 
     const { fullname, email, password, phone_number, img_identity } = body;
 
-    if (!fullname || !email || !password || !phone_number || !img_identity) {
+    if (!fullname || !email || !password) {
       return NextResponse.json(
         {
           success: false,

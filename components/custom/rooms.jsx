@@ -2,7 +2,8 @@ import { formatRupiah } from '@/lib/utils';
 import Image from 'next/image';
 import React from 'react';
 import { Button } from '../ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 
 const rooms = [
   {
@@ -46,7 +47,7 @@ const rooms = [
 export default function Rooms() {
   return (
     <div className="w-full bg-background">
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {rooms.map((room) => (
           <div key={room.id} className="flex flex-col group gap-4">
             <div className="relative shrink-0 overflow-hidden w-full aspect-video grayscale group-hover:grayscale-0 transition-all duration-300">
@@ -69,7 +70,7 @@ export default function Rooms() {
                 variant="outline"
                 size="lg">
                 Book Now
-                <ArrowRight className="ml-2" />
+                <HugeiconsIcon icon={ArrowRight01Icon} className="size-5 -mt-0.5 ml-1" />
               </Button>
             </div>
           </div>

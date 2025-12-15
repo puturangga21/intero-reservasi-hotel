@@ -1,10 +1,9 @@
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { buttonVariants } from '@/components/ui/button';
 import { ArrowLeft01FreeIcons } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import FormPage from './form-page';
 
 export default function LoginPage() {
   return (
@@ -46,51 +45,23 @@ export default function LoginPage() {
           {/* Header Form */}
           <div className="grid gap-2 text-left">
             <h1 className={`text-4xl font-medium tracking-tight font-sprat`}>
-              Welcome Back
+              Create an account
             </h1>
             <p className="text-muted-foreground text-sm">
-              Log in using your email and password to proceed with the reservation.
+              Enter your details below to create an account and unlock exclusive benefits.
             </p>
           </div>
 
           {/* Form */}
-          <form className="grid gap-6">
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="puturangga21@gmail.com"
-                  required
-                  className="h-11"
-                />
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder=""
-                  required
-                  className="h-11"
-                />
-              </div>
-
-              <Button type="submit" className="w-full h-11 text-base mt-2">
-                Login
-              </Button>
-            </div>
-          </form>
+          <FormPage />
 
           {/* Footer Register */}
           <div className="text-center text-sm text-muted-foreground">
-            Don't have an account?{' '}
+            Already have an account?{' '}
             <Link
-              href="/register"
+              href="/login"
               className="font-medium text-primary underline underline-offset-4 hover:text-primary/80">
-              Register now
+              Login now
             </Link>
           </div>
         </div>

@@ -1,27 +1,106 @@
 'use client';
 
-import { Menu } from 'lucide-react';
-import { Button } from '../ui/button';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Menu01Icon, MultiplicationSignIcon } from '@hugeicons/core-free-icons';
+
+const menuItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Our Suites', href: '#rooms' },
+  { label: 'Dining', href: '/dining' },
+  { label: 'Experience', href: '/experience' },
+  { label: 'Contact', href: '/contact' },
+];
 
 export default function Navbar() {
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-6 flex justify-between items-center">
-          {/* <h1 className="font-sprat text-2xl uppercase font-medium text-primary-foreground tracking-wider">
-            Suites
-          </h1> */}
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const containerRef = useRef(null);
+  const tl = useRef(null);
 
+  useGSAP(
+    () => {
+      tl.current = gsap
+        .timeline({ paused: true })
+        .to('.menu-overlay', {
+          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+          duration: 1.4,
+          ease: 'power4.inOut',
+        })
+        .fromTo(
+          '.menu-link-item',
+          {
+            y: 100,
+          },
+          {
+            y: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power4.out',
+          },
+          '-=0.4'
+        );
+    },
+    { scope: containerRef }
+  );
+
+  const toggleMenu = () => {
+    if (!isMenuOpen) {
+      setIsMenuOpen(true);
+      tl.current?.play();
+    } else {
+      setIsMenuOpen(false);
+      tl.current?.reverse();
+    }
+  };
+
+  return (
+    <nav ref={containerRef} className="fixed top-0 left-0 right-0 z-50">
+      <div className="relative z-50 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="py-6 flex justify-between items-center mix-blend-difference">
           <Link href="/">
-            <h1 className="font-sprat text-2xl uppercase font-medium text-primary-foreground tracking-wider">
+            <h1
+              className={`font-sprat text-2xl uppercase font-medium tracking-wider transition-colors ${
+                isMenuOpen ? 'text-primary' : 'text-primary-foreground'
+              }`}>
               Suites
             </h1>
           </Link>
 
-          <Button variant="default" size="icon-sm">
-            <Menu />
+          <Button
+            variant="default"
+            size="icon"
+            onClick={toggleMenu}
+            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 z-50"
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}>
+            {isMenuOpen ? (
+              <HugeiconsIcon icon={MultiplicationSignIcon} className="size-4" />
+            ) : (
+              <HugeiconsIcon icon={Menu01Icon} className="size-4" />
+            )}
           </Button>
+        </div>
+      </div>
+
+      <div
+        className="menu-overlay fixed inset-0 w-screen h-screen bg-secondary text-secondary-foreground z-40 flex flex-col pt-28 items-center"
+        style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)' }}>
+        <div className="container mx-auto px-4 flex flex-col items-center justify-center space-y-10">
+          {menuItems.map((item, index) => (
+            <div
+              key={index}
+              className="overflow-hidden hover:text-primary hover:scale-110 transition-all">
+              <Link
+                href={item.href}
+                className="menu-link-item block text-5xl md:text-7xl font-medium uppercase font-sprat"
+                onClick={toggleMenu}>
+                {item.label}
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </nav>

@@ -2,7 +2,8 @@ import Rooms from '@/components/custom/rooms';
 import Hero from '@/components/home/hero';
 import InfiniteGallery from '@/components/home/infinite-gallery';
 import { buttonVariants } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import Link from 'next/link';
 
 export default function Page() {
@@ -16,7 +17,7 @@ export default function Page() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* content */}
           <div className="flex flex-col gap-4 items-center justify-center">
-            <h1 className="md:text-4xl lg:text-5xl text-center font-sprat uppercase font-medium tracking-wider leading-[1.2]">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl text-center font-sprat uppercase font-medium tracking-wider leading-[1.2]">
               SETTLED ON THE SERENE SURFACE OF NORTH LAKE TAHOE, A PLEASANT ENCOUNTER
             </h1>
             <p className="text-center text-muted-foreground max-w-200 mx-auto">
@@ -36,14 +37,15 @@ export default function Page() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* content */}
           <div className="flex flex-col gap-14 items-center justify-center">
-            <h1 className="md:text-4xl lg:text-5xl max-w-175 text-center font-sprat uppercase font-medium tracking-wider leading-[1.2]">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl max-w-175 text-center font-sprat uppercase font-medium tracking-wider leading-[1.2]">
               EXQUISITE SPACES FOR YOUR Family
             </h1>
 
             <Rooms />
 
             <Link href="/#" className="flex uppercase text-sm items-center gap-2">
-              See all rooms <ArrowRight size={16} />
+              See all rooms{' '}
+              <HugeiconsIcon icon={ArrowRight01Icon} className="size-5 -mt-0.5" />
             </Link>
           </div>
         </div>
@@ -57,7 +59,7 @@ export default function Page() {
             <p className="text-sm uppercase text-secondary-foreground">
               EXPERIENCE WHAT YOU'VE ALWAYS WANTED
             </p>
-            <h1 className="font-sprat uppercase text-5xl leading-[1.2] text-center max-w-200 mx-auto">
+            <h1 className="font-sprat uppercase text-4xl md:text-5xl leading-[1.2] text-center max-w-200 mx-auto">
               Let's have you here and enjoy the fun
             </h1>
 
@@ -68,7 +70,7 @@ export default function Page() {
                 size: 'lg',
                 className: 'mt-6 uppercase text-xs',
               })}>
-              Book a stay <ArrowRight />
+              Book a stay <HugeiconsIcon icon={ArrowRight01Icon} />
             </Link>
           </div>
         </div>

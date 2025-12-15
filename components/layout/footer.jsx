@@ -40,10 +40,10 @@ export default function Footer() {
     <footer className="pt-20 pb-10 bg-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-24">
-          <div className="grid grid-cols-4">
+          <div className="grid grid-cols-1 gap-12 md:gap-0 md:grid-cols-4">
             <div className="col-span-2 max-w-100">
               <h1 className="text-2xl font-medium font-sprat text-primary-foreground">
-                Cottage at Merston Manor Farm, Chapel Lane, Merstone, PO30 3BZ
+                Jalan Goa Gong, Gang Jepun Nomor 7A, Bukit Jimbaran
               </h1>
             </div>
 
