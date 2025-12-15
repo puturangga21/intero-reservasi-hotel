@@ -1,12 +1,15 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import gsap from 'gsap';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useGSAP } from '@gsap/react';
+import { Menu01Icon, MultiplicationSignIcon, UserIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Menu01Icon, MultiplicationSignIcon } from '@hugeicons/core-free-icons';
+import gsap from 'gsap';
+import Link from 'next/link';
+import { useRef, useState } from 'react';
+import { Separator } from '../ui/separator';
+import FormLogout from '../custom/logout';
 
 const menuItems = [
   { label: 'Home', href: '/' },
@@ -16,7 +19,7 @@ const menuItems = [
   { label: 'Contact', href: '/contact' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ session }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const containerRef = useRef(null);
   const tl = useRef(null);
@@ -70,18 +73,41 @@ export default function Navbar() {
             </h1>
           </Link>
 
-          <Button
-            variant="default"
-            size="icon"
-            onClick={toggleMenu}
-            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 z-50"
-            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}>
-            {isMenuOpen ? (
-              <HugeiconsIcon icon={MultiplicationSignIcon} className="size-4" />
-            ) : (
-              <HugeiconsIcon icon={Menu01Icon} className="size-4" />
+          <div className="flex items-center gap-4">
+            {session && (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <HugeiconsIcon
+                    icon={UserIcon}
+                    className={`size-6 text-primary-foreground ${
+                      isMenuOpen ? 'text-primary' : 'text-primary-foreground'
+                    }`}
+                  />
+                </PopoverTrigger>
+                <PopoverContent align="end" className="w-fit ">
+                  <div className="flex flex-col gap-3">
+                    <p className="text-sm font-semibold">{session?.user?.email}</p>
+
+                    <Separator className="" />
+
+                    <FormLogout />
+                  </div>
+                </PopoverContent>
+              </Popover>
             )}
-          </Button>
+            <Button
+              variant="default"
+              size="icon"
+              onClick={toggleMenu}
+              className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 z-50"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}>
+              {isMenuOpen ? (
+                <HugeiconsIcon icon={MultiplicationSignIcon} className="size-4" />
+              ) : (
+                <HugeiconsIcon icon={Menu01Icon} className="size-4" />
+              )}
+            </Button>
+          </div>
         </div>
       </div>
 

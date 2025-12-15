@@ -55,6 +55,27 @@ enum TransactionStatus {
 }
 
 // MODEL
+model Account {
+  id                String  @id @default(cuid())
+  customer_id       String  @map("customer_id")
+  employee_id       String  @map("employee_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  customer Customer @relation(fields: [customer_id], references: [customer_id], onDelete: Cascade)
+  employee Employee @relation(fields: [employee_id], references: [employee_id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
 model Customer {
   customer_id  String   @id @default(cuid())
   fullname     String   @db.VarChar(100)
@@ -65,6 +86,7 @@ model Customer {
   created_at   DateTime @default(now())
 
   reservation Reservation[]
+  account     Account[]
 }
 
 model Employee {
@@ -76,6 +98,7 @@ model Employee {
 
   reservation Reservation[]
   maintenance Maintenance[]
+  account     Account[]
 }
 
 model Room {

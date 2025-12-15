@@ -120,6 +120,22 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  customer_id: 'customer_id',
+  employee_id: 'employee_id',
+  type: 'type',
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  refresh_token: 'refresh_token',
+  access_token: 'access_token',
+  expires_at: 'expires_at',
+  token_type: 'token_type',
+  scope: 'scope',
+  id_token: 'id_token',
+  session_state: 'session_state'
+};
+
 exports.Prisma.CustomerScalarFieldEnum = {
   customer_id: 'customer_id',
   fullname: 'fullname',
@@ -243,6 +259,7 @@ exports.TransactionStatus = exports.$Enums.TransactionStatus = {
 };
 
 exports.Prisma.ModelName = {
+  Account: 'Account',
   Customer: 'Customer',
   Employee: 'Employee',
   Room: 'Room',

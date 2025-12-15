@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import React from 'react';
 
 const navLinks = [
   {
@@ -41,10 +40,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-24">
           <div className="grid grid-cols-1 gap-12 md:gap-0 md:grid-cols-4">
-            <div className="col-span-2 max-w-100">
-              <h1 className="text-2xl font-medium font-sprat text-primary-foreground">
-                Jalan Goa Gong, Gang Jepun Nomor 7A, Bukit Jimbaran
-              </h1>
+            <div className="col-span-2 max-w-100 ">
+              <div className="flex flex-col justify-between h-full">
+                <h1 className="text-2xl font-medium font-sprat text-primary-foreground">
+                  Jalan Goa Gong, Gang Jepun Nomor 7A, Bukit Jimbaran
+                </h1>
+              </div>
             </div>
 
             <div className="col-span-1 flex flex-col gap-1.5">

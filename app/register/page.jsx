@@ -4,8 +4,15 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import FormPage from './form-page';
+import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await auth();
+
+  if (session) {
+    return redirect('/');
+  }
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2">
       {/* Kolom Kiri - Gambar Hero */}

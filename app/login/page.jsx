@@ -1,12 +1,19 @@
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { buttonVariants } from '@/components/ui/button';
 import { ArrowLeft01FreeIcons } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import FormPage from './form-page';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await auth();
+
+  if (session) {
+    return redirect('/');
+  }
+
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2">
       {/* Kolom Kiri - Gambar Hero */}
@@ -54,35 +61,7 @@ export default function LoginPage() {
           </div>
 
           {/* Form */}
-          <form className="grid gap-6">
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="puturangga21@gmail.com"
-                  required
-                  className="h-11"
-                />
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder=""
-                  required
-                  className="h-11"
-                />
-              </div>
-
-              <Button type="submit" className="w-full h-11 text-base mt-2">
-                Login
-              </Button>
-            </div>
-          </form>
+          <FormPage />
 
           {/* Footer Register */}
           <div className="text-center text-sm text-muted-foreground">
