@@ -13,6 +13,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
 import Link from 'next/link';
 import { EditData } from './edit-data';
+import DeleteData from './delete-data';
 
 export default async function DataTable() {
   let data = [];
@@ -48,9 +49,7 @@ export default async function DataTable() {
               <div className="flex items-center gap-1">
                 <EditData />
 
-                <Link href={`#`}>
-                  <HugeiconsIcon icon={Delete01Icon} size={20} />
-                </Link>
+                <DeleteData />
               </div>
             </TableCell>
           </TableRow>
