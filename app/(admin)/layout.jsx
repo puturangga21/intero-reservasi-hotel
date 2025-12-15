@@ -17,6 +17,10 @@ export default async function Layout({ children }) {
 
   if (!session) redirect('/login');
 
+  if (session.user.role === 'customer') {
+    redirect('/');
+  }
+
   return (
     <SidebarProvider>
       <AppSidebar />

@@ -21,7 +21,7 @@ const data = {
   projects: [
     {
       name: 'Customer',
-      url: '#',
+      url: '/customer',
       icon: User,
     },
   ],

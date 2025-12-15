@@ -7,13 +7,9 @@ import React from 'react';
 export default async function CustomerLayout({ children }) {
   const session = await auth();
 
-  if (
-    session?.user.role === 'ADMIN' ||
-    session?.user.role === 'RECEPTIONIST' ||
-    session?.user.role === 'CLEANING' ||
-    session?.user.role === 'TECHNICIAN'
-  )
+  if (session && session.user.role !== 'customer') {
     redirect('/dashboard');
+  }
 
   return (
     <main className="relative">
