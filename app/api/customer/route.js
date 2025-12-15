@@ -42,9 +42,13 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    const body = await request.json();
+    const formData = await request.formData();
 
-    const { fullname, email, password, phone_number, img_identity } = body;
+    const fullname = formData.get('fullname');
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const phone_number = formData.get('phone_number');
+    const img_identity = formData.get('img_identity');
 
     if (!fullname || !email || !password) {
       return NextResponse.json(
@@ -83,7 +87,7 @@ export async function POST(request) {
     return NextResponse.json(
       {
         success: true,
-        message: 'Customer berhasil ditambahkan',
+        message: 'Sukses melakukan registrasi customer',
         data: newCustomer,
       },
       { status: 201 }

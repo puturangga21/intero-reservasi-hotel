@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 import { sprat } from '@/lib/fonts';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata = {
   title: 'Interoperabilitas',
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${sprat.variable} antialiased`}>
         {children}
+        <Toaster />
       </body>
     </html>
   );

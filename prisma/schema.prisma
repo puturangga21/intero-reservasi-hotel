@@ -60,8 +60,8 @@ model Customer {
   fullname     String   @db.VarChar(100)
   email        String   @unique @db.VarChar(100)
   password     String   @db.VarChar(255)
-  phone_number String   @db.VarChar(20)
-  img_identity String   @db.VarChar(255)
+  phone_number String?  @db.VarChar(20)
+  img_identity String?  @db.VarChar(255)
   created_at   DateTime @default(now())
 
   reservation Reservation[]
