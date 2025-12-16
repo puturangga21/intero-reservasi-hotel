@@ -1,10 +1,10 @@
 import { formatRupiah, getBaseUrl } from '@/lib/utils';
-import Image from 'next/image';
-import React from 'react';
-import { Button } from '../ui/button';
 import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
+import Image from 'next/image';
+import Link from 'next/link';
+import { buttonVariants } from '../ui/button';
 
 export default async function Rooms() {
   let rooms = [];
@@ -41,13 +41,16 @@ export default async function Rooms() {
                 {room.description}
               </p>
 
-              <Button
-                className="w-full mt-4 bg-transparent h-13 uppercase"
-                variant="outline"
-                size="lg">
+              <Link
+                href={`/reserve/${room.room_id}`}
+                className={buttonVariants({
+                  variant: 'outline',
+                  size: 'lg',
+                  className: 'w-full mt-4  h-13 uppercase',
+                })}>
                 Book Now
                 <HugeiconsIcon icon={ArrowRight01Icon} className="size-5 -mt-0.5 ml-1" />
-              </Button>
+              </Link>
             </div>
           </div>
         ))}

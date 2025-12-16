@@ -138,13 +138,15 @@ model Maintenance {
 }
 
 model Reservation {
-  reservation_id String            @id @default(cuid())
+  reservation_id String  @id @default(cuid())
   customer_id    String
   room_id        String
   employee_id    String?
+
   check_in_date  DateTime
   check_out_date DateTime
   total_price    Decimal           @db.Decimal(10, 2)
+  total_nights   Int
   status         ReservationStatus @default(PENDING)
   created_at     DateTime          @default(now())
 

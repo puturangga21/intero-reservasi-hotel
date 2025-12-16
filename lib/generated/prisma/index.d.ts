@@ -8478,10 +8478,12 @@ export namespace Prisma {
 
   export type ReservationAvgAggregateOutputType = {
     total_price: Decimal | null
+    total_nights: number | null
   }
 
   export type ReservationSumAggregateOutputType = {
     total_price: Decimal | null
+    total_nights: number | null
   }
 
   export type ReservationMinAggregateOutputType = {
@@ -8492,6 +8494,7 @@ export namespace Prisma {
     check_in_date: Date | null
     check_out_date: Date | null
     total_price: Decimal | null
+    total_nights: number | null
     status: $Enums.ReservationStatus | null
     created_at: Date | null
   }
@@ -8504,6 +8507,7 @@ export namespace Prisma {
     check_in_date: Date | null
     check_out_date: Date | null
     total_price: Decimal | null
+    total_nights: number | null
     status: $Enums.ReservationStatus | null
     created_at: Date | null
   }
@@ -8516,6 +8520,7 @@ export namespace Prisma {
     check_in_date: number
     check_out_date: number
     total_price: number
+    total_nights: number
     status: number
     created_at: number
     _all: number
@@ -8524,10 +8529,12 @@ export namespace Prisma {
 
   export type ReservationAvgAggregateInputType = {
     total_price?: true
+    total_nights?: true
   }
 
   export type ReservationSumAggregateInputType = {
     total_price?: true
+    total_nights?: true
   }
 
   export type ReservationMinAggregateInputType = {
@@ -8538,6 +8545,7 @@ export namespace Prisma {
     check_in_date?: true
     check_out_date?: true
     total_price?: true
+    total_nights?: true
     status?: true
     created_at?: true
   }
@@ -8550,6 +8558,7 @@ export namespace Prisma {
     check_in_date?: true
     check_out_date?: true
     total_price?: true
+    total_nights?: true
     status?: true
     created_at?: true
   }
@@ -8562,6 +8571,7 @@ export namespace Prisma {
     check_in_date?: true
     check_out_date?: true
     total_price?: true
+    total_nights?: true
     status?: true
     created_at?: true
     _all?: true
@@ -8661,6 +8671,7 @@ export namespace Prisma {
     check_in_date: Date
     check_out_date: Date
     total_price: Decimal
+    total_nights: number
     status: $Enums.ReservationStatus
     created_at: Date
     _count: ReservationCountAggregateOutputType | null
@@ -8692,6 +8703,7 @@ export namespace Prisma {
     check_in_date?: boolean
     check_out_date?: boolean
     total_price?: boolean
+    total_nights?: boolean
     status?: boolean
     created_at?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
@@ -8709,6 +8721,7 @@ export namespace Prisma {
     check_in_date?: boolean
     check_out_date?: boolean
     total_price?: boolean
+    total_nights?: boolean
     status?: boolean
     created_at?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
@@ -8724,6 +8737,7 @@ export namespace Prisma {
     check_in_date?: boolean
     check_out_date?: boolean
     total_price?: boolean
+    total_nights?: boolean
     status?: boolean
     created_at?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
@@ -8739,11 +8753,12 @@ export namespace Prisma {
     check_in_date?: boolean
     check_out_date?: boolean
     total_price?: boolean
+    total_nights?: boolean
     status?: boolean
     created_at?: boolean
   }
 
-  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"reservation_id" | "customer_id" | "room_id" | "employee_id" | "check_in_date" | "check_out_date" | "total_price" | "status" | "created_at", ExtArgs["result"]["reservation"]>
+  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"reservation_id" | "customer_id" | "room_id" | "employee_id" | "check_in_date" | "check_out_date" | "total_price" | "total_nights" | "status" | "created_at", ExtArgs["result"]["reservation"]>
   export type ReservationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     room?: boolean | RoomDefaultArgs<ExtArgs>
@@ -8778,6 +8793,7 @@ export namespace Prisma {
       check_in_date: Date
       check_out_date: Date
       total_price: Prisma.Decimal
+      total_nights: number
       status: $Enums.ReservationStatus
       created_at: Date
     }, ExtArgs["result"]["reservation"]>
@@ -9214,6 +9230,7 @@ export namespace Prisma {
     readonly check_in_date: FieldRef<"Reservation", 'DateTime'>
     readonly check_out_date: FieldRef<"Reservation", 'DateTime'>
     readonly total_price: FieldRef<"Reservation", 'Decimal'>
+    readonly total_nights: FieldRef<"Reservation", 'Int'>
     readonly status: FieldRef<"Reservation", 'ReservationStatus'>
     readonly created_at: FieldRef<"Reservation", 'DateTime'>
   }
@@ -10905,6 +10922,7 @@ export namespace Prisma {
     check_in_date: 'check_in_date',
     check_out_date: 'check_out_date',
     total_price: 'total_price',
+    total_nights: 'total_nights',
     status: 'status',
     created_at: 'created_at'
   };
@@ -11552,6 +11570,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFilter<"Reservation"> | Date | string
     check_out_date?: DateTimeFilter<"Reservation"> | Date | string
     total_price?: DecimalFilter<"Reservation"> | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFilter<"Reservation"> | number
     status?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
     created_at?: DateTimeFilter<"Reservation"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
@@ -11568,6 +11587,7 @@ export namespace Prisma {
     check_in_date?: SortOrder
     check_out_date?: SortOrder
     total_price?: SortOrder
+    total_nights?: SortOrder
     status?: SortOrder
     created_at?: SortOrder
     customer?: CustomerOrderByWithRelationInput
@@ -11587,6 +11607,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFilter<"Reservation"> | Date | string
     check_out_date?: DateTimeFilter<"Reservation"> | Date | string
     total_price?: DecimalFilter<"Reservation"> | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFilter<"Reservation"> | number
     status?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
     created_at?: DateTimeFilter<"Reservation"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
@@ -11603,6 +11624,7 @@ export namespace Prisma {
     check_in_date?: SortOrder
     check_out_date?: SortOrder
     total_price?: SortOrder
+    total_nights?: SortOrder
     status?: SortOrder
     created_at?: SortOrder
     _count?: ReservationCountOrderByAggregateInput
@@ -11623,6 +11645,7 @@ export namespace Prisma {
     check_in_date?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     check_out_date?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     total_price?: DecimalWithAggregatesFilter<"Reservation"> | Decimal | DecimalJsLike | number | string
+    total_nights?: IntWithAggregatesFilter<"Reservation"> | number
     status?: EnumReservationStatusWithAggregatesFilter<"Reservation"> | $Enums.ReservationStatus
     created_at?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
   }
@@ -12153,6 +12176,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     customer: CustomerCreateNestedOneWithoutReservationInput
@@ -12169,6 +12193,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     transaction?: TransactionUncheckedCreateNestedManyWithoutReservationInput
@@ -12179,6 +12204,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutReservationNestedInput
@@ -12195,6 +12221,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     transaction?: TransactionUncheckedUpdateManyWithoutReservationNestedInput
@@ -12208,6 +12235,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
   }
@@ -12217,6 +12245,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12229,6 +12258,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12883,12 +12913,14 @@ export namespace Prisma {
     check_in_date?: SortOrder
     check_out_date?: SortOrder
     total_price?: SortOrder
+    total_nights?: SortOrder
     status?: SortOrder
     created_at?: SortOrder
   }
 
   export type ReservationAvgOrderByAggregateInput = {
     total_price?: SortOrder
+    total_nights?: SortOrder
   }
 
   export type ReservationMaxOrderByAggregateInput = {
@@ -12899,6 +12931,7 @@ export namespace Prisma {
     check_in_date?: SortOrder
     check_out_date?: SortOrder
     total_price?: SortOrder
+    total_nights?: SortOrder
     status?: SortOrder
     created_at?: SortOrder
   }
@@ -12911,12 +12944,14 @@ export namespace Prisma {
     check_in_date?: SortOrder
     check_out_date?: SortOrder
     total_price?: SortOrder
+    total_nights?: SortOrder
     status?: SortOrder
     created_at?: SortOrder
   }
 
   export type ReservationSumOrderByAggregateInput = {
     total_price?: SortOrder
+    total_nights?: SortOrder
   }
 
   export type EnumReservationStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -13976,6 +14011,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     room: RoomCreateNestedOneWithoutReservationInput
@@ -13990,6 +14026,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     transaction?: TransactionUncheckedCreateNestedManyWithoutReservationInput
@@ -14072,6 +14109,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFilter<"Reservation"> | Date | string
     check_out_date?: DateTimeFilter<"Reservation"> | Date | string
     total_price?: DecimalFilter<"Reservation"> | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFilter<"Reservation"> | number
     status?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
     created_at?: DateTimeFilter<"Reservation"> | Date | string
   }
@@ -14116,6 +14154,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     customer: CustomerCreateNestedOneWithoutReservationInput
@@ -14130,6 +14169,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     transaction?: TransactionUncheckedCreateNestedManyWithoutReservationInput
@@ -14282,6 +14322,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     customer: CustomerCreateNestedOneWithoutReservationInput
@@ -14296,6 +14337,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     transaction?: TransactionUncheckedCreateNestedManyWithoutReservationInput
@@ -14720,6 +14762,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     customer: CustomerCreateNestedOneWithoutReservationInput
@@ -14735,6 +14778,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
   }
@@ -14760,6 +14804,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutReservationNestedInput
@@ -14775,6 +14820,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14786,6 +14832,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
   }
@@ -14810,6 +14857,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     room?: RoomUpdateOneRequiredWithoutReservationNestedInput
@@ -14824,6 +14872,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     transaction?: TransactionUncheckedUpdateManyWithoutReservationNestedInput
@@ -14836,6 +14885,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14892,6 +14942,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
   }
@@ -14926,6 +14977,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutReservationNestedInput
@@ -14940,6 +14992,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     transaction?: TransactionUncheckedUpdateManyWithoutReservationNestedInput
@@ -14952,6 +15005,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15038,6 +15092,7 @@ export namespace Prisma {
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
   }
@@ -15057,6 +15112,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutReservationNestedInput
@@ -15071,6 +15127,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     transaction?: TransactionUncheckedUpdateManyWithoutReservationNestedInput
@@ -15083,6 +15140,7 @@ export namespace Prisma {
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }

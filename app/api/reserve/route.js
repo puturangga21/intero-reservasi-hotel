@@ -1,0 +1,69 @@
+import { auth } from '@/auth';
+import prisma from '@/lib/prisma';
+import { NextResponse } from 'next/server';
+
+export async function POST(request) {
+  try {
+    const session = await auth();
+    const formData = await request.formData();
+
+    const customer_id = session?.user?.id;
+    const room_id = formData.get('room_id');
+    const employee_id = formData.get('employee_id');
+    const check_in_date = formData.get('check_in_date');
+    const check_out_date = formData.get('check_out_date');
+    const total_price = formData.get('total_price');
+    const total_nights = Number(formData.get('total_nights'));
+
+    // console.log({
+    //   customer_id,
+    //   room_id,
+    //   employee_id,
+    //   check_in_date,
+    //   check_out_date,
+    //   total_price,
+    //   total_nights,
+    // });
+
+    if (!customer_id || !room_id || !check_in_date || !check_out_date || !total_price) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Semua field wajib diisi',
+        },
+        { status: 400 }
+      );
+    }
+
+    const newReservation = await prisma.reservation.create({
+      data: {
+        customer_id,
+        room_id,
+        employee_id,
+        check_in_date,
+        check_out_date,
+        total_price,
+        total_nights,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Sukses melakukan reservasi',
+        data: newReservation,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error('Error creating customer:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Gagal menambahkan data',
+        error: error.message,
+      },
+      { status: 500 }
+    );
+  }
+}

@@ -1,6 +1,66 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
+export async function GET(request, { params }) {
+  try {
+    const { id } = await params;
+
+    const room = await prisma.room.findUnique({
+      where: { room_id: id },
+      select: {
+        room_id: true,
+        room_number: true,
+        room_type: true,
+        price_per_night: true,
+        status: true,
+        description: true,
+      },
+    });
+
+    if (!room) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Room tidak ditemukan',
+        },
+        { status: 404 }
+      );
+    }
+
+    const galleryEntry = await prisma.roomGallery.findFirst({
+      where: {
+        room_type: room.room_type,
+      },
+      select: {
+        image: true,
+      },
+    });
+
+    const roomWithImage = {
+      ...room,
+      image: galleryEntry ? galleryEntry.image : [],
+    };
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Detail room ditemukan',
+        data: roomWithImage,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Internal Server Error',
+        error: error.message,
+      },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PATCH(request, { params }) {
   try {
     const { id } = await params;

@@ -66,9 +66,7 @@ export default function Navbar({ session }) {
         <div className="py-6 flex justify-between items-center mix-blend-difference">
           <Link href="/">
             <h1
-              className={`font-sprat text-2xl uppercase font-medium tracking-wider transition-colors ${
-                isMenuOpen ? 'text-primary' : 'text-primary-foreground'
-              }`}>
+              className={`font-sprat text-2xl uppercase font-medium tracking-wider transition-colors text-primary`}>
               Suites
             </h1>
           </Link>
