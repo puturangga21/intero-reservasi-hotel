@@ -24,6 +24,11 @@ const data = {
       url: '/customer',
       icon: User,
     },
+    {
+      name: 'Room',
+      url: '/room',
+      icon: Home,
+    },
   ],
 };
 

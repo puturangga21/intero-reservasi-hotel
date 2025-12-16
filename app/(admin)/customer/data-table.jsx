@@ -11,6 +11,16 @@ import { getBaseUrl } from '@/lib/utils';
 import axios from 'axios';
 import DeleteData from './delete-data';
 import { EditData } from './edit-data';
+import { CodeFolderIcon } from '@hugeicons/core-free-icons';
+import { Empty } from '@/components/ui/empty';
+import {
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/components/ui/empty';
+import { HugeiconsIcon } from '@hugeicons/react';
 
 export default async function DataTable() {
   let data = [];
@@ -21,6 +31,24 @@ export default async function DataTable() {
     data = response.data.data;
   } catch (error) {
     console.log(error?.response?.data);
+  }
+
+  if (data.length === 0) {
+    return (
+      <Empty className="border">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <HugeiconsIcon icon={CodeFolderIcon} />
+          </EmptyMedia>
+          <EmptyTitle>No data Yet</EmptyTitle>
+          <EmptyDescription>
+            You haven&apos;t created any projects yet. Get started by creating your first
+            project.
+          </EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent />
+      </Empty>
+    );
   }
 
   return (

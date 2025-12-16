@@ -5134,16 +5134,18 @@ export namespace Prisma {
   }
 
   export type RoomAvgAggregateOutputType = {
+    room_number: number | null
     price_per_night: Decimal | null
   }
 
   export type RoomSumAggregateOutputType = {
+    room_number: number | null
     price_per_night: Decimal | null
   }
 
   export type RoomMinAggregateOutputType = {
     room_id: string | null
-    room_number: string | null
+    room_number: number | null
     type: $Enums.RoomType | null
     price_per_night: Decimal | null
     status: $Enums.RoomStatus | null
@@ -5152,7 +5154,7 @@ export namespace Prisma {
 
   export type RoomMaxAggregateOutputType = {
     room_id: string | null
-    room_number: string | null
+    room_number: number | null
     type: $Enums.RoomType | null
     price_per_night: Decimal | null
     status: $Enums.RoomStatus | null
@@ -5172,10 +5174,12 @@ export namespace Prisma {
 
 
   export type RoomAvgAggregateInputType = {
+    room_number?: true
     price_per_night?: true
   }
 
   export type RoomSumAggregateInputType = {
+    room_number?: true
     price_per_night?: true
   }
 
@@ -5296,7 +5300,7 @@ export namespace Prisma {
 
   export type RoomGroupByOutputType = {
     room_id: string
-    room_number: string
+    room_number: number
     type: $Enums.RoomType
     price_per_night: Decimal
     status: $Enums.RoomStatus
@@ -5383,7 +5387,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       room_id: string
-      room_number: string
+      room_number: number
       type: $Enums.RoomType
       price_per_night: Prisma.Decimal
       status: $Enums.RoomStatus
@@ -5815,7 +5819,7 @@ export namespace Prisma {
    */
   interface RoomFieldRefs {
     readonly room_id: FieldRef<"Room", 'String'>
-    readonly room_number: FieldRef<"Room", 'String'>
+    readonly room_number: FieldRef<"Room", 'Int'>
     readonly type: FieldRef<"Room", 'RoomType'>
     readonly price_per_night: FieldRef<"Room", 'Decimal'>
     readonly status: FieldRef<"Room", 'RoomStatus'>
@@ -10287,7 +10291,7 @@ export namespace Prisma {
     OR?: RoomWhereInput[]
     NOT?: RoomWhereInput | RoomWhereInput[]
     room_id?: StringFilter<"Room"> | string
-    room_number?: StringFilter<"Room"> | string
+    room_number?: IntFilter<"Room"> | number
     type?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
     price_per_night?: DecimalFilter<"Room"> | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFilter<"Room"> | $Enums.RoomStatus
@@ -10311,7 +10315,7 @@ export namespace Prisma {
 
   export type RoomWhereUniqueInput = Prisma.AtLeast<{
     room_id?: string
-    room_number?: string
+    room_number?: number
     AND?: RoomWhereInput | RoomWhereInput[]
     OR?: RoomWhereInput[]
     NOT?: RoomWhereInput | RoomWhereInput[]
@@ -10344,7 +10348,7 @@ export namespace Prisma {
     OR?: RoomScalarWhereWithAggregatesInput[]
     NOT?: RoomScalarWhereWithAggregatesInput | RoomScalarWhereWithAggregatesInput[]
     room_id?: StringWithAggregatesFilter<"Room"> | string
-    room_number?: StringWithAggregatesFilter<"Room"> | string
+    room_number?: IntWithAggregatesFilter<"Room"> | number
     type?: EnumRoomTypeWithAggregatesFilter<"Room"> | $Enums.RoomType
     price_per_night?: DecimalWithAggregatesFilter<"Room"> | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusWithAggregatesFilter<"Room"> | $Enums.RoomStatus
@@ -10841,7 +10845,7 @@ export namespace Prisma {
 
   export type RoomCreateInput = {
     room_id?: string
-    room_number: string
+    room_number?: number
     type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
@@ -10853,7 +10857,7 @@ export namespace Prisma {
 
   export type RoomUncheckedCreateInput = {
     room_id?: string
-    room_number: string
+    room_number?: number
     type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
@@ -10865,7 +10869,6 @@ export namespace Prisma {
 
   export type RoomUpdateInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    room_number?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
@@ -10877,7 +10880,7 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    room_number?: StringFieldUpdateOperationsInput | string
+    room_number?: IntFieldUpdateOperationsInput | number
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
@@ -10889,7 +10892,7 @@ export namespace Prisma {
 
   export type RoomCreateManyInput = {
     room_id?: string
-    room_number: string
+    room_number?: number
     type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
@@ -10899,7 +10902,6 @@ export namespace Prisma {
 
   export type RoomUpdateManyMutationInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    room_number?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
@@ -10909,7 +10911,7 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateManyInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    room_number?: StringFieldUpdateOperationsInput | string
+    room_number?: IntFieldUpdateOperationsInput | number
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
@@ -11448,6 +11450,17 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type EnumRoomTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.RoomType | EnumRoomTypeFieldRefInput<$PrismaModel>
     in?: $Enums.RoomType[] | ListEnumRoomTypeFieldRefInput<$PrismaModel>
@@ -11492,6 +11505,7 @@ export namespace Prisma {
   }
 
   export type RoomAvgOrderByAggregateInput = {
+    room_number?: SortOrder
     price_per_night?: SortOrder
   }
 
@@ -11514,7 +11528,24 @@ export namespace Prisma {
   }
 
   export type RoomSumOrderByAggregateInput = {
+    room_number?: SortOrder
     price_per_night?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumRoomTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -12132,6 +12163,14 @@ export namespace Prisma {
     deleteMany?: MaintenanceScalarWhereInput | MaintenanceScalarWhereInput[]
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type ReservationUncheckedUpdateManyWithoutRoomNestedInput = {
     create?: XOR<ReservationCreateWithoutRoomInput, ReservationUncheckedCreateWithoutRoomInput> | ReservationCreateWithoutRoomInput[] | ReservationUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: ReservationCreateOrConnectWithoutRoomInput | ReservationCreateOrConnectWithoutRoomInput[]
@@ -12486,6 +12525,33 @@ export namespace Prisma {
     in?: $Enums.RoomStatus[] | ListEnumRoomStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.RoomStatus[] | ListEnumRoomStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumRoomStatusFilter<$PrismaModel> | $Enums.RoomStatus
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedEnumRoomTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -13137,7 +13203,7 @@ export namespace Prisma {
 
   export type RoomCreateWithoutMaintenanceInput = {
     room_id?: string
-    room_number: string
+    room_number?: number
     type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
@@ -13148,7 +13214,7 @@ export namespace Prisma {
 
   export type RoomUncheckedCreateWithoutMaintenanceInput = {
     room_id?: string
-    room_number: string
+    room_number?: number
     type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
@@ -13200,7 +13266,6 @@ export namespace Prisma {
 
   export type RoomUpdateWithoutMaintenanceInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    room_number?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
@@ -13211,7 +13276,7 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateWithoutMaintenanceInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    room_number?: StringFieldUpdateOperationsInput | string
+    room_number?: IntFieldUpdateOperationsInput | number
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
@@ -13280,7 +13345,7 @@ export namespace Prisma {
 
   export type RoomCreateWithoutReservationInput = {
     room_id?: string
-    room_number: string
+    room_number?: number
     type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
@@ -13291,7 +13356,7 @@ export namespace Prisma {
 
   export type RoomUncheckedCreateWithoutReservationInput = {
     room_id?: string
-    room_number: string
+    room_number?: number
     type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
@@ -13406,7 +13471,6 @@ export namespace Prisma {
 
   export type RoomUpdateWithoutReservationInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    room_number?: StringFieldUpdateOperationsInput | string
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
@@ -13417,7 +13481,7 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateWithoutReservationInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    room_number?: StringFieldUpdateOperationsInput | string
+    room_number?: IntFieldUpdateOperationsInput | number
     type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus

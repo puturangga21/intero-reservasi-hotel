@@ -103,7 +103,7 @@ model Employee {
 
 model Room {
   room_id         String     @id @default(cuid())
-  room_number     String     @unique @db.VarChar(20)
+  room_number     Int        @unique @default(autoincrement())
   type            RoomType
   price_per_night Decimal    @db.Decimal(10, 2)
   status          RoomStatus @default(AVAILABLE)

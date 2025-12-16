@@ -8,12 +8,24 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { getBaseUrl } from '@/lib/utils';
-import { Delete01Icon, PencilEdit02Icon } from '@hugeicons/core-free-icons';
+import {
+  Delete01Icon,
+  PencilEdit02Icon,
+  CodeFolderIcon,
+} from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
 import Link from 'next/link';
 import { EditData } from './edit-data';
 import DeleteData from './delete-data';
+import { Empty } from '@/components/ui/empty';
+import {
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/components/ui/empty';
 
 export default async function DataTable() {
   let data = [];
@@ -25,6 +37,24 @@ export default async function DataTable() {
   // } catch (error) {
   //   console.log(error?.response?.data);
   // }
+
+  if (data.length === 0) {
+    return (
+      <Empty className="border">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <HugeiconsIcon icon={CodeFolderIcon} />
+          </EmptyMedia>
+          <EmptyTitle>No data Yet</EmptyTitle>
+          <EmptyDescription>
+            You haven&apos;t created any projects yet. Get started by creating your first
+            project.
+          </EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent />
+      </Empty>
+    );
+  }
 
   return (
     <Table>
