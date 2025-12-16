@@ -57,10 +57,10 @@ export default function Page() {
           {/* content */}
           <div className="flex flex-col gap-2 items-center justify-center">
             <p className="text-sm uppercase text-secondary-foreground">
-              EXPERIENCE WHAT YOU'VE ALWAYS WANTED
+              EXPERIENCE WHAT YOU&apos;VE ALWAYS WANTED
             </p>
             <h1 className="font-sprat uppercase text-4xl md:text-5xl leading-[1.2] text-center max-w-200 mx-auto">
-              Let's have you here and enjoy the fun
+              Let&apos;s have you here and enjoy the fun
             </h1>
 
             <Link

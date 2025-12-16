@@ -1,16 +1,18 @@
 'use client';
 
-import { Home, User } from 'lucide-react';
+import { Home, Image, User } from 'lucide-react';
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { NavProjects } from './nav-projects';
+import LogoutAdmin from './custom/logout-admin';
 
 const data = {
   user: {
@@ -28,6 +30,11 @@ const data = {
       name: 'Room',
       url: '/room',
       icon: Home,
+    },
+    {
+      name: 'Room Gallery',
+      url: '/room-gallery',
+      icon: Image,
     },
   ],
 };
@@ -55,6 +62,9 @@ export function AppSidebar({ ...props }) {
       <SidebarContent>
         <NavProjects projects={data.projects} />
       </SidebarContent>
+      <SidebarFooter>
+        <LogoutAdmin />
+      </SidebarFooter>
     </Sidebar>
   );
 }

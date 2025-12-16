@@ -6,13 +6,13 @@ export async function PATCH(request, { params }) {
     const { id } = await params;
     const formData = await request.formData();
 
-    const type = formData.get('type');
+    const room_type = formData.get('room_type');
     const price_per_night = formData.get('price_per_night');
     const status = formData.get('status');
     const description = formData.get('description');
 
     const data = {
-      type,
+      room_type,
       price_per_night,
       status,
       description,
@@ -23,7 +23,7 @@ export async function PATCH(request, { params }) {
       data,
       select: {
         room_id: true,
-        type: true,
+        room_type: true,
         price_per_night: true,
         status: true,
         description: true,

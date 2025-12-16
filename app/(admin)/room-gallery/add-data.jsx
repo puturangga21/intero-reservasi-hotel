@@ -12,8 +12,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AddCircleHalfDotIcon } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Select,
   SelectContent,
@@ -23,11 +21,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { getBaseUrl } from '@/lib/utils';
+import { AddCircleHalfDotIcon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 export function AddData() {
@@ -43,7 +42,7 @@ export function AddData() {
     const baseUrl = getBaseUrl();
 
     try {
-      const response = await axios.post(`${baseUrl}/api/room`, formData);
+      const response = await axios.post(`${baseUrl}/api/room-gallery`, formData);
 
       if (response.data.success) {
         toast.success(response?.data?.message);
@@ -63,13 +62,13 @@ export function AddData() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
-          Create Room{' '}
+          Create Room Gallery{' '}
           <HugeiconsIcon icon={AddCircleHalfDotIcon} className="size-4 -mt-0.5" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
-          <DialogTitle>Add Room</DialogTitle>
+          <DialogTitle>Add Room Gallery</DialogTitle>
           <DialogDescription>Click save when you&apos;re done.</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
@@ -93,34 +92,8 @@ export function AddData() {
             </div>
 
             <div className="grid gap-3">
-              <Label htmlFor="price_per_night">Price per Night</Label>
-              <Input
-                id="price_per_night"
-                name="price_per_night"
-                placeholder="100000"
-                required
-              />
-            </div>
-
-            <div className="grid gap-3">
-              <Label htmlFor="status">Status</Label>
-              <Select name="status" required>
-                <SelectTrigger className="w-full" id="status">
-                  <SelectValue placeholder="Select a status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Status</SelectLabel>
-                    <SelectItem value="AVAILABLE">AVAILABLE</SelectItem>
-                    <SelectItem value="MAINTENANCE">MAINTENANCE</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="grid gap-3">
-              <Label htmlFor="description">Description</Label>
-              <Textarea name="description" id="description" required />
+              <Label htmlFor="image">Image (3 Image of room)</Label>
+              <Input id="image" name="image" type="file" accept="image/*" multiple />
             </div>
           </div>
           <DialogFooter className="mt-4">

@@ -1,4 +1,3 @@
-import cloudinary from '@/lib/cloudinary';
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
@@ -8,22 +7,33 @@ export async function GET() {
       select: {
         room_id: true,
         room_number: true,
-        type: true,
+        room_type: true,
         price_per_night: true,
         status: true,
         description: true,
-        image: true,
       },
       orderBy: {
         room_number: 'asc',
       },
     });
 
+    const galleries = await prisma.roomGallery.findMany();
+
+    const roomsWithImages = room.map((room) => {
+      const galleryEntry = galleries.find((g) => g.room_type === room.room_type);
+      const images = galleryEntry ? galleryEntry.image : [];
+
+      return {
+        ...room,
+        image: images,
+      };
+    });
+
     return NextResponse.json(
       {
         success: true,
         message: 'Data room berhasil diambil',
-        data: room,
+        data: roomsWithImages,
       },
       {
         status: 200,
@@ -47,14 +57,12 @@ export async function POST(request) {
   try {
     const formData = await request.formData();
 
-    const type = formData.get('type');
+    const room_type = formData.get('room_type');
     const price_per_night = formData.get('price_per_night');
     const status = formData.get('status');
     const description = formData.get('description');
-    const image = formData.getAll('image');
-    let image_url = [];
 
-    if (!type || !price_per_night || !status || !description) {
+    if (!room_type || !price_per_night || !status || !description) {
       return NextResponse.json(
         {
           success: false,
@@ -64,42 +72,12 @@ export async function POST(request) {
       );
     }
 
-    const validImages = image.filter((file) => file.size > 0);
-
-    if (validImages.length > 0) {
-      const uploadPromises = validImages.map(async (file) => {
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
-        return new Promise((resolve, reject) => {
-          const uploadStream = cloudinary.uploader.upload_stream(
-            {
-              folder: 'interoperabilitas/room',
-            },
-            (error, result) => {
-              if (error) return reject(error);
-              if (result?.secure_url) {
-                resolve(result.secure_url);
-              } else {
-                reject(new Error('Failed to upload image'));
-              }
-            }
-          );
-
-          uploadStream.end(buffer);
-        });
-      });
-
-      image_url = await Promise.all(uploadPromises);
-    }
-
     const newRoom = await prisma.room.create({
       data: {
-        type,
+        room_type,
         price_per_night: parseFloat(price_per_night),
         status,
         description,
-        image: image_url,
       },
     });
 

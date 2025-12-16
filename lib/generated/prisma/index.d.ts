@@ -34,6 +34,11 @@ export type Employee = $Result.DefaultSelection<Prisma.$EmployeePayload>
  */
 export type Room = $Result.DefaultSelection<Prisma.$RoomPayload>
 /**
+ * Model RoomGallery
+ * 
+ */
+export type RoomGallery = $Result.DefaultSelection<Prisma.$RoomGalleryPayload>
+/**
  * Model Maintenance
  * 
  */
@@ -64,9 +69,10 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 
 export const RoomType: {
-  SINGLE: 'SINGLE',
-  DOUBLE: 'DOUBLE',
-  SUITE: 'SUITE'
+  ROYAL: 'ROYAL',
+  EXECUTIVE: 'EXECUTIVE',
+  FAMILY: 'FAMILY',
+  PRESEDENTIAL: 'PRESEDENTIAL'
 };
 
 export type RoomType = (typeof RoomType)[keyof typeof RoomType]
@@ -305,6 +311,16 @@ export class PrismaClient<
     * ```
     */
   get room(): Prisma.RoomDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.roomGallery`: Exposes CRUD operations for the **RoomGallery** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RoomGalleries
+    * const roomGalleries = await prisma.roomGallery.findMany()
+    * ```
+    */
+  get roomGallery(): Prisma.RoomGalleryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.maintenance`: Exposes CRUD operations for the **Maintenance** model.
@@ -773,6 +789,7 @@ export namespace Prisma {
     Customer: 'Customer',
     Employee: 'Employee',
     Room: 'Room',
+    RoomGallery: 'RoomGallery',
     Maintenance: 'Maintenance',
     Reservation: 'Reservation',
     Transaction: 'Transaction'
@@ -791,7 +808,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "account" | "customer" | "employee" | "room" | "maintenance" | "reservation" | "transaction"
+      modelProps: "account" | "customer" | "employee" | "room" | "roomGallery" | "maintenance" | "reservation" | "transaction"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1088,6 +1105,80 @@ export namespace Prisma {
           count: {
             args: Prisma.RoomCountArgs<ExtArgs>
             result: $Utils.Optional<RoomCountAggregateOutputType> | number
+          }
+        }
+      }
+      RoomGallery: {
+        payload: Prisma.$RoomGalleryPayload<ExtArgs>
+        fields: Prisma.RoomGalleryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RoomGalleryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoomGalleryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload>
+          }
+          findFirst: {
+            args: Prisma.RoomGalleryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoomGalleryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload>
+          }
+          findMany: {
+            args: Prisma.RoomGalleryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload>[]
+          }
+          create: {
+            args: Prisma.RoomGalleryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload>
+          }
+          createMany: {
+            args: Prisma.RoomGalleryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RoomGalleryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload>[]
+          }
+          delete: {
+            args: Prisma.RoomGalleryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload>
+          }
+          update: {
+            args: Prisma.RoomGalleryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload>
+          }
+          deleteMany: {
+            args: Prisma.RoomGalleryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoomGalleryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RoomGalleryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload>[]
+          }
+          upsert: {
+            args: Prisma.RoomGalleryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomGalleryPayload>
+          }
+          aggregate: {
+            args: Prisma.RoomGalleryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRoomGallery>
+          }
+          groupBy: {
+            args: Prisma.RoomGalleryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RoomGalleryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RoomGalleryCountArgs<ExtArgs>
+            result: $Utils.Optional<RoomGalleryCountAggregateOutputType> | number
           }
         }
       }
@@ -1425,6 +1516,7 @@ export namespace Prisma {
     customer?: CustomerOmit
     employee?: EmployeeOmit
     room?: RoomOmit
+    roomGallery?: RoomGalleryOmit
     maintenance?: MaintenanceOmit
     reservation?: ReservationOmit
     transaction?: TransactionOmit
@@ -5146,7 +5238,7 @@ export namespace Prisma {
   export type RoomMinAggregateOutputType = {
     room_id: string | null
     room_number: number | null
-    type: $Enums.RoomType | null
+    room_type: $Enums.RoomType | null
     price_per_night: Decimal | null
     status: $Enums.RoomStatus | null
     description: string | null
@@ -5155,7 +5247,7 @@ export namespace Prisma {
   export type RoomMaxAggregateOutputType = {
     room_id: string | null
     room_number: number | null
-    type: $Enums.RoomType | null
+    room_type: $Enums.RoomType | null
     price_per_night: Decimal | null
     status: $Enums.RoomStatus | null
     description: string | null
@@ -5164,11 +5256,10 @@ export namespace Prisma {
   export type RoomCountAggregateOutputType = {
     room_id: number
     room_number: number
-    type: number
+    room_type: number
     price_per_night: number
     status: number
     description: number
-    image: number
     _all: number
   }
 
@@ -5186,7 +5277,7 @@ export namespace Prisma {
   export type RoomMinAggregateInputType = {
     room_id?: true
     room_number?: true
-    type?: true
+    room_type?: true
     price_per_night?: true
     status?: true
     description?: true
@@ -5195,7 +5286,7 @@ export namespace Prisma {
   export type RoomMaxAggregateInputType = {
     room_id?: true
     room_number?: true
-    type?: true
+    room_type?: true
     price_per_night?: true
     status?: true
     description?: true
@@ -5204,11 +5295,10 @@ export namespace Prisma {
   export type RoomCountAggregateInputType = {
     room_id?: true
     room_number?: true
-    type?: true
+    room_type?: true
     price_per_night?: true
     status?: true
     description?: true
-    image?: true
     _all?: true
   }
 
@@ -5301,11 +5391,10 @@ export namespace Prisma {
   export type RoomGroupByOutputType = {
     room_id: string
     room_number: number
-    type: $Enums.RoomType
+    room_type: $Enums.RoomType
     price_per_night: Decimal
     status: $Enums.RoomStatus
     description: string
-    image: string[]
     _count: RoomCountAggregateOutputType | null
     _avg: RoomAvgAggregateOutputType | null
     _sum: RoomSumAggregateOutputType | null
@@ -5330,11 +5419,10 @@ export namespace Prisma {
   export type RoomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     room_id?: boolean
     room_number?: boolean
-    type?: boolean
+    room_type?: boolean
     price_per_night?: boolean
     status?: boolean
     description?: boolean
-    image?: boolean
     reservation?: boolean | Room$reservationArgs<ExtArgs>
     maintenance?: boolean | Room$maintenanceArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
@@ -5343,34 +5431,31 @@ export namespace Prisma {
   export type RoomSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     room_id?: boolean
     room_number?: boolean
-    type?: boolean
+    room_type?: boolean
     price_per_night?: boolean
     status?: boolean
     description?: boolean
-    image?: boolean
   }, ExtArgs["result"]["room"]>
 
   export type RoomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     room_id?: boolean
     room_number?: boolean
-    type?: boolean
+    room_type?: boolean
     price_per_night?: boolean
     status?: boolean
     description?: boolean
-    image?: boolean
   }, ExtArgs["result"]["room"]>
 
   export type RoomSelectScalar = {
     room_id?: boolean
     room_number?: boolean
-    type?: boolean
+    room_type?: boolean
     price_per_night?: boolean
     status?: boolean
     description?: boolean
-    image?: boolean
   }
 
-  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"room_id" | "room_number" | "type" | "price_per_night" | "status" | "description" | "image", ExtArgs["result"]["room"]>
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"room_id" | "room_number" | "room_type" | "price_per_night" | "status" | "description", ExtArgs["result"]["room"]>
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reservation?: boolean | Room$reservationArgs<ExtArgs>
     maintenance?: boolean | Room$maintenanceArgs<ExtArgs>
@@ -5388,11 +5473,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       room_id: string
       room_number: number
-      type: $Enums.RoomType
+      room_type: $Enums.RoomType
       price_per_night: Prisma.Decimal
       status: $Enums.RoomStatus
       description: string
-      image: string[]
     }, ExtArgs["result"]["room"]>
     composites: {}
   }
@@ -5820,11 +5904,10 @@ export namespace Prisma {
   interface RoomFieldRefs {
     readonly room_id: FieldRef<"Room", 'String'>
     readonly room_number: FieldRef<"Room", 'Int'>
-    readonly type: FieldRef<"Room", 'RoomType'>
+    readonly room_type: FieldRef<"Room", 'RoomType'>
     readonly price_per_night: FieldRef<"Room", 'Decimal'>
     readonly status: FieldRef<"Room", 'RoomStatus'>
     readonly description: FieldRef<"Room", 'String'>
-    readonly image: FieldRef<"Room", 'String[]'>
   }
     
 
@@ -6276,6 +6359,984 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: RoomInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RoomGallery
+   */
+
+  export type AggregateRoomGallery = {
+    _count: RoomGalleryCountAggregateOutputType | null
+    _min: RoomGalleryMinAggregateOutputType | null
+    _max: RoomGalleryMaxAggregateOutputType | null
+  }
+
+  export type RoomGalleryMinAggregateOutputType = {
+    gallery_id: string | null
+    room_type: $Enums.RoomType | null
+    created_at: Date | null
+  }
+
+  export type RoomGalleryMaxAggregateOutputType = {
+    gallery_id: string | null
+    room_type: $Enums.RoomType | null
+    created_at: Date | null
+  }
+
+  export type RoomGalleryCountAggregateOutputType = {
+    gallery_id: number
+    room_type: number
+    image: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type RoomGalleryMinAggregateInputType = {
+    gallery_id?: true
+    room_type?: true
+    created_at?: true
+  }
+
+  export type RoomGalleryMaxAggregateInputType = {
+    gallery_id?: true
+    room_type?: true
+    created_at?: true
+  }
+
+  export type RoomGalleryCountAggregateInputType = {
+    gallery_id?: true
+    room_type?: true
+    image?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type RoomGalleryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoomGallery to aggregate.
+     */
+    where?: RoomGalleryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomGalleries to fetch.
+     */
+    orderBy?: RoomGalleryOrderByWithRelationInput | RoomGalleryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RoomGalleryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomGalleries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomGalleries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RoomGalleries
+    **/
+    _count?: true | RoomGalleryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RoomGalleryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RoomGalleryMaxAggregateInputType
+  }
+
+  export type GetRoomGalleryAggregateType<T extends RoomGalleryAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoomGallery]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRoomGallery[P]>
+      : GetScalarType<T[P], AggregateRoomGallery[P]>
+  }
+
+
+
+
+  export type RoomGalleryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomGalleryWhereInput
+    orderBy?: RoomGalleryOrderByWithAggregationInput | RoomGalleryOrderByWithAggregationInput[]
+    by: RoomGalleryScalarFieldEnum[] | RoomGalleryScalarFieldEnum
+    having?: RoomGalleryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RoomGalleryCountAggregateInputType | true
+    _min?: RoomGalleryMinAggregateInputType
+    _max?: RoomGalleryMaxAggregateInputType
+  }
+
+  export type RoomGalleryGroupByOutputType = {
+    gallery_id: string
+    room_type: $Enums.RoomType
+    image: string[]
+    created_at: Date
+    _count: RoomGalleryCountAggregateOutputType | null
+    _min: RoomGalleryMinAggregateOutputType | null
+    _max: RoomGalleryMaxAggregateOutputType | null
+  }
+
+  type GetRoomGalleryGroupByPayload<T extends RoomGalleryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RoomGalleryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RoomGalleryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RoomGalleryGroupByOutputType[P]>
+            : GetScalarType<T[P], RoomGalleryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RoomGallerySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    gallery_id?: boolean
+    room_type?: boolean
+    image?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["roomGallery"]>
+
+  export type RoomGallerySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    gallery_id?: boolean
+    room_type?: boolean
+    image?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["roomGallery"]>
+
+  export type RoomGallerySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    gallery_id?: boolean
+    room_type?: boolean
+    image?: boolean
+    created_at?: boolean
+  }, ExtArgs["result"]["roomGallery"]>
+
+  export type RoomGallerySelectScalar = {
+    gallery_id?: boolean
+    room_type?: boolean
+    image?: boolean
+    created_at?: boolean
+  }
+
+  export type RoomGalleryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"gallery_id" | "room_type" | "image" | "created_at", ExtArgs["result"]["roomGallery"]>
+
+  export type $RoomGalleryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RoomGallery"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      gallery_id: string
+      room_type: $Enums.RoomType
+      image: string[]
+      created_at: Date
+    }, ExtArgs["result"]["roomGallery"]>
+    composites: {}
+  }
+
+  type RoomGalleryGetPayload<S extends boolean | null | undefined | RoomGalleryDefaultArgs> = $Result.GetResult<Prisma.$RoomGalleryPayload, S>
+
+  type RoomGalleryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RoomGalleryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RoomGalleryCountAggregateInputType | true
+    }
+
+  export interface RoomGalleryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RoomGallery'], meta: { name: 'RoomGallery' } }
+    /**
+     * Find zero or one RoomGallery that matches the filter.
+     * @param {RoomGalleryFindUniqueArgs} args - Arguments to find a RoomGallery
+     * @example
+     * // Get one RoomGallery
+     * const roomGallery = await prisma.roomGallery.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RoomGalleryFindUniqueArgs>(args: SelectSubset<T, RoomGalleryFindUniqueArgs<ExtArgs>>): Prisma__RoomGalleryClient<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RoomGallery that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RoomGalleryFindUniqueOrThrowArgs} args - Arguments to find a RoomGallery
+     * @example
+     * // Get one RoomGallery
+     * const roomGallery = await prisma.roomGallery.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RoomGalleryFindUniqueOrThrowArgs>(args: SelectSubset<T, RoomGalleryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RoomGalleryClient<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RoomGallery that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomGalleryFindFirstArgs} args - Arguments to find a RoomGallery
+     * @example
+     * // Get one RoomGallery
+     * const roomGallery = await prisma.roomGallery.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RoomGalleryFindFirstArgs>(args?: SelectSubset<T, RoomGalleryFindFirstArgs<ExtArgs>>): Prisma__RoomGalleryClient<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RoomGallery that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomGalleryFindFirstOrThrowArgs} args - Arguments to find a RoomGallery
+     * @example
+     * // Get one RoomGallery
+     * const roomGallery = await prisma.roomGallery.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RoomGalleryFindFirstOrThrowArgs>(args?: SelectSubset<T, RoomGalleryFindFirstOrThrowArgs<ExtArgs>>): Prisma__RoomGalleryClient<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RoomGalleries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomGalleryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RoomGalleries
+     * const roomGalleries = await prisma.roomGallery.findMany()
+     * 
+     * // Get first 10 RoomGalleries
+     * const roomGalleries = await prisma.roomGallery.findMany({ take: 10 })
+     * 
+     * // Only select the `gallery_id`
+     * const roomGalleryWithGallery_idOnly = await prisma.roomGallery.findMany({ select: { gallery_id: true } })
+     * 
+     */
+    findMany<T extends RoomGalleryFindManyArgs>(args?: SelectSubset<T, RoomGalleryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RoomGallery.
+     * @param {RoomGalleryCreateArgs} args - Arguments to create a RoomGallery.
+     * @example
+     * // Create one RoomGallery
+     * const RoomGallery = await prisma.roomGallery.create({
+     *   data: {
+     *     // ... data to create a RoomGallery
+     *   }
+     * })
+     * 
+     */
+    create<T extends RoomGalleryCreateArgs>(args: SelectSubset<T, RoomGalleryCreateArgs<ExtArgs>>): Prisma__RoomGalleryClient<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RoomGalleries.
+     * @param {RoomGalleryCreateManyArgs} args - Arguments to create many RoomGalleries.
+     * @example
+     * // Create many RoomGalleries
+     * const roomGallery = await prisma.roomGallery.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RoomGalleryCreateManyArgs>(args?: SelectSubset<T, RoomGalleryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RoomGalleries and returns the data saved in the database.
+     * @param {RoomGalleryCreateManyAndReturnArgs} args - Arguments to create many RoomGalleries.
+     * @example
+     * // Create many RoomGalleries
+     * const roomGallery = await prisma.roomGallery.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RoomGalleries and only return the `gallery_id`
+     * const roomGalleryWithGallery_idOnly = await prisma.roomGallery.createManyAndReturn({
+     *   select: { gallery_id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RoomGalleryCreateManyAndReturnArgs>(args?: SelectSubset<T, RoomGalleryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RoomGallery.
+     * @param {RoomGalleryDeleteArgs} args - Arguments to delete one RoomGallery.
+     * @example
+     * // Delete one RoomGallery
+     * const RoomGallery = await prisma.roomGallery.delete({
+     *   where: {
+     *     // ... filter to delete one RoomGallery
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RoomGalleryDeleteArgs>(args: SelectSubset<T, RoomGalleryDeleteArgs<ExtArgs>>): Prisma__RoomGalleryClient<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RoomGallery.
+     * @param {RoomGalleryUpdateArgs} args - Arguments to update one RoomGallery.
+     * @example
+     * // Update one RoomGallery
+     * const roomGallery = await prisma.roomGallery.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RoomGalleryUpdateArgs>(args: SelectSubset<T, RoomGalleryUpdateArgs<ExtArgs>>): Prisma__RoomGalleryClient<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RoomGalleries.
+     * @param {RoomGalleryDeleteManyArgs} args - Arguments to filter RoomGalleries to delete.
+     * @example
+     * // Delete a few RoomGalleries
+     * const { count } = await prisma.roomGallery.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RoomGalleryDeleteManyArgs>(args?: SelectSubset<T, RoomGalleryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoomGalleries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomGalleryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RoomGalleries
+     * const roomGallery = await prisma.roomGallery.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RoomGalleryUpdateManyArgs>(args: SelectSubset<T, RoomGalleryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoomGalleries and returns the data updated in the database.
+     * @param {RoomGalleryUpdateManyAndReturnArgs} args - Arguments to update many RoomGalleries.
+     * @example
+     * // Update many RoomGalleries
+     * const roomGallery = await prisma.roomGallery.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RoomGalleries and only return the `gallery_id`
+     * const roomGalleryWithGallery_idOnly = await prisma.roomGallery.updateManyAndReturn({
+     *   select: { gallery_id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RoomGalleryUpdateManyAndReturnArgs>(args: SelectSubset<T, RoomGalleryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RoomGallery.
+     * @param {RoomGalleryUpsertArgs} args - Arguments to update or create a RoomGallery.
+     * @example
+     * // Update or create a RoomGallery
+     * const roomGallery = await prisma.roomGallery.upsert({
+     *   create: {
+     *     // ... data to create a RoomGallery
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RoomGallery we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RoomGalleryUpsertArgs>(args: SelectSubset<T, RoomGalleryUpsertArgs<ExtArgs>>): Prisma__RoomGalleryClient<$Result.GetResult<Prisma.$RoomGalleryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RoomGalleries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomGalleryCountArgs} args - Arguments to filter RoomGalleries to count.
+     * @example
+     * // Count the number of RoomGalleries
+     * const count = await prisma.roomGallery.count({
+     *   where: {
+     *     // ... the filter for the RoomGalleries we want to count
+     *   }
+     * })
+    **/
+    count<T extends RoomGalleryCountArgs>(
+      args?: Subset<T, RoomGalleryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RoomGalleryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RoomGallery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomGalleryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RoomGalleryAggregateArgs>(args: Subset<T, RoomGalleryAggregateArgs>): Prisma.PrismaPromise<GetRoomGalleryAggregateType<T>>
+
+    /**
+     * Group by RoomGallery.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomGalleryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RoomGalleryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RoomGalleryGroupByArgs['orderBy'] }
+        : { orderBy?: RoomGalleryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RoomGalleryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoomGalleryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RoomGallery model
+   */
+  readonly fields: RoomGalleryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RoomGallery.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RoomGalleryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RoomGallery model
+   */
+  interface RoomGalleryFieldRefs {
+    readonly gallery_id: FieldRef<"RoomGallery", 'String'>
+    readonly room_type: FieldRef<"RoomGallery", 'RoomType'>
+    readonly image: FieldRef<"RoomGallery", 'String[]'>
+    readonly created_at: FieldRef<"RoomGallery", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RoomGallery findUnique
+   */
+  export type RoomGalleryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * Filter, which RoomGallery to fetch.
+     */
+    where: RoomGalleryWhereUniqueInput
+  }
+
+  /**
+   * RoomGallery findUniqueOrThrow
+   */
+  export type RoomGalleryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * Filter, which RoomGallery to fetch.
+     */
+    where: RoomGalleryWhereUniqueInput
+  }
+
+  /**
+   * RoomGallery findFirst
+   */
+  export type RoomGalleryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * Filter, which RoomGallery to fetch.
+     */
+    where?: RoomGalleryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomGalleries to fetch.
+     */
+    orderBy?: RoomGalleryOrderByWithRelationInput | RoomGalleryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoomGalleries.
+     */
+    cursor?: RoomGalleryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomGalleries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomGalleries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoomGalleries.
+     */
+    distinct?: RoomGalleryScalarFieldEnum | RoomGalleryScalarFieldEnum[]
+  }
+
+  /**
+   * RoomGallery findFirstOrThrow
+   */
+  export type RoomGalleryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * Filter, which RoomGallery to fetch.
+     */
+    where?: RoomGalleryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomGalleries to fetch.
+     */
+    orderBy?: RoomGalleryOrderByWithRelationInput | RoomGalleryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoomGalleries.
+     */
+    cursor?: RoomGalleryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomGalleries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomGalleries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoomGalleries.
+     */
+    distinct?: RoomGalleryScalarFieldEnum | RoomGalleryScalarFieldEnum[]
+  }
+
+  /**
+   * RoomGallery findMany
+   */
+  export type RoomGalleryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * Filter, which RoomGalleries to fetch.
+     */
+    where?: RoomGalleryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomGalleries to fetch.
+     */
+    orderBy?: RoomGalleryOrderByWithRelationInput | RoomGalleryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RoomGalleries.
+     */
+    cursor?: RoomGalleryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomGalleries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomGalleries.
+     */
+    skip?: number
+    distinct?: RoomGalleryScalarFieldEnum | RoomGalleryScalarFieldEnum[]
+  }
+
+  /**
+   * RoomGallery create
+   */
+  export type RoomGalleryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * The data needed to create a RoomGallery.
+     */
+    data: XOR<RoomGalleryCreateInput, RoomGalleryUncheckedCreateInput>
+  }
+
+  /**
+   * RoomGallery createMany
+   */
+  export type RoomGalleryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RoomGalleries.
+     */
+    data: RoomGalleryCreateManyInput | RoomGalleryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RoomGallery createManyAndReturn
+   */
+  export type RoomGalleryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * The data used to create many RoomGalleries.
+     */
+    data: RoomGalleryCreateManyInput | RoomGalleryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RoomGallery update
+   */
+  export type RoomGalleryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * The data needed to update a RoomGallery.
+     */
+    data: XOR<RoomGalleryUpdateInput, RoomGalleryUncheckedUpdateInput>
+    /**
+     * Choose, which RoomGallery to update.
+     */
+    where: RoomGalleryWhereUniqueInput
+  }
+
+  /**
+   * RoomGallery updateMany
+   */
+  export type RoomGalleryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RoomGalleries.
+     */
+    data: XOR<RoomGalleryUpdateManyMutationInput, RoomGalleryUncheckedUpdateManyInput>
+    /**
+     * Filter which RoomGalleries to update
+     */
+    where?: RoomGalleryWhereInput
+    /**
+     * Limit how many RoomGalleries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoomGallery updateManyAndReturn
+   */
+  export type RoomGalleryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * The data used to update RoomGalleries.
+     */
+    data: XOR<RoomGalleryUpdateManyMutationInput, RoomGalleryUncheckedUpdateManyInput>
+    /**
+     * Filter which RoomGalleries to update
+     */
+    where?: RoomGalleryWhereInput
+    /**
+     * Limit how many RoomGalleries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoomGallery upsert
+   */
+  export type RoomGalleryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * The filter to search for the RoomGallery to update in case it exists.
+     */
+    where: RoomGalleryWhereUniqueInput
+    /**
+     * In case the RoomGallery found by the `where` argument doesn't exist, create a new RoomGallery with this data.
+     */
+    create: XOR<RoomGalleryCreateInput, RoomGalleryUncheckedCreateInput>
+    /**
+     * In case the RoomGallery was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RoomGalleryUpdateInput, RoomGalleryUncheckedUpdateInput>
+  }
+
+  /**
+   * RoomGallery delete
+   */
+  export type RoomGalleryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
+    /**
+     * Filter which RoomGallery to delete.
+     */
+    where: RoomGalleryWhereUniqueInput
+  }
+
+  /**
+   * RoomGallery deleteMany
+   */
+  export type RoomGalleryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoomGalleries to delete
+     */
+    where?: RoomGalleryWhereInput
+    /**
+     * Limit how many RoomGalleries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoomGallery without action
+   */
+  export type RoomGalleryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomGallery
+     */
+    select?: RoomGallerySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomGallery
+     */
+    omit?: RoomGalleryOmit<ExtArgs> | null
   }
 
 
@@ -9803,14 +10864,23 @@ export namespace Prisma {
   export const RoomScalarFieldEnum: {
     room_id: 'room_id',
     room_number: 'room_number',
-    type: 'type',
+    room_type: 'room_type',
     price_per_night: 'price_per_night',
     status: 'status',
-    description: 'description',
-    image: 'image'
+    description: 'description'
   };
 
   export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
+
+
+  export const RoomGalleryScalarFieldEnum: {
+    gallery_id: 'gallery_id',
+    room_type: 'room_type',
+    image: 'image',
+    created_at: 'created_at'
+  };
+
+  export type RoomGalleryScalarFieldEnum = (typeof RoomGalleryScalarFieldEnum)[keyof typeof RoomGalleryScalarFieldEnum]
 
 
   export const MaintenanceScalarFieldEnum: {
@@ -10292,11 +11362,10 @@ export namespace Prisma {
     NOT?: RoomWhereInput | RoomWhereInput[]
     room_id?: StringFilter<"Room"> | string
     room_number?: IntFilter<"Room"> | number
-    type?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
+    room_type?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
     price_per_night?: DecimalFilter<"Room"> | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFilter<"Room"> | $Enums.RoomStatus
     description?: StringFilter<"Room"> | string
-    image?: StringNullableListFilter<"Room">
     reservation?: ReservationListRelationFilter
     maintenance?: MaintenanceListRelationFilter
   }
@@ -10304,11 +11373,10 @@ export namespace Prisma {
   export type RoomOrderByWithRelationInput = {
     room_id?: SortOrder
     room_number?: SortOrder
-    type?: SortOrder
+    room_type?: SortOrder
     price_per_night?: SortOrder
     status?: SortOrder
     description?: SortOrder
-    image?: SortOrder
     reservation?: ReservationOrderByRelationAggregateInput
     maintenance?: MaintenanceOrderByRelationAggregateInput
   }
@@ -10319,11 +11387,10 @@ export namespace Prisma {
     AND?: RoomWhereInput | RoomWhereInput[]
     OR?: RoomWhereInput[]
     NOT?: RoomWhereInput | RoomWhereInput[]
-    type?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
+    room_type?: EnumRoomTypeFilter<"Room"> | $Enums.RoomType
     price_per_night?: DecimalFilter<"Room"> | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFilter<"Room"> | $Enums.RoomStatus
     description?: StringFilter<"Room"> | string
-    image?: StringNullableListFilter<"Room">
     reservation?: ReservationListRelationFilter
     maintenance?: MaintenanceListRelationFilter
   }, "room_id" | "room_number">
@@ -10331,11 +11398,10 @@ export namespace Prisma {
   export type RoomOrderByWithAggregationInput = {
     room_id?: SortOrder
     room_number?: SortOrder
-    type?: SortOrder
+    room_type?: SortOrder
     price_per_night?: SortOrder
     status?: SortOrder
     description?: SortOrder
-    image?: SortOrder
     _count?: RoomCountOrderByAggregateInput
     _avg?: RoomAvgOrderByAggregateInput
     _max?: RoomMaxOrderByAggregateInput
@@ -10349,11 +11415,57 @@ export namespace Prisma {
     NOT?: RoomScalarWhereWithAggregatesInput | RoomScalarWhereWithAggregatesInput[]
     room_id?: StringWithAggregatesFilter<"Room"> | string
     room_number?: IntWithAggregatesFilter<"Room"> | number
-    type?: EnumRoomTypeWithAggregatesFilter<"Room"> | $Enums.RoomType
+    room_type?: EnumRoomTypeWithAggregatesFilter<"Room"> | $Enums.RoomType
     price_per_night?: DecimalWithAggregatesFilter<"Room"> | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusWithAggregatesFilter<"Room"> | $Enums.RoomStatus
     description?: StringWithAggregatesFilter<"Room"> | string
-    image?: StringNullableListFilter<"Room">
+  }
+
+  export type RoomGalleryWhereInput = {
+    AND?: RoomGalleryWhereInput | RoomGalleryWhereInput[]
+    OR?: RoomGalleryWhereInput[]
+    NOT?: RoomGalleryWhereInput | RoomGalleryWhereInput[]
+    gallery_id?: StringFilter<"RoomGallery"> | string
+    room_type?: EnumRoomTypeFilter<"RoomGallery"> | $Enums.RoomType
+    image?: StringNullableListFilter<"RoomGallery">
+    created_at?: DateTimeFilter<"RoomGallery"> | Date | string
+  }
+
+  export type RoomGalleryOrderByWithRelationInput = {
+    gallery_id?: SortOrder
+    room_type?: SortOrder
+    image?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type RoomGalleryWhereUniqueInput = Prisma.AtLeast<{
+    gallery_id?: string
+    AND?: RoomGalleryWhereInput | RoomGalleryWhereInput[]
+    OR?: RoomGalleryWhereInput[]
+    NOT?: RoomGalleryWhereInput | RoomGalleryWhereInput[]
+    room_type?: EnumRoomTypeFilter<"RoomGallery"> | $Enums.RoomType
+    image?: StringNullableListFilter<"RoomGallery">
+    created_at?: DateTimeFilter<"RoomGallery"> | Date | string
+  }, "gallery_id">
+
+  export type RoomGalleryOrderByWithAggregationInput = {
+    gallery_id?: SortOrder
+    room_type?: SortOrder
+    image?: SortOrder
+    created_at?: SortOrder
+    _count?: RoomGalleryCountOrderByAggregateInput
+    _max?: RoomGalleryMaxOrderByAggregateInput
+    _min?: RoomGalleryMinOrderByAggregateInput
+  }
+
+  export type RoomGalleryScalarWhereWithAggregatesInput = {
+    AND?: RoomGalleryScalarWhereWithAggregatesInput | RoomGalleryScalarWhereWithAggregatesInput[]
+    OR?: RoomGalleryScalarWhereWithAggregatesInput[]
+    NOT?: RoomGalleryScalarWhereWithAggregatesInput | RoomGalleryScalarWhereWithAggregatesInput[]
+    gallery_id?: StringWithAggregatesFilter<"RoomGallery"> | string
+    room_type?: EnumRoomTypeWithAggregatesFilter<"RoomGallery"> | $Enums.RoomType
+    image?: StringNullableListFilter<"RoomGallery">
+    created_at?: DateTimeWithAggregatesFilter<"RoomGallery"> | Date | string
   }
 
   export type MaintenanceWhereInput = {
@@ -10846,11 +11958,10 @@ export namespace Prisma {
   export type RoomCreateInput = {
     room_id?: string
     room_number?: number
-    type: $Enums.RoomType
+    room_type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
-    image?: RoomCreateimageInput | string[]
     reservation?: ReservationCreateNestedManyWithoutRoomInput
     maintenance?: MaintenanceCreateNestedManyWithoutRoomInput
   }
@@ -10858,22 +11969,20 @@ export namespace Prisma {
   export type RoomUncheckedCreateInput = {
     room_id?: string
     room_number?: number
-    type: $Enums.RoomType
+    room_type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
-    image?: RoomCreateimageInput | string[]
     reservation?: ReservationUncheckedCreateNestedManyWithoutRoomInput
     maintenance?: MaintenanceUncheckedCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUpdateInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
-    image?: RoomUpdateimageInput | string[]
     reservation?: ReservationUpdateManyWithoutRoomNestedInput
     maintenance?: MaintenanceUpdateManyWithoutRoomNestedInput
   }
@@ -10881,11 +11990,10 @@ export namespace Prisma {
   export type RoomUncheckedUpdateInput = {
     room_id?: StringFieldUpdateOperationsInput | string
     room_number?: IntFieldUpdateOperationsInput | number
-    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
-    image?: RoomUpdateimageInput | string[]
     reservation?: ReservationUncheckedUpdateManyWithoutRoomNestedInput
     maintenance?: MaintenanceUncheckedUpdateManyWithoutRoomNestedInput
   }
@@ -10893,30 +12001,76 @@ export namespace Prisma {
   export type RoomCreateManyInput = {
     room_id?: string
     room_number?: number
-    type: $Enums.RoomType
+    room_type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
-    image?: RoomCreateimageInput | string[]
   }
 
   export type RoomUpdateManyMutationInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
-    image?: RoomUpdateimageInput | string[]
   }
 
   export type RoomUncheckedUpdateManyInput = {
     room_id?: StringFieldUpdateOperationsInput | string
     room_number?: IntFieldUpdateOperationsInput | number
-    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
-    image?: RoomUpdateimageInput | string[]
+  }
+
+  export type RoomGalleryCreateInput = {
+    gallery_id?: string
+    room_type: $Enums.RoomType
+    image?: RoomGalleryCreateimageInput | string[]
+    created_at?: Date | string
+  }
+
+  export type RoomGalleryUncheckedCreateInput = {
+    gallery_id?: string
+    room_type: $Enums.RoomType
+    image?: RoomGalleryCreateimageInput | string[]
+    created_at?: Date | string
+  }
+
+  export type RoomGalleryUpdateInput = {
+    gallery_id?: StringFieldUpdateOperationsInput | string
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    image?: RoomGalleryUpdateimageInput | string[]
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomGalleryUncheckedUpdateInput = {
+    gallery_id?: StringFieldUpdateOperationsInput | string
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    image?: RoomGalleryUpdateimageInput | string[]
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomGalleryCreateManyInput = {
+    gallery_id?: string
+    room_type: $Enums.RoomType
+    image?: RoomGalleryCreateimageInput | string[]
+    created_at?: Date | string
+  }
+
+  export type RoomGalleryUpdateManyMutationInput = {
+    gallery_id?: StringFieldUpdateOperationsInput | string
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    image?: RoomGalleryUpdateimageInput | string[]
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomGalleryUncheckedUpdateManyInput = {
+    gallery_id?: StringFieldUpdateOperationsInput | string
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    image?: RoomGalleryUpdateimageInput | string[]
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MaintenanceCreateInput = {
@@ -11486,22 +12640,13 @@ export namespace Prisma {
     not?: NestedEnumRoomStatusFilter<$PrismaModel> | $Enums.RoomStatus
   }
 
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
   export type RoomCountOrderByAggregateInput = {
     room_id?: SortOrder
     room_number?: SortOrder
-    type?: SortOrder
+    room_type?: SortOrder
     price_per_night?: SortOrder
     status?: SortOrder
     description?: SortOrder
-    image?: SortOrder
   }
 
   export type RoomAvgOrderByAggregateInput = {
@@ -11512,7 +12657,7 @@ export namespace Prisma {
   export type RoomMaxOrderByAggregateInput = {
     room_id?: SortOrder
     room_number?: SortOrder
-    type?: SortOrder
+    room_type?: SortOrder
     price_per_night?: SortOrder
     status?: SortOrder
     description?: SortOrder
@@ -11521,7 +12666,7 @@ export namespace Prisma {
   export type RoomMinOrderByAggregateInput = {
     room_id?: SortOrder
     room_number?: SortOrder
-    type?: SortOrder
+    room_type?: SortOrder
     price_per_night?: SortOrder
     status?: SortOrder
     description?: SortOrder
@@ -11582,6 +12727,33 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoomStatusFilter<$PrismaModel>
     _max?: NestedEnumRoomStatusFilter<$PrismaModel>
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type RoomGalleryCountOrderByAggregateInput = {
+    gallery_id?: SortOrder
+    room_type?: SortOrder
+    image?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type RoomGalleryMaxOrderByAggregateInput = {
+    gallery_id?: SortOrder
+    room_type?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type RoomGalleryMinOrderByAggregateInput = {
+    gallery_id?: SortOrder
+    room_type?: SortOrder
+    created_at?: SortOrder
   }
 
   export type EnumMaintenancePriorityFilter<$PrismaModel = never> = {
@@ -12082,10 +13254,6 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type RoomCreateimageInput = {
-    set: string[]
-  }
-
   export type ReservationCreateNestedManyWithoutRoomInput = {
     create?: XOR<ReservationCreateWithoutRoomInput, ReservationUncheckedCreateWithoutRoomInput> | ReservationCreateWithoutRoomInput[] | ReservationUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: ReservationCreateOrConnectWithoutRoomInput | ReservationCreateOrConnectWithoutRoomInput[]
@@ -12128,11 +13296,6 @@ export namespace Prisma {
 
   export type EnumRoomStatusFieldUpdateOperationsInput = {
     set?: $Enums.RoomStatus
-  }
-
-  export type RoomUpdateimageInput = {
-    set?: string[]
-    push?: string | string[]
   }
 
   export type ReservationUpdateManyWithoutRoomNestedInput = {
@@ -12197,6 +13360,15 @@ export namespace Prisma {
     update?: MaintenanceUpdateWithWhereUniqueWithoutRoomInput | MaintenanceUpdateWithWhereUniqueWithoutRoomInput[]
     updateMany?: MaintenanceUpdateManyWithWhereWithoutRoomInput | MaintenanceUpdateManyWithWhereWithoutRoomInput[]
     deleteMany?: MaintenanceScalarWhereInput | MaintenanceScalarWhereInput[]
+  }
+
+  export type RoomGalleryCreateimageInput = {
+    set: string[]
+  }
+
+  export type RoomGalleryUpdateimageInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type RoomCreateNestedOneWithoutMaintenanceInput = {
@@ -13204,22 +14376,20 @@ export namespace Prisma {
   export type RoomCreateWithoutMaintenanceInput = {
     room_id?: string
     room_number?: number
-    type: $Enums.RoomType
+    room_type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
-    image?: RoomCreateimageInput | string[]
     reservation?: ReservationCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutMaintenanceInput = {
     room_id?: string
     room_number?: number
-    type: $Enums.RoomType
+    room_type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
-    image?: RoomCreateimageInput | string[]
     reservation?: ReservationUncheckedCreateNestedManyWithoutRoomInput
   }
 
@@ -13266,22 +14436,20 @@ export namespace Prisma {
 
   export type RoomUpdateWithoutMaintenanceInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
-    image?: RoomUpdateimageInput | string[]
     reservation?: ReservationUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutMaintenanceInput = {
     room_id?: StringFieldUpdateOperationsInput | string
     room_number?: IntFieldUpdateOperationsInput | number
-    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
-    image?: RoomUpdateimageInput | string[]
     reservation?: ReservationUncheckedUpdateManyWithoutRoomNestedInput
   }
 
@@ -13346,22 +14514,20 @@ export namespace Prisma {
   export type RoomCreateWithoutReservationInput = {
     room_id?: string
     room_number?: number
-    type: $Enums.RoomType
+    room_type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
-    image?: RoomCreateimageInput | string[]
     maintenance?: MaintenanceCreateNestedManyWithoutRoomInput
   }
 
   export type RoomUncheckedCreateWithoutReservationInput = {
     room_id?: string
     room_number?: number
-    type: $Enums.RoomType
+    room_type: $Enums.RoomType
     price_per_night: Decimal | DecimalJsLike | number | string
     status?: $Enums.RoomStatus
     description: string
-    image?: RoomCreateimageInput | string[]
     maintenance?: MaintenanceUncheckedCreateNestedManyWithoutRoomInput
   }
 
@@ -13471,22 +14637,20 @@ export namespace Prisma {
 
   export type RoomUpdateWithoutReservationInput = {
     room_id?: StringFieldUpdateOperationsInput | string
-    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
-    image?: RoomUpdateimageInput | string[]
     maintenance?: MaintenanceUpdateManyWithoutRoomNestedInput
   }
 
   export type RoomUncheckedUpdateWithoutReservationInput = {
     room_id?: StringFieldUpdateOperationsInput | string
     room_number?: IntFieldUpdateOperationsInput | number
-    type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
+    room_type?: EnumRoomTypeFieldUpdateOperationsInput | $Enums.RoomType
     price_per_night?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumRoomStatusFieldUpdateOperationsInput | $Enums.RoomStatus
     description?: StringFieldUpdateOperationsInput | string
-    image?: RoomUpdateimageInput | string[]
     maintenance?: MaintenanceUncheckedUpdateManyWithoutRoomNestedInput
   }
 

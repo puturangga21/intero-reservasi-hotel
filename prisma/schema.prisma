@@ -16,9 +16,10 @@ enum Role {
 }
 
 enum RoomType {
-  SINGLE
-  DOUBLE
-  SUITE
+  ROYAL
+  EXECUTIVE
+  FAMILY
+  PRESEDENTIAL
 }
 
 enum RoomStatus {
@@ -104,14 +105,22 @@ model Employee {
 model Room {
   room_id         String     @id @default(cuid())
   room_number     Int        @unique @default(autoincrement())
-  type            RoomType
+  room_type       RoomType
   price_per_night Decimal    @db.Decimal(10, 2)
   status          RoomStatus @default(AVAILABLE)
   description     String     @db.Text
-  image           String[]
 
   reservation Reservation[]
   maintenance Maintenance[]
+}
+
+model RoomGallery {
+  gallery_id String   @id @default(cuid())
+  room_type  RoomType
+  image      String[]
+  created_at DateTime @default(now())
+
+  @@index([room_type])
 }
 
 model Maintenance {

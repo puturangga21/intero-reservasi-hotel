@@ -1,11 +1,13 @@
 'use client';
 
-import axios from 'axios';
-import { Button } from '../ui/button';
 import { getBaseUrl } from '@/lib/utils';
+import { Logout01Icon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+import axios from 'axios';
 import { toast } from 'sonner';
+import { Button } from '../ui/button';
 
-export default function FormLogout() {
+export default function LogoutAdmin() {
   const handleLogout = async () => {
     const baseUrl = getBaseUrl();
     try {
@@ -21,8 +23,8 @@ export default function FormLogout() {
   };
 
   return (
-    <Button variant="outline" size="sm" className="w-full" onClick={handleLogout}>
-      Logout
+    <Button variant="destructive" size="lg" className="w-full" onClick={handleLogout}>
+      Logout <HugeiconsIcon icon={Logout01Icon} />
     </Button>
   );
 }

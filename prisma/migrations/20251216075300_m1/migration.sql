@@ -2,7 +2,7 @@
 CREATE TYPE "Role" AS ENUM ('ADMIN', 'RECEPTIONIST', 'CLEANING', 'TECHNICIAN');
 
 -- CreateEnum
-CREATE TYPE "RoomType" AS ENUM ('SINGLE', 'DOUBLE', 'SUITE');
+CREATE TYPE "RoomType" AS ENUM ('ROYAL', 'EXECUTIVE', 'FAMILY', 'PRESEDENTIAL');
 
 -- CreateEnum
 CREATE TYPE "RoomStatus" AS ENUM ('AVAILABLE', 'MAINTENANCE');
@@ -20,13 +20,32 @@ CREATE TYPE "ReservationStatus" AS ENUM ('PENDING', 'CONFIRMED', 'CHECKED_IN', '
 CREATE TYPE "TransactionStatus" AS ENUM ('PENDING', 'SUCCESS', 'FAILED');
 
 -- CreateTable
+CREATE TABLE "Account" (
+    "id" TEXT NOT NULL,
+    "customer_id" TEXT NOT NULL,
+    "employee_id" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "provider" TEXT NOT NULL,
+    "provider_account_id" TEXT NOT NULL,
+    "refresh_token" TEXT,
+    "access_token" TEXT,
+    "expires_at" INTEGER,
+    "token_type" TEXT,
+    "scope" TEXT,
+    "id_token" TEXT,
+    "session_state" TEXT,
+
+    CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Customer" (
     "customer_id" TEXT NOT NULL,
     "fullname" VARCHAR(100) NOT NULL,
     "email" VARCHAR(100) NOT NULL,
     "password" VARCHAR(255) NOT NULL,
-    "phone_number" VARCHAR(20) NOT NULL,
-    "img_identity" VARCHAR(255) NOT NULL,
+    "phone_number" VARCHAR(20),
+    "img_identity" VARCHAR(255),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Customer_pkey" PRIMARY KEY ("customer_id")
@@ -46,13 +65,24 @@ CREATE TABLE "Employee" (
 -- CreateTable
 CREATE TABLE "Room" (
     "room_id" TEXT NOT NULL,
-    "room_number" VARCHAR(20) NOT NULL,
+    "room_number" SERIAL NOT NULL,
     "type" "RoomType" NOT NULL,
     "price_per_night" DECIMAL(10,2) NOT NULL,
     "status" "RoomStatus" NOT NULL DEFAULT 'AVAILABLE',
     "description" TEXT NOT NULL,
+    "image" TEXT[],
 
     CONSTRAINT "Room_pkey" PRIMARY KEY ("room_id")
+);
+
+-- CreateTable
+CREATE TABLE "RoomGallery" (
+    "gallery_id" TEXT NOT NULL,
+    "room_type" "RoomType" NOT NULL,
+    "image" TEXT[],
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "RoomGallery_pkey" PRIMARY KEY ("gallery_id")
 );
 
 -- CreateTable
@@ -99,6 +129,9 @@ CREATE TABLE "Transaction" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Account_provider_provider_account_id_key" ON "Account"("provider", "provider_account_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Customer_email_key" ON "Customer"("email");
 
 -- CreateIndex
@@ -108,7 +141,16 @@ CREATE UNIQUE INDEX "Employee_email_key" ON "Employee"("email");
 CREATE UNIQUE INDEX "Room_room_number_key" ON "Room"("room_number");
 
 -- CreateIndex
+CREATE INDEX "RoomGallery_room_type_idx" ON "RoomGallery"("room_type");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Transaction_code_key" ON "Transaction"("code");
+
+-- AddForeignKey
+ALTER TABLE "Account" ADD CONSTRAINT "Account_customer_id_fkey" FOREIGN KEY ("customer_id") REFERENCES "Customer"("customer_id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Account" ADD CONSTRAINT "Account_employee_id_fkey" FOREIGN KEY ("employee_id") REFERENCES "Employee"("employee_id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Maintenance" ADD CONSTRAINT "Maintenance_room_id_fkey" FOREIGN KEY ("room_id") REFERENCES "Room"("room_id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -71,17 +71,22 @@ export function EditData({ data }) {
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="type">Room Type</Label>
-              <Select name="type" required defaultValue={data.type} disabled={loading}>
-                <SelectTrigger className="w-full" id="type">
+              <Label htmlFor="room_type">Room Type</Label>
+              <Select
+                name="room_type"
+                required
+                defaultValue={data.room_type}
+                disabled={loading}>
+                <SelectTrigger className="w-full" id="room_type">
                   <SelectValue placeholder="Select a room type" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Room Type</SelectLabel>
-                    <SelectItem value="SINGLE">SINGLE</SelectItem>
-                    <SelectItem value="DOUBLE">DOUBLE</SelectItem>
-                    <SelectItem value="SUITE">SUITE</SelectItem>
+                    <SelectItem value="ROYAL">ROYAL</SelectItem>
+                    <SelectItem value="EXECUTIVE">EXECUTIVE</SelectItem>
+                    <SelectItem value="FAMILY">FAMILY</SelectItem>
+                    <SelectItem value="PRESEDENTIAL">PRESEDENTIAL</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -129,18 +134,6 @@ export function EditData({ data }) {
                 defaultValue={data.description}
               />
             </div>
-
-            {/* <div className="grid gap-3">
-              <Label htmlFor="image">Image (3 Image of room)</Label>
-              <Input
-                id="image"
-                name="image"
-                type="file"
-                accept="image/*"
-                multiple
-                required
-              />
-            </div> */}
           </div>
           <DialogFooter className="mt-4">
             <Button type="submit" disabled={loading}>
