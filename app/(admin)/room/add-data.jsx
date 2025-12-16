@@ -124,14 +124,7 @@ export function AddData() {
 
             <div className="grid gap-3">
               <Label htmlFor="image">Image (3 Image of room)</Label>
-              <Input
-                id="image"
-                name="image"
-                type="file"
-                accept="image/*"
-                multiple
-                required
-              />
+              <Input id="image" name="image" type="file" accept="image/*" multiple />
             </div>
           </div>
           <DialogFooter className="mt-4">

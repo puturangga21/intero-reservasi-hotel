@@ -99,8 +99,8 @@ export default async function DataTable() {
             </TableCell>
             <TableCell>
               <div className="flex items-center gap-1">
-                <EditData />
-                <DeleteData />
+                <EditData data={item} />
+                <DeleteData id={item.room_id} />
               </div>
             </TableCell>
           </TableRow>

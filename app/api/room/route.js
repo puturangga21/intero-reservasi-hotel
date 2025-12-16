@@ -14,6 +14,9 @@ export async function GET() {
         description: true,
         image: true,
       },
+      orderBy: {
+        room_number: 'asc',
+      },
     });
 
     return NextResponse.json(
@@ -61,8 +64,10 @@ export async function POST(request) {
       );
     }
 
-    if (image.length > 0) {
-      const uploadPromises = image.map(async (file) => {
+    const validImages = image.filter((file) => file.size > 0);
+
+    if (validImages.length > 0) {
+      const uploadPromises = validImages.map(async (file) => {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 

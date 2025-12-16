@@ -1,10 +1,45 @@
+'use client';
+
 import { Delete01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
-import React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { getBaseUrl } from '@/lib/utils';
+import { toast } from 'sonner';
 
-export default function DeleteData() {
+export default function DeleteData({ id }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleDelete = async () => {
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      const baseUrl = getBaseUrl();
+
+      const response = await axios.delete(`${baseUrl}/api/room/${id}`);
+
+      if (response.data.success) {
+        toast.success('Data berhasil dihapus');
+        router.refresh();
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Gagal menghapus data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div>
+    <div
+      onClick={handleDelete}
+      className={`cursor-pointer hover:text-destructive ${
+        loading ? 'text-destructive' : ''
+      }`}>
       <HugeiconsIcon icon={Delete01Icon} size={20} />
     </div>
   );
