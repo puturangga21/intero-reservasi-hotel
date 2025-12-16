@@ -8,12 +8,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { getBaseUrl } from '@/lib/utils';
-import { Delete01Icon, PencilEdit02Icon } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
-import Link from 'next/link';
-import { EditData } from './edit-data';
 import DeleteData from './delete-data';
+import { EditData } from './edit-data';
 
 export default async function DataTable() {
   let data = [];
@@ -47,9 +44,8 @@ export default async function DataTable() {
             <TableCell>{item.img_identity}</TableCell>
             <TableCell>
               <div className="flex items-center gap-1">
-                <EditData />
-
-                <DeleteData />
+                <EditData data={item} />
+                <DeleteData id={item.customer_id} />
               </div>
             </TableCell>
           </TableRow>

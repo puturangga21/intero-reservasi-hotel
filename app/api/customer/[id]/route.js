@@ -50,8 +50,13 @@ export async function GET(request, { params }) {
 export async function PATCH(request, { params }) {
   try {
     const { id } = await params;
-    const body = await request.json();
-    const { fullname, phone_number, img_identity, email } = body;
+    const formData = await request.formData();
+
+    const fullname = formData.get('fullname');
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const phone_number = formData.get('phone_number');
+    const img_identity = formData.get('img_identity');
 
     const existingCustomer = await prisma.customer.findUnique({
       where: { customer_id: id },
@@ -67,14 +72,20 @@ export async function PATCH(request, { params }) {
       );
     }
 
+    const data = {
+      fullname,
+      phone_number,
+      img_identity,
+      email,
+    };
+
+    if (password && password.trim() !== '') {
+      data.password = password;
+    }
+
     const updatedCustomer = await prisma.customer.update({
       where: { customer_id: id },
-      data: {
-        fullname,
-        phone_number,
-        img_identity,
-        email,
-      },
+      data,
       select: {
         customer_id: true,
         fullname: true,

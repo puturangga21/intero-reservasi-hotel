@@ -40,7 +40,7 @@ export function AppSidebar({ ...props }) {
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">Interoperabilitas</span>
-                  <span className="truncate text-xs">Kelompok 2</span>
+                  <span className="truncate text-xs">Kelompok 1</span>
                 </div>
               </a>
             </SidebarMenuButton>

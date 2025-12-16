@@ -79,7 +79,7 @@ export default function Footer() {
 
           <div className="flex justify-center">
             <p className="uppercase text-xs text-muted">
-              © Interoperabilitas 2025. Kelompok 2.
+              © Interoperabilitas 2025. Kelompok 1.
             </p>
           </div>
         </div>

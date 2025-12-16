@@ -42,7 +42,7 @@ export function AddData() {
       setOpen(false);
       router.refresh();
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       toast.error(error?.response?.data?.message || 'Terjadi kesalahan pada server');
     } finally {
       setLoading(false);

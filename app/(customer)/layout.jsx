@@ -8,7 +8,7 @@ export default async function CustomerLayout({ children }) {
   const session = await auth();
 
   if (session && session.user.role !== 'customer') {
-    redirect('/dashboard');
+    redirect('/customer');
   }
 
   return (
