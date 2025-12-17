@@ -11,7 +11,29 @@ export async function POST(request, { params }) {
       where: {
         reservation_id: reservationId,
       },
+      include: {
+        transaction: true,
+      },
     });
+
+    if (!reservationData) {
+      return NextResponse.json({ message: 'Reservasi tidak ditemukan' }, { status: 404 });
+    }
+
+    // CEK: Apakah sudah ada transaksi yang statusnya PENDING?
+    const pendingTransaction = reservationData.transaction.find(
+      (t) => t.status === 'PENDING' && t.invoice_url
+    );
+
+    // Jika ada, kembalikan invoiceUrl yang lama (Jangan buat baru)
+    if (pendingTransaction) {
+      return NextResponse.json({
+        success: true,
+        message: 'Melanjutkan pembayaran sebelumnya',
+        data: { invoiceUrl: pendingTransaction.invoice_url },
+      });
+    }
+
     const transactionCode = 'RM-' + generateRandomString(15);
 
     const newTransaction = await prisma.transaction.create({
@@ -28,7 +50,7 @@ export async function POST(request, { params }) {
       invoiceDuration: 86400,
       externalId: transactionCode,
       currency: 'IDR',
-      successRedirectUrl: 'http://localhost:3000',
+      successRedirectUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/my-reserve/${reservationData.customer_id}`,
     };
 
     const response = await xenditClient.Invoice.createInvoice({ data });

@@ -13,6 +13,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
+import CheckoutButton from './checkout-button';
 
 // Fungsi helper untuk badge status
 const getBadgeVariant = (status) => {
@@ -160,7 +161,12 @@ export default async function Page() {
                       <Separator />
 
                       <div className="flex justify-end gap-3 mt-auto">
-                        {item.status === 'PENDING' && <Button size="lg">Pay Now</Button>}
+                        {/* {item.status === 'PENDING' && <Button size="lg">Pay Now</Button>} */}
+
+                        <CheckoutButton
+                          reservationId={item.reservation_id}
+                          status={item.status}
+                        />
                       </div>
                     </div>
                   </div>
