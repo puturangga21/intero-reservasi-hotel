@@ -42,7 +42,7 @@ export default async function Rooms() {
               </p>
 
               <Link
-                href={`/reserve/${room.room_id}`}
+                href={`/reserve/${room.room_type}`}
                 className={buttonVariants({
                   variant: 'outline',
                   size: 'lg',

@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, Image, User } from 'lucide-react';
+import { Book, Home, Image, User } from 'lucide-react';
 
 import {
   Sidebar,
@@ -35,6 +35,11 @@ const data = {
       name: 'Room Gallery',
       url: '/room-gallery',
       icon: Image,
+    },
+    {
+      name: 'Customer Reserve',
+      url: '/customer-reserve',
+      icon: Book,
     },
   ],
 };

@@ -2,6 +2,50 @@ import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
+export async function GET() {
+  try {
+    const reservations = await prisma.reservation.findMany({
+      include: {
+        customer: {
+          select: {
+            fullname: true,
+            email: true,
+          },
+        },
+        room: {
+          select: {
+            room_type: true,
+            room_number: true,
+          },
+        },
+        employee: true,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Data reservasi berhasil diambil',
+        data: reservations,
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.error('Error fetching reservations:', error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Terjadi kesalahan pada server',
+        error: error.message,
+      },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request) {
   try {
     const session = await auth();

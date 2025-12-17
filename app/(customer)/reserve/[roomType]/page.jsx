@@ -16,13 +16,13 @@ const amenites = [
 
 export default async function Page({ params }) {
   const session = await auth();
-  const { roomId } = await params;
+  const { roomType } = await params;
 
   let data = [];
 
   try {
     const baseUrl = getBaseUrl();
-    const response = await axios.get(`${baseUrl}/api/room/${roomId}`);
+    const response = await axios.get(`${baseUrl}/api/room-types/${roomType}`);
     data = response.data.data;
   } catch (error) {
     console.log(error?.response?.data);
@@ -97,7 +97,11 @@ export default async function Page({ params }) {
           </div>
 
           <div className="col-span-3">
-            <CheckoutForm data={data} session={session} />
+            <CheckoutForm
+              data={data}
+              session={session}
+              availableRooms={data.availableRooms}
+            />
           </div>
         </div>
       </div>

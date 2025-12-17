@@ -20,12 +20,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
-export default function CheckoutForm({ data, session }) {
+export default function CheckoutForm({ data, session, availableRooms }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [dateStart, setDateStart] = useState();
   const [dateEnd, setDateEnd] = useState();
+  const [selectedRoomId, setSelectedRoomId] = useState('');
 
   const nights =
     dateStart && dateEnd && dateEnd > dateStart
@@ -36,6 +44,11 @@ export default function CheckoutForm({ data, session }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!selectedRoomId) {
+      toast.error('Please select a room number');
+      return;
+    }
 
     const formData = new FormData(e.currentTarget);
     const baseUrl = getBaseUrl();
@@ -72,7 +85,7 @@ export default function CheckoutForm({ data, session }) {
         </CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit}>
-        <input type="hidden" name="room_id" value={data.room_id} />
+        <input type="hidden" name="room_id" value={selectedRoomId} />
         <input type="hidden" name="total_price" value={totalPrice} />
         <input type="hidden" name="total_nights" value={nights} />
         <input
@@ -133,6 +146,25 @@ export default function CheckoutForm({ data, session }) {
                 />
               </PopoverContent>
             </Popover>
+
+            <Select onValueChange={setSelectedRoomId} value={selectedRoomId}>
+              <SelectTrigger className="w-full h-10!" disabled={!session || loading}>
+                <SelectValue placeholder="Select available room" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableRooms && availableRooms.length > 0 ? (
+                  availableRooms.map((room) => (
+                    <SelectItem key={room.room_id} value={room.room_id}>
+                      Room {room.room_number}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <div className="p-2 text-sm text-center text-muted-foreground">
+                    No rooms available
+                  </div>
+                )}
+              </SelectContent>
+            </Select>
 
             {nights > 0 && (
               <>
