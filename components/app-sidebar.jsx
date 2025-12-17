@@ -11,8 +11,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { NavProjects } from './nav-projects';
 import LogoutAdmin from './custom/logout-admin';
+import { NavProjects } from './nav-projects';
 
 const data = {
   user: {
@@ -24,6 +24,11 @@ const data = {
     {
       name: 'Customer',
       url: '/customer',
+      icon: User,
+    },
+    {
+      name: 'Employee',
+      url: '/employee',
       icon: User,
     },
     {

@@ -20,7 +20,7 @@ export default function DeleteData({ id }) {
     try {
       const baseUrl = getBaseUrl();
 
-      const response = await axios.delete(`${baseUrl}/api/customer/${id}`);
+      const response = await axios.delete(`${baseUrl}/api/employee/${id}`);
 
       if (response.data.success) {
         toast.success('Data berhasil dihapus');
