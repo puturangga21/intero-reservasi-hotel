@@ -11,7 +11,7 @@ export default async function Rooms() {
 
   try {
     const baseUrl = getBaseUrl();
-    const response = await axios.get(`${baseUrl}/api/room`);
+    const response = await axios.get(`${baseUrl}/api/room-types`);
     rooms = response.data.data;
   } catch (error) {
     console.log(error?.response?.data);
