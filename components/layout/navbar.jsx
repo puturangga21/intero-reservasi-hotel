@@ -83,8 +83,12 @@ export default function Navbar({ session }) {
                   />
                 </PopoverTrigger>
                 <PopoverContent align="end" className="w-fit ">
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-2">
                     <p className="text-sm font-semibold">{session?.user?.email}</p>
+
+                    <Link href={`/my-reserve/${session?.user?.id}`}>
+                      <p className="text-sm font-semibold">My Reservations</p>
+                    </Link>
 
                     <Separator className="" />
 

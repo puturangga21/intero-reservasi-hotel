@@ -56,8 +56,6 @@ export default async function DataTable() {
     console.log(error?.response?.data);
   }
 
-  console.log(data);
-
   if (data.length === 0) {
     return (
       <Empty className="border">
