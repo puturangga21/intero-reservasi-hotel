@@ -1,9 +1,14 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useGSAP } from '@gsap/react';
-import { Menu01Icon, MultiplicationSignIcon, UserIcon } from '@hugeicons/core-free-icons';
+import {
+  Calendar03Icon,
+  Menu01Icon,
+  MultiplicationSignIcon,
+  UserIcon,
+} from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import gsap from 'gsap';
 import Link from 'next/link';
@@ -75,22 +80,37 @@ export default function Navbar({ session }) {
             {session && (
               <Popover>
                 <PopoverTrigger asChild>
-                  <HugeiconsIcon
-                    icon={UserIcon}
-                    className={`size-6 text-primary-foreground ${
-                      isMenuOpen ? 'text-primary' : 'text-primary-foreground'
-                    }`}
-                  />
+                  <HugeiconsIcon icon={UserIcon} className="size-6 text-primary" />
                 </PopoverTrigger>
-                <PopoverContent align="end" className="w-fit ">
-                  <div className="flex flex-col gap-2">
-                    <p className="text-sm font-semibold">{session?.user?.email}</p>
 
-                    <Link href={`/my-reserve/${session?.user?.id}`}>
-                      <p className="text-sm font-semibold">My Reservations</p>
+                <PopoverContent align="end" className="w-56 p-2" sideOffset={8}>
+                  <div className="flex flex-col gap-1">
+                    <div className="flex flex-col space-y-1 p-2 mb-1">
+                      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        Signed in as
+                      </p>
+                      <p
+                        className="text-sm font-semibold truncate text-foreground"
+                        title={session?.user?.email}>
+                        {session?.user?.email}
+                      </p>
+                    </div>
+
+                    <Separator className="mb-1" />
+
+                    <Link
+                      className={buttonVariants({
+                        variant: 'ghost',
+                        className:
+                          'w-full justify-start gap-3 h-10 font-normal text-sm cursor-pointer',
+                      })}
+                      href={`/my-reserve/${session?.user?.id}`}>
+                      <HugeiconsIcon
+                        icon={Calendar03Icon}
+                        className="size-4 text-muted-foreground"
+                      />
+                      <span>My Reservations</span>
                     </Link>
-
-                    <Separator className="" />
 
                     <FormLogout />
                   </div>

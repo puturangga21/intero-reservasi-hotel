@@ -95,7 +95,7 @@ export default async function DataTable() {
           <TableRow key={item.reservation_id}>
             <TableCell>{item.customer.fullname}</TableCell>
             <TableCell>{item.room.room_type}</TableCell>
-            <TableCell>{item.room.room_number}</TableCell>
+            <TableCell>{item.room.room_number.toString().padStart(3, '0')}</TableCell>
             <TableCell>{formatWaktu(item.check_in_date)}</TableCell>
             <TableCell>{formatWaktu(item.check_out_date)}</TableCell>
             <TableCell>{item.total_nights}</TableCell>
