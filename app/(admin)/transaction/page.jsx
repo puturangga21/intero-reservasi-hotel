@@ -6,8 +6,8 @@ export default function Page() {
     <div className="space-y-4">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Management Maintenance</h1>
-          <p className="text-sm text-muted-foreground">Management maintenance</p>
+          <h1 className="text-2xl font-semibold">Management Transaction</h1>
+          <p className="text-sm text-muted-foreground">Management transaction history</p>
         </div>
       </div>
 

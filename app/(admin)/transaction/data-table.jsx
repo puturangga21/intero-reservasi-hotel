@@ -1,12 +1,3 @@
-import { Badge } from '@/components/ui/badge';
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from '@/components/ui/empty';
 import {
   Table,
   TableBody,
@@ -17,21 +8,30 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { formatRupiah, getBaseUrl } from '@/lib/utils';
-import { CodeFolderIcon } from '@hugeicons/core-free-icons';
+import {
+  Delete01Icon,
+  PencilEdit02Icon,
+  CodeFolderIcon,
+} from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
-import DeleteData from './delete-data';
-import { EditData } from './edit-data';
-import { MaintenanceForm } from './maintenance-form';
-import { auth } from '@/auth';
+import Link from 'next/link';
+import { Empty } from '@/components/ui/empty';
+import {
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/components/ui/empty';
+import { Badge } from '@/components/ui/badge';
 
 export default async function DataTable() {
-  const session = await auth();
   let data = [];
 
   try {
     const baseUrl = getBaseUrl();
-    const response = await axios.get(`${baseUrl}/api/room`);
+    const response = await axios.get(`${baseUrl}/api/transaction`);
     data = response.data.data;
   } catch (error) {
     console.log(error?.response?.data);
@@ -60,36 +60,29 @@ export default async function DataTable() {
       <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead>Type</TableHead>
-          <TableHead>Room Number</TableHead>
-          <TableHead>Price Per Night</TableHead>
+          <TableHead>Customer Email</TableHead>
+          <TableHead>Room Type</TableHead>
+          <TableHead>Total Transaction</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead>Description</TableHead>
           <TableHead>Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {data.map((item) => (
-          <TableRow key={item.room_id}>
-            <TableCell>{item.room_type}</TableCell>
-            <TableCell>{item.room_number.toString().padStart(3, '0')}</TableCell>
-            <TableCell>{formatRupiah(item.price_per_night)}</TableCell>
+          <TableRow key={item.transaction_id}>
+            <TableCell>{item.reservation.customer.email}</TableCell>
+            <TableCell>{item.reservation.room.room_type}</TableCell>
+            <TableCell>{formatRupiah(item.amount)}</TableCell>
             <TableCell>
-              <Badge variant={item.status === 'AVAILABLE' ? 'default' : 'destructive'}>
+              <Badge variant={item.status === 'SUCCESS' ? 'default' : 'destructive'}>
                 {item.status}
               </Badge>
             </TableCell>
             <TableCell>
-              <div className="line-clamp-4 max-w-100 text-pretty whitespace-normal">
-                {item.description}
-              </div>
-            </TableCell>
-
-            <TableCell>
               <div className="flex items-center gap-1">
-                <MaintenanceForm idRoom={item.room_id} session={session} />
-                <EditData data={item} />
-                <DeleteData id={item.room_id} />
+                {/* <EditData />
+
+                <DeleteData /> */}
               </div>
             </TableCell>
           </TableRow>

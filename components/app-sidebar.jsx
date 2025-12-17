@@ -1,6 +1,6 @@
 'use client';
 
-import { Book, Home, Image, User } from 'lucide-react';
+import { Book, Home, Image, ToolCase, User, DollarSign } from 'lucide-react';
 
 import {
   Sidebar,
@@ -45,6 +45,16 @@ const data = {
       name: 'Customer Reserve',
       url: '/customer-reserve',
       icon: Book,
+    },
+    {
+      name: 'Maintenance',
+      url: '/maintenance',
+      icon: ToolCase,
+    },
+    {
+      name: 'Transaction',
+      url: '/transaction',
+      icon: DollarSign,
     },
   ],
 };

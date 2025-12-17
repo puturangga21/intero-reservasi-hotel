@@ -45,7 +45,6 @@ enum ReservationStatus {
   CHECKED_IN
   CHECKED_OUT
   CANCELLED
-  NO_SHOW
   REFUNDED
 }
 
@@ -53,6 +52,7 @@ enum TransactionStatus {
   PENDING
   SUCCESS
   FAILED
+  REFUNDED
 }
 
 // MODEL

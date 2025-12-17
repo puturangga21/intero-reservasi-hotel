@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Dialog,
   DialogContent,
@@ -10,16 +11,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  AddCircleHalfDotIcon,
-  Calendar03Icon,
-  PencilEdit02Icon,
-} from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
   Select,
   SelectContent,
@@ -29,24 +22,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
-import { Calendar } from '@/components/ui/calendar';
-import { format } from 'date-fns';
 import { getBaseUrl } from '@/lib/utils';
+import { Calendar03Icon, ToolsIcon } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
+import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
-export function EditData({ maintenanceId, data, session }) {
+export function MaintenanceForm({ idRoom, session }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [dateStart, setDateStart] = useState(
-    data.start_date ? new Date(data.start_date) : undefined
-  );
-  const [dateEnd, setDateEnd] = useState(
-    data.end_date ? new Date(data.end_date) : undefined
-  );
+  const [dateStart, setDateStart] = useState();
+  const [dateEnd, setDateEnd] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,10 +47,7 @@ export function EditData({ maintenanceId, data, session }) {
     const baseUrl = getBaseUrl();
 
     try {
-      const response = await axios.patch(
-        `${baseUrl}/api/maintenance/${data.maintenance_id}`,
-        formData
-      );
+      const response = await axios.post(`${baseUrl}/api/maintenance`, formData);
 
       if (response.data.success) {
         toast.success(response?.data?.message);
@@ -77,16 +65,15 @@ export function EditData({ maintenanceId, data, session }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <HugeiconsIcon icon={PencilEdit02Icon} size={20} />
+        <HugeiconsIcon icon={ToolsIcon} size={20} />
       </DialogTrigger>
       <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DialogDescription>
+          <DialogTitle>Maintenance room</DialogTitle>
+          <DialogDescription>Click save when you&apos;re done.</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
+          <input type="hidden" name="room_id" value={idRoom} />
           <input type="hidden" name="employee_id" value={session?.user?.id} />
           <input type="hidden" name="start_date" value={dateStart?.toISOString() ?? ''} />
           <input type="hidden" name="end_date" value={dateEnd?.toISOString() ?? ''} />
@@ -100,17 +87,12 @@ export function EditData({ maintenanceId, data, session }) {
                 placeholder="Describe the issue"
                 required
                 disabled={loading}
-                defaultValue={data.issue_description}
               />
             </div>
 
             <div className="grid gap-3">
               <Label htmlFor="priority">Priority</Label>
-              <Select
-                defaultValue={data.priority}
-                name="priority"
-                required
-                disabled={loading}>
+              <Select name="priority" required disabled={loading}>
                 <SelectTrigger className="w-full" id="priority">
                   <SelectValue placeholder="Select a priority" />
                 </SelectTrigger>
@@ -127,11 +109,7 @@ export function EditData({ maintenanceId, data, session }) {
 
             <div className="grid gap-3">
               <Label htmlFor="status">Status</Label>
-              <Select
-                defaultValue={data.status}
-                name="status"
-                required
-                disabled={loading}>
+              <Select name="status" required disabled={loading}>
                 <SelectTrigger className="w-full" id="status">
                   <SelectValue placeholder="Select a Status" />
                 </SelectTrigger>
@@ -167,8 +145,10 @@ export function EditData({ maintenanceId, data, session }) {
                   <Calendar
                     mode="single"
                     selected={dateStart}
-                    onSelect={setDateStart}
-                    initialFocus
+                    onSelect={(date) => {
+                      setDateStart(date);
+                    }}
+                    disabled={(date) => date < new Date().setHours(0, 0, 0, 0)}
                   />
                 </PopoverContent>
               </Popover>
@@ -195,9 +175,12 @@ export function EditData({ maintenanceId, data, session }) {
                   <Calendar
                     mode="single"
                     selected={dateEnd}
-                    onSelect={setDateEnd}
-                    disabled={(date) => (dateStart ? date < dateStart : false)}
-                    initialFocus
+                    onSelect={(date) => {
+                      setDateEnd(date);
+                    }}
+                    disabled={(date) =>
+                      dateStart ? date <= dateStart : date < new Date()
+                    }
                   />
                 </PopoverContent>
               </Popover>
