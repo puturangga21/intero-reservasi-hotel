@@ -5,14 +5,18 @@ export async function GET(request, { params }) {
   try {
     const { roomType } = await params;
 
-    // 1. Ambil data informasi kamar (Harga, Deskripsi) berdasarkan Tipe
-    const roomData = await prisma.room.findFirst({
+    const roomTypeData = await prisma.room.findFirst({
       where: {
         room_type: roomType,
       },
+      select: {
+        room_type: true,
+        price_per_night: true,
+        description: true,
+      },
     });
 
-    if (!roomData) {
+    if (!roomTypeData) {
       return NextResponse.json(
         {
           success: false,
@@ -21,6 +25,28 @@ export async function GET(request, { params }) {
         { status: 404 }
       );
     }
+
+    const rooms = await prisma.room.findMany({
+      where: {
+        room_type: roomType,
+      },
+      include: {
+        reservation: {
+          where: {
+            status: {
+              in: ['CONFIRMED'],
+            },
+            check_out_date: {
+              gte: new Date(),
+            },
+          },
+          select: {
+            check_in_date: true,
+            check_out_date: true,
+          },
+        },
+      },
+    });
 
     // 2. Ambil Galeri Gambar
     const gallery = await prisma.roomGallery.findFirst({
@@ -31,26 +57,20 @@ export async function GET(request, { params }) {
 
     const images = gallery?.image || ['/hero.jpg'];
 
-    // 3. Ambil List Nomor Kamar yang statusnya AVAILABLE (Untuk Dropdown)
-    const availableRooms = await prisma.room.findMany({
-      where: {
-        room_type: roomType,
-        status: 'AVAILABLE',
-      },
-      select: {
-        room_id: true,
-        room_number: true,
-      },
-      orderBy: {
-        room_number: 'asc',
-      },
-    });
+    const availableRooms = rooms.map((room) => ({
+      room_id: room.room_id,
+      room_number: room.room_number,
+      status: room.status, // AVAILABLE or MAINTENANCE
+      booked_dates: room.reservation.map((res) => ({
+        start: res.check_in_date,
+        end: res.check_out_date,
+      })),
+    }));
 
-    // 4. Gabungkan semua data
     const responseData = {
-      ...roomData,
+      ...roomTypeData,
       image: images,
-      availableRooms: availableRooms, // Sertakan ini di response
+      availableRooms: availableRooms,
     };
 
     return NextResponse.json(

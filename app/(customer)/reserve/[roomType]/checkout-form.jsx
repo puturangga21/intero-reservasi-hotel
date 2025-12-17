@@ -18,7 +18,7 @@ import axios from 'axios';
 import { differenceInCalendarDays, format } from 'date-fns';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import {
   Select,
@@ -42,6 +42,23 @@ export default function CheckoutForm({ data, session, availableRooms }) {
 
   const totalPrice = nights * data.price_per_night;
 
+  const filteredRooms = useMemo(() => {
+    if (!dateStart || !dateEnd) return [];
+
+    return availableRooms.filter((room) => {
+      if (room.status === 'MAINTENANCE') return false;
+
+      const isBooked = room.booked_dates.some((booking) => {
+        const bookingStart = new Date(booking.start);
+        const bookingEnd = new Date(booking.end);
+
+        return dateStart < bookingEnd && dateEnd > bookingStart;
+      });
+
+      return !isBooked;
+    });
+  }, [availableRooms, dateStart, dateEnd]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,9 +76,11 @@ export default function CheckoutForm({ data, session, availableRooms }) {
 
       if (response.data.success) {
         toast.success(response?.data?.message);
+        router.refresh();
+        setDateStart(null);
+        setDateEnd(null);
+        setSelectedRoomId('');
       }
-
-      router.refresh();
     } catch (error) {
       // console.log(error.response.data);
       toast.error(error?.response?.data?.message || 'Terjadi kesalahan pada server');
@@ -116,8 +135,11 @@ export default function CheckoutForm({ data, session, availableRooms }) {
                 <Calendar
                   mode="single"
                   selected={dateStart}
-                  onSelect={setDateStart}
-                  disabled={(date) => date < new Date()}
+                  onSelect={(date) => {
+                    setDateStart(date);
+                    setSelectedRoomId('');
+                  }}
+                  disabled={(date) => date < new Date().setHours(0, 0, 0, 0)}
                 />
               </PopoverContent>
             </Popover>
@@ -126,7 +148,7 @@ export default function CheckoutForm({ data, session, availableRooms }) {
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
-                  disabled={!session || loading}
+                  disabled={!session || loading || !dateStart}
                   data-empty={!dateEnd}
                   className="data-[empty=true]:text-muted-foreground h-10 w-full items-center justify-start gap-6 rounded-full">
                   <HugeiconsIcon icon={Calendar03Icon} />
@@ -141,26 +163,42 @@ export default function CheckoutForm({ data, session, availableRooms }) {
                 <Calendar
                   mode="single"
                   selected={dateEnd}
-                  onSelect={setDateEnd}
+                  onSelect={(date) => {
+                    setDateEnd(date);
+                    setSelectedRoomId('');
+                  }}
                   disabled={(date) => (dateStart ? date <= dateStart : date < new Date())}
                 />
               </PopoverContent>
             </Popover>
 
-            <Select onValueChange={setSelectedRoomId} value={selectedRoomId}>
-              <SelectTrigger className="w-full h-10!" disabled={!session || loading}>
-                <SelectValue placeholder="Select available room" />
+            <Select
+              onValueChange={setSelectedRoomId}
+              value={selectedRoomId}
+              disabled={!session || loading || !dateStart || !dateEnd}>
+              <SelectTrigger className="w-full h-10!">
+                <SelectValue
+                  placeholder={
+                    !dateStart || !dateEnd
+                      ? 'Select dates first'
+                      : filteredRooms.length > 0
+                      ? 'Select available room'
+                      : 'No rooms available'
+                  }
+                />
               </SelectTrigger>
               <SelectContent>
-                {availableRooms && availableRooms.length > 0 ? (
-                  availableRooms.map((room) => (
+                {filteredRooms.length > 0 ? (
+                  filteredRooms.map((room) => (
                     <SelectItem key={room.room_id} value={room.room_id}>
                       Room {room.room_number}
                     </SelectItem>
                   ))
                 ) : (
                   <div className="p-2 text-sm text-center text-muted-foreground">
-                    No rooms available
+                    {!dateStart || !dateEnd
+                      ? 'Please pick check-in & check-out dates first.'
+                      : 'All rooms are fully booked or unavailable for these dates.'}
                   </div>
                 )}
               </SelectContent>
