@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "Transaction" ALTER COLUMN "amount" DROP NOT NULL,
+ALTER COLUMN "payment_method" DROP NOT NULL,
+ALTER COLUMN "payment_date" DROP NOT NULL,
+ALTER COLUMN "status" DROP NOT NULL,
+ALTER COLUMN "code" DROP NOT NULL,
+ALTER COLUMN "invoice_url" DROP NOT NULL;

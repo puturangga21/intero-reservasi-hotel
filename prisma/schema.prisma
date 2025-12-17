@@ -158,14 +158,14 @@ model Reservation {
 }
 
 model Transaction {
-  transaction_id String            @id @default(cuid())
+  transaction_id String             @id @default(cuid())
   reservation_id String
-  amount         Decimal           @db.Decimal(10, 2)
-  payment_method String            @db.VarChar(50)
-  payment_date   DateTime          @default(now())
-  status         TransactionStatus @default(PENDING)
-  code           String            @unique @db.Text
-  invoice_url    String            @db.Text
+  amount         Decimal?           @db.Decimal(10, 2)
+  payment_method String?            @db.VarChar(50)
+  payment_date   DateTime?          @default(now())
+  status         TransactionStatus? @default(PENDING)
+  code           String?            @unique @db.Text
+  invoice_url    String?            @db.Text
 
   reservation Reservation @relation(fields: [reservation_id], references: [reservation_id])
 }

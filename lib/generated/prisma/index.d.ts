@@ -9876,12 +9876,12 @@ export namespace Prisma {
   export type TransactionGroupByOutputType = {
     transaction_id: string
     reservation_id: string
-    amount: Decimal
-    payment_method: string
-    payment_date: Date
-    status: $Enums.TransactionStatus
-    code: string
-    invoice_url: string
+    amount: Decimal | null
+    payment_method: string | null
+    payment_date: Date | null
+    status: $Enums.TransactionStatus | null
+    code: string | null
+    invoice_url: string | null
     _count: TransactionCountAggregateOutputType | null
     _avg: TransactionAvgAggregateOutputType | null
     _sum: TransactionSumAggregateOutputType | null
@@ -9969,12 +9969,12 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       transaction_id: string
       reservation_id: string
-      amount: Prisma.Decimal
-      payment_method: string
-      payment_date: Date
-      status: $Enums.TransactionStatus
-      code: string
-      invoice_url: string
+      amount: Prisma.Decimal | null
+      payment_method: string | null
+      payment_date: Date | null
+      status: $Enums.TransactionStatus | null
+      code: string | null
+      invoice_url: string | null
     }, ExtArgs["result"]["transaction"]>
     composites: {}
   }
@@ -11656,24 +11656,24 @@ export namespace Prisma {
     NOT?: TransactionWhereInput | TransactionWhereInput[]
     transaction_id?: StringFilter<"Transaction"> | string
     reservation_id?: StringFilter<"Transaction"> | string
-    amount?: DecimalFilter<"Transaction"> | Decimal | DecimalJsLike | number | string
-    payment_method?: StringFilter<"Transaction"> | string
-    payment_date?: DateTimeFilter<"Transaction"> | Date | string
-    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
-    code?: StringFilter<"Transaction"> | string
-    invoice_url?: StringFilter<"Transaction"> | string
+    amount?: DecimalNullableFilter<"Transaction"> | Decimal | DecimalJsLike | number | string | null
+    payment_method?: StringNullableFilter<"Transaction"> | string | null
+    payment_date?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    status?: EnumTransactionStatusNullableFilter<"Transaction"> | $Enums.TransactionStatus | null
+    code?: StringNullableFilter<"Transaction"> | string | null
+    invoice_url?: StringNullableFilter<"Transaction"> | string | null
     reservation?: XOR<ReservationScalarRelationFilter, ReservationWhereInput>
   }
 
   export type TransactionOrderByWithRelationInput = {
     transaction_id?: SortOrder
     reservation_id?: SortOrder
-    amount?: SortOrder
-    payment_method?: SortOrder
-    payment_date?: SortOrder
-    status?: SortOrder
-    code?: SortOrder
-    invoice_url?: SortOrder
+    amount?: SortOrderInput | SortOrder
+    payment_method?: SortOrderInput | SortOrder
+    payment_date?: SortOrderInput | SortOrder
+    status?: SortOrderInput | SortOrder
+    code?: SortOrderInput | SortOrder
+    invoice_url?: SortOrderInput | SortOrder
     reservation?: ReservationOrderByWithRelationInput
   }
 
@@ -11684,23 +11684,23 @@ export namespace Prisma {
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
     reservation_id?: StringFilter<"Transaction"> | string
-    amount?: DecimalFilter<"Transaction"> | Decimal | DecimalJsLike | number | string
-    payment_method?: StringFilter<"Transaction"> | string
-    payment_date?: DateTimeFilter<"Transaction"> | Date | string
-    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
-    invoice_url?: StringFilter<"Transaction"> | string
+    amount?: DecimalNullableFilter<"Transaction"> | Decimal | DecimalJsLike | number | string | null
+    payment_method?: StringNullableFilter<"Transaction"> | string | null
+    payment_date?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    status?: EnumTransactionStatusNullableFilter<"Transaction"> | $Enums.TransactionStatus | null
+    invoice_url?: StringNullableFilter<"Transaction"> | string | null
     reservation?: XOR<ReservationScalarRelationFilter, ReservationWhereInput>
   }, "transaction_id" | "code">
 
   export type TransactionOrderByWithAggregationInput = {
     transaction_id?: SortOrder
     reservation_id?: SortOrder
-    amount?: SortOrder
-    payment_method?: SortOrder
-    payment_date?: SortOrder
-    status?: SortOrder
-    code?: SortOrder
-    invoice_url?: SortOrder
+    amount?: SortOrderInput | SortOrder
+    payment_method?: SortOrderInput | SortOrder
+    payment_date?: SortOrderInput | SortOrder
+    status?: SortOrderInput | SortOrder
+    code?: SortOrderInput | SortOrder
+    invoice_url?: SortOrderInput | SortOrder
     _count?: TransactionCountOrderByAggregateInput
     _avg?: TransactionAvgOrderByAggregateInput
     _max?: TransactionMaxOrderByAggregateInput
@@ -11714,12 +11714,12 @@ export namespace Prisma {
     NOT?: TransactionScalarWhereWithAggregatesInput | TransactionScalarWhereWithAggregatesInput[]
     transaction_id?: StringWithAggregatesFilter<"Transaction"> | string
     reservation_id?: StringWithAggregatesFilter<"Transaction"> | string
-    amount?: DecimalWithAggregatesFilter<"Transaction"> | Decimal | DecimalJsLike | number | string
-    payment_method?: StringWithAggregatesFilter<"Transaction"> | string
-    payment_date?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
-    status?: EnumTransactionStatusWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus
-    code?: StringWithAggregatesFilter<"Transaction"> | string
-    invoice_url?: StringWithAggregatesFilter<"Transaction"> | string
+    amount?: DecimalNullableWithAggregatesFilter<"Transaction"> | Decimal | DecimalJsLike | number | string | null
+    payment_method?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    payment_date?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+    status?: EnumTransactionStatusNullableWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus | null
+    code?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    invoice_url?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
   }
 
   export type AccountCreateInput = {
@@ -12265,78 +12265,78 @@ export namespace Prisma {
 
   export type TransactionCreateInput = {
     transaction_id?: string
-    amount: Decimal | DecimalJsLike | number | string
-    payment_method: string
-    payment_date?: Date | string
-    status?: $Enums.TransactionStatus
-    code: string
-    invoice_url: string
+    amount?: Decimal | DecimalJsLike | number | string | null
+    payment_method?: string | null
+    payment_date?: Date | string | null
+    status?: $Enums.TransactionStatus | null
+    code?: string | null
+    invoice_url?: string | null
     reservation: ReservationCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionUncheckedCreateInput = {
     transaction_id?: string
     reservation_id: string
-    amount: Decimal | DecimalJsLike | number | string
-    payment_method: string
-    payment_date?: Date | string
-    status?: $Enums.TransactionStatus
-    code: string
-    invoice_url: string
+    amount?: Decimal | DecimalJsLike | number | string | null
+    payment_method?: string | null
+    payment_date?: Date | string | null
+    status?: $Enums.TransactionStatus | null
+    code?: string | null
+    invoice_url?: string | null
   }
 
   export type TransactionUpdateInput = {
     transaction_id?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    payment_method?: StringFieldUpdateOperationsInput | string
-    payment_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    code?: StringFieldUpdateOperationsInput | string
-    invoice_url?: StringFieldUpdateOperationsInput | string
+    amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableEnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_url?: NullableStringFieldUpdateOperationsInput | string | null
     reservation?: ReservationUpdateOneRequiredWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateInput = {
     transaction_id?: StringFieldUpdateOperationsInput | string
     reservation_id?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    payment_method?: StringFieldUpdateOperationsInput | string
-    payment_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    code?: StringFieldUpdateOperationsInput | string
-    invoice_url?: StringFieldUpdateOperationsInput | string
+    amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableEnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransactionCreateManyInput = {
     transaction_id?: string
     reservation_id: string
-    amount: Decimal | DecimalJsLike | number | string
-    payment_method: string
-    payment_date?: Date | string
-    status?: $Enums.TransactionStatus
-    code: string
-    invoice_url: string
+    amount?: Decimal | DecimalJsLike | number | string | null
+    payment_method?: string | null
+    payment_date?: Date | string | null
+    status?: $Enums.TransactionStatus | null
+    code?: string | null
+    invoice_url?: string | null
   }
 
   export type TransactionUpdateManyMutationInput = {
     transaction_id?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    payment_method?: StringFieldUpdateOperationsInput | string
-    payment_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    code?: StringFieldUpdateOperationsInput | string
-    invoice_url?: StringFieldUpdateOperationsInput | string
+    amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableEnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransactionUncheckedUpdateManyInput = {
     transaction_id?: StringFieldUpdateOperationsInput | string
     reservation_id?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    payment_method?: StringFieldUpdateOperationsInput | string
-    payment_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    code?: StringFieldUpdateOperationsInput | string
-    invoice_url?: StringFieldUpdateOperationsInput | string
+    amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableEnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -12964,11 +12964,22 @@ export namespace Prisma {
     _max?: NestedEnumReservationStatusFilter<$PrismaModel>
   }
 
-  export type EnumTransactionStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type EnumTransactionStatusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTransactionStatusNullableFilter<$PrismaModel> | $Enums.TransactionStatus | null
   }
 
   export type ReservationScalarRelationFilter = {
@@ -13017,14 +13028,30 @@ export namespace Prisma {
     amount?: SortOrder
   }
 
-  export type EnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel> | $Enums.TransactionStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTransactionStatusFilter<$PrismaModel>
-    _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type EnumTransactionStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTransactionStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.TransactionStatus | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumTransactionStatusNullableFilter<$PrismaModel>
+    _max?: NestedEnumTransactionStatusNullableFilter<$PrismaModel>
   }
 
   export type CustomerCreateNestedOneWithoutAccountInput = {
@@ -13544,8 +13571,16 @@ export namespace Prisma {
     connect?: ReservationWhereUniqueInput
   }
 
-  export type EnumTransactionStatusFieldUpdateOperationsInput = {
-    set?: $Enums.TransactionStatus
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type NullableEnumTransactionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.TransactionStatus | null
   }
 
   export type ReservationUpdateOneRequiredWithoutTransactionNestedInput = {
@@ -13873,21 +13908,48 @@ export namespace Prisma {
     _max?: NestedEnumReservationStatusFilter<$PrismaModel>
   }
 
-  export type NestedEnumTransactionStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
-  export type NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel> | $Enums.TransactionStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTransactionStatusFilter<$PrismaModel>
-    _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
+  export type NestedEnumTransactionStatusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTransactionStatusNullableFilter<$PrismaModel> | $Enums.TransactionStatus | null
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTransactionStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTransactionStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.TransactionStatus | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumTransactionStatusNullableFilter<$PrismaModel>
+    _max?: NestedEnumTransactionStatusNullableFilter<$PrismaModel>
   }
 
   export type CustomerCreateWithoutAccountInput = {
@@ -14605,22 +14667,22 @@ export namespace Prisma {
 
   export type TransactionCreateWithoutReservationInput = {
     transaction_id?: string
-    amount: Decimal | DecimalJsLike | number | string
-    payment_method: string
-    payment_date?: Date | string
-    status?: $Enums.TransactionStatus
-    code: string
-    invoice_url: string
+    amount?: Decimal | DecimalJsLike | number | string | null
+    payment_method?: string | null
+    payment_date?: Date | string | null
+    status?: $Enums.TransactionStatus | null
+    code?: string | null
+    invoice_url?: string | null
   }
 
   export type TransactionUncheckedCreateWithoutReservationInput = {
     transaction_id?: string
-    amount: Decimal | DecimalJsLike | number | string
-    payment_method: string
-    payment_date?: Date | string
-    status?: $Enums.TransactionStatus
-    code: string
-    invoice_url: string
+    amount?: Decimal | DecimalJsLike | number | string | null
+    payment_method?: string | null
+    payment_date?: Date | string | null
+    status?: $Enums.TransactionStatus | null
+    code?: string | null
+    invoice_url?: string | null
   }
 
   export type TransactionCreateOrConnectWithoutReservationInput = {
@@ -14749,12 +14811,12 @@ export namespace Prisma {
     NOT?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
     transaction_id?: StringFilter<"Transaction"> | string
     reservation_id?: StringFilter<"Transaction"> | string
-    amount?: DecimalFilter<"Transaction"> | Decimal | DecimalJsLike | number | string
-    payment_method?: StringFilter<"Transaction"> | string
-    payment_date?: DateTimeFilter<"Transaction"> | Date | string
-    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
-    code?: StringFilter<"Transaction"> | string
-    invoice_url?: StringFilter<"Transaction"> | string
+    amount?: DecimalNullableFilter<"Transaction"> | Decimal | DecimalJsLike | number | string | null
+    payment_method?: StringNullableFilter<"Transaction"> | string | null
+    payment_date?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    status?: EnumTransactionStatusNullableFilter<"Transaction"> | $Enums.TransactionStatus | null
+    code?: StringNullableFilter<"Transaction"> | string | null
+    invoice_url?: StringNullableFilter<"Transaction"> | string | null
   }
 
   export type ReservationCreateWithoutTransactionInput = {
@@ -15177,42 +15239,42 @@ export namespace Prisma {
 
   export type TransactionCreateManyReservationInput = {
     transaction_id?: string
-    amount: Decimal | DecimalJsLike | number | string
-    payment_method: string
-    payment_date?: Date | string
-    status?: $Enums.TransactionStatus
-    code: string
-    invoice_url: string
+    amount?: Decimal | DecimalJsLike | number | string | null
+    payment_method?: string | null
+    payment_date?: Date | string | null
+    status?: $Enums.TransactionStatus | null
+    code?: string | null
+    invoice_url?: string | null
   }
 
   export type TransactionUpdateWithoutReservationInput = {
     transaction_id?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    payment_method?: StringFieldUpdateOperationsInput | string
-    payment_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    code?: StringFieldUpdateOperationsInput | string
-    invoice_url?: StringFieldUpdateOperationsInput | string
+    amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableEnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransactionUncheckedUpdateWithoutReservationInput = {
     transaction_id?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    payment_method?: StringFieldUpdateOperationsInput | string
-    payment_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    code?: StringFieldUpdateOperationsInput | string
-    invoice_url?: StringFieldUpdateOperationsInput | string
+    amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableEnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TransactionUncheckedUpdateManyWithoutReservationInput = {
     transaction_id?: StringFieldUpdateOperationsInput | string
-    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    payment_method?: StringFieldUpdateOperationsInput | string
-    payment_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    code?: StringFieldUpdateOperationsInput | string
-    invoice_url?: StringFieldUpdateOperationsInput | string
+    amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableEnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus | null
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
