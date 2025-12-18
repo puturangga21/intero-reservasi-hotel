@@ -55,7 +55,6 @@ export async function PATCH(request, { params }) {
     const fullname = formData.get('fullname');
     const email = formData.get('email');
     const password = formData.get('password');
-    const role = formData.get('role');
 
     const existingCustomer = await prisma.employee.findUnique({
       where: { employee_id: id },
@@ -74,7 +73,6 @@ export async function PATCH(request, { params }) {
     const data = {
       fullname,
       email,
-      role,
     };
 
     if (password && password.trim() !== '') {
@@ -88,7 +86,6 @@ export async function PATCH(request, { params }) {
         employee_id: true,
         fullname: true,
         email: true,
-        role: true,
       },
     });
 
