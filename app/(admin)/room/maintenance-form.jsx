@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -38,6 +39,24 @@ export function MaintenanceForm({ idRoom, session }) {
   const [loading, setLoading] = useState(false);
   const [dateStart, setDateStart] = useState();
   const [dateEnd, setDateEnd] = useState();
+  const [maintenanceRanges, setMaintenanceRanges] = useState([]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    axios
+      .get(`${getBaseUrl()}/api/maintenance?room_id=${idRoom}`)
+      .then((res) => setMaintenanceRanges(res.data.data))
+      .catch(() => setMaintenanceRanges([]));
+  }, [open, idRoom]);
+
+  const isDateInMaintenanceRange = (date) => {
+    return maintenanceRanges.some((m) => {
+      const start = new Date(m.start_date);
+      const end = new Date(m.end_date);
+      return date >= start && date <= end;
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -145,10 +164,11 @@ export function MaintenanceForm({ idRoom, session }) {
                   <Calendar
                     mode="single"
                     selected={dateStart}
-                    onSelect={(date) => {
-                      setDateStart(date);
-                    }}
-                    disabled={(date) => date < new Date().setHours(0, 0, 0, 0)}
+                    onSelect={(date) => setDateStart(date)}
+                    disabled={(date) =>
+                      date < new Date().setHours(0, 0, 0, 0) ||
+                      isDateInMaintenanceRange(date)
+                    }
                   />
                 </PopoverContent>
               </Popover>
@@ -175,11 +195,11 @@ export function MaintenanceForm({ idRoom, session }) {
                   <Calendar
                     mode="single"
                     selected={dateEnd}
-                    onSelect={(date) => {
-                      setDateEnd(date);
-                    }}
+                    onSelect={(date) => setDateEnd(date)}
                     disabled={(date) =>
-                      dateStart ? date <= dateStart : date < new Date()
+                      !dateStart ||
+                      date <= dateStart ||
+                      isDateInMaintenanceRange(date)
                     }
                   />
                 </PopoverContent>

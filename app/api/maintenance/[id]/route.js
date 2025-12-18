@@ -24,12 +24,26 @@ export async function PATCH(request, { params }) {
         },
       });
 
-      if (status === 'COMPLETED') {
+     if (status === 'COMPLETED') {
+      const activeMaintenance = await tx.maintenance.findFirst({
+        where: {
+          room_id: maintenance.room_id,
+          maintenance_id: { not: maintenance.maintenance_id },
+          status: { in: ['PENDING', 'IN_PROGRESS'] },
+          AND: [
+            { start_date: { lte: new Date() } },
+            { end_date: { gte: new Date() } },
+          ],
+        },
+      });
+
+      if (!activeMaintenance) {
         await tx.room.update({
           where: { room_id: maintenance.room_id },
           data: { status: 'AVAILABLE' },
         });
       }
+    }
 
       return maintenance;
     });

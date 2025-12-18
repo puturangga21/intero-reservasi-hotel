@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
+    const now = new Date();
+
     const room = await prisma.room.findMany({
       select: {
         room_id: true,
@@ -19,12 +21,29 @@ export async function GET() {
 
     const galleries = await prisma.roomGallery.findMany();
 
+    const activeMaintenances = await prisma.maintenance.findMany({
+      where: {
+        status: { in: ['PENDING', 'IN_PROGRESS'] },
+        start_date: { lte: now },
+        end_date: { gte: now },
+      },
+      select: {
+        room_id: true,
+      },
+    });
+
+    const maintenanceRoomIds = new Set(
+      activeMaintenances.map((m) => m.room_id)
+    );
+
     const roomsWithImages = room.map((room) => {
       const galleryEntry = galleries.find((g) => g.room_type === room.room_type);
       const images = galleryEntry ? galleryEntry.image : [];
+      const isUnderMaintenance = maintenanceRoomIds.has(room.room_id);
 
       return {
         ...room,
+        status: isUnderMaintenance ? 'MAINTENANCE' : 'AVAILABLE',
         image: images,
       };
     });

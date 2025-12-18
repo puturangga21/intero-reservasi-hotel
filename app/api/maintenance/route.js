@@ -56,8 +56,8 @@ export async function POST(request) {
     const issue_description = formData.get('issue_description');
     const priority = formData.get('priority');
     const status = formData.get('status');
-    const start_date = formData.get('start_date');
-    const end_date = formData.get('end_date');
+    const start_date = new Date(formData.get('start_date'));
+    const end_date = new Date(formData.get('end_date'));
 
     if (
       !room_id ||
@@ -69,40 +69,48 @@ export async function POST(request) {
       !end_date
     ) {
       return NextResponse.json(
-        {
-          success: false,
-          message: 'Semua field wajib diisi',
-        },
+        { success: false, message: 'Semua field wajib diisi' },
         { status: 400 }
       );
     }
 
-    const result = await prisma.$transaction(async (tx) => {
-      const maintenance = await tx.maintenance.create({
-        data: {
-          room_id,
-          employee_id,
-          issue_description,
-          priority,
-          status,
-          start_date,
-          end_date,
+    const conflict = await prisma.maintenance.findFirst({
+      where: {
+        room_id,
+        status: { in: ['PENDING', 'IN_PROGRESS'] },
+        start_date: { lt: end_date },
+        end_date: { gt: start_date },
+      },
+    });
+
+    if (conflict) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            'Tanggal maintenance konflik dengan jadwal maintenance lain.',
         },
-      });
+        { status: 409 }
+      );
+    }
 
-      await tx.room.update({
-        where: { room_id: room_id },
-        data: { status: 'MAINTENANCE' },
-      });
-
-      return maintenance;
+    const maintenance = await prisma.maintenance.create({
+      data: {
+        room_id,
+        employee_id,
+        issue_description,
+        priority,
+        status,
+        start_date,
+        end_date,
+      },
     });
 
     return NextResponse.json(
       {
         success: true,
         message: 'Sukses membuat maintenance',
-        data: result,
+        data: maintenance,
       },
       { status: 201 }
     );
@@ -118,3 +126,4 @@ export async function POST(request) {
     );
   }
 }
+
