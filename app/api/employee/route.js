@@ -8,7 +8,6 @@ export async function GET() {
         employee_id: true,
         fullname: true,
         email: true,
-        role: true,
       },
     });
 

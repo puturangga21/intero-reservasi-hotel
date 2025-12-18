@@ -35,7 +35,7 @@ export default async function DataTable() {
     console.log(error?.response?.data);
   }
 
-  // console.log(data);
+  // console.log(data[0].reservation.refund.employee.fullname);
 
   if (data.length === 0) {
     return (
@@ -94,10 +94,10 @@ export default async function DataTable() {
               {item.status === 'REFUNDED' ? (
                 <div className="flex flex-col">
                   <span className="font-medium text-sm">
-                    {item.reservation.refund?.employee?.fullname || 'System'}
+                    {item.reservation?.refund?.employee?.fullname || 'System'}
                   </span>
                   <span className="text-[10px] text-muted-foreground">
-                    {formatWaktu(item.reservation.refund?.refund_date)}
+                    {formatWaktu(item.reservation?.refund?.refund_date)}
                   </span>
                 </div>
               ) : (

@@ -4,35 +4,28 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     const transaction = await prisma.transaction.findMany({
-      include: {
+      select: {
+        transaction_id: true,
+        amount: true,
+        payment_method: true,
+        payment_date: true,
+        status: true,
+        code: true,
+        invoice_url: true,
         reservation: {
-          include: {
+          select: {
+            reservation_id: true,
             customer: true,
             room: true,
             refund: {
-              include: {
+              select: {
+                refund_date: true,
                 employee: true,
               },
             },
           },
         },
       },
-      // select: {
-      //   transaction_id: true,
-      //   amount: true,
-      //   payment_method: true,
-      //   payment_date: true,
-      //   status: true,
-      //   code: true,
-      //   invoice_url: true,
-      //   reservation: {
-      //     select: {
-      //       reservation_id: true,
-      //       customer: true,
-      //       room: true,
-      //     },
-      //   },
-      // },
     });
 
     return NextResponse.json(

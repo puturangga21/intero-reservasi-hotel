@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import {
   Empty,
   EmptyContent,
@@ -19,9 +20,7 @@ import { formatRupiah, formatWaktu, getBaseUrl } from '@/lib/utils';
 import { CodeFolderIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
-import DeleteData from './delete-data';
 import { EditData } from './edit-data';
-import { Badge } from '@/components/ui/badge';
 
 const getBadgeVariant = (status) => {
   switch (status) {
@@ -106,8 +105,6 @@ export default async function DataTable() {
             <TableCell>
               <div className="flex items-center gap-1">
                 <EditData />
-
-                <DeleteData />
               </div>
             </TableCell>
           </TableRow>

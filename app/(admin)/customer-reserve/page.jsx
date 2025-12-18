@@ -1,5 +1,4 @@
 import { Separator } from '@/components/ui/separator';
-import { AddData } from './add-data';
 import DataTable from './data-table';
 
 export default function Page() {
@@ -10,8 +9,6 @@ export default function Page() {
           <h1 className="text-2xl font-semibold">Management Customer Reservation</h1>
           <p className="text-sm text-muted-foreground">Management customer reservation</p>
         </div>
-
-        <AddData />
       </div>
 
       <Separator />

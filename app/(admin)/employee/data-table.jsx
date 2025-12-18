@@ -58,7 +58,6 @@ export default async function DataTable() {
         <TableRow>
           <TableHead>Employee Fullname</TableHead>
           <TableHead>Email</TableHead>
-          <TableHead>Role</TableHead>
           <TableHead>Action</TableHead>
         </TableRow>
       </TableHeader>
@@ -67,7 +66,6 @@ export default async function DataTable() {
           <TableRow key={item.employee_id}>
             <TableCell>{item.fullname}</TableCell>
             <TableCell>{item.email}</TableCell>
-            <TableCell>{item.role}</TableCell>
             <TableCell>
               <div className="flex items-center gap-1">
                 <EditData data={item} />
