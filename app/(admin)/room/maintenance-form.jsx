@@ -52,8 +52,13 @@ export function MaintenanceForm({ idRoom, session }) {
 
   const isDateInMaintenanceRange = (date) => {
     return maintenanceRanges.some((m) => {
+      if (!['PENDING', 'IN_PROGRESS'].includes(m.status)) return false;
       const start = new Date(m.start_date);
       const end = new Date(m.end_date);
+
+      start.setHours(0, 0, 0, 0);
+      end.setHours(23, 59, 59, 999);
+
       return date >= start && date <= end;
     });
   };
