@@ -12,25 +12,16 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { MoneyExchange02FreeIcons, PencilEdit02Icon } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { getBaseUrl } from '@/lib/utils';
+import { MoneyExchange02FreeIcons } from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { getBaseUrl } from '@/lib/utils';
-import axios from 'axios';
 import { toast } from 'sonner';
 
-export function RefundForm() {
+export function RefundForm({ data, adminSession }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -43,18 +34,22 @@ export function RefundForm() {
     const baseUrl = getBaseUrl();
 
     try {
-      // const response = await axios.patch(`${baseUrl}/api/room/${data.room_id}`, formData);
-      // if (response.data.success) {
-      //   toast.success(response?.data?.message);
-      // }
-      // setOpen(false);
-      // router.refresh();
+      const response = await axios.post(`${baseUrl}/api/refund`, formData);
+
+      if (response.data.success) {
+        toast.success(response?.data?.message);
+      }
+
+      setOpen(false);
+      router.refresh();
     } catch (error) {
-      // toast.error(error?.response?.data?.message);
+      toast.error(error?.response?.data?.message);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
+
+  console.log(adminSession);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -66,40 +61,42 @@ export function RefundForm() {
           <DialogTitle>Refund</DialogTitle>
           <DialogDescription>Click save when you&apos;re done.</DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="room_type">Room Type</Label>
-              <Select name="room_type" required disabled={loading}>
-                <SelectTrigger className="w-full" id="room_type">
-                  <SelectValue placeholder="Select a room type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Room Type</SelectLabel>
-                    <SelectItem value="ROYAL">ROYAL</SelectItem>
-                    <SelectItem value="EXECUTIVE">EXECUTIVE</SelectItem>
-                    <SelectItem value="FAMILY">FAMILY</SelectItem>
-                    <SelectItem value="PRESEDENTIAL">PRESEDENTIAL</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="hidden"
+            name="reservation_id"
+            value={data.reservation.reservation_id}
+          />
 
-            <div className="grid gap-3">
-              <Label htmlFor="price_per_night">Price per Night</Label>
-              <Input
-                id="price_per_night"
-                name="price_per_night"
-                placeholder="100000"
-                required
-                disabled={loading}
-              />
-            </div>
+          <input type="hidden" name="employee_id" value={adminSession?.user?.id} />
+
+          <div className="grid gap-2">
+            <Label htmlFor="amount">Refund Amount</Label>
+            <Input
+              id="amount"
+              name="amount"
+              type="number"
+              defaultValue={data.amount}
+              placeholder="e.g. 500000"
+              required
+              disabled={loading}
+            />
           </div>
-          <DialogFooter className="mt-4">
-            <Button type="submit" disabled={loading}>
-              {loading ? 'Saving...' : 'Save changes'}
+
+          <div className="grid gap-2">
+            <Label htmlFor="reason">Reason for Refund</Label>
+            <Textarea
+              id="reason"
+              name="reason"
+              placeholder="Customer cancelled within 24 hours..."
+              required
+              disabled={loading}
+            />
+          </div>
+
+          <DialogFooter>
+            <Button type="submit" disabled={loading} variant="destructive">
+              {loading ? 'Processing...' : 'Confirm Refund'}
             </Button>
           </DialogFooter>
         </form>

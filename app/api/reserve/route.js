@@ -18,7 +18,6 @@ export async function GET() {
             room_number: true,
           },
         },
-        employee: true,
       },
     });
 
@@ -53,7 +52,6 @@ export async function POST(request) {
 
     const customer_id = session?.user?.id;
     const room_id = formData.get('room_id');
-    const employee_id = formData.get('employee_id');
     const check_in_date = formData.get('check_in_date');
     const check_out_date = formData.get('check_out_date');
     const total_price = formData.get('total_price');
@@ -83,7 +81,6 @@ export async function POST(request) {
       data: {
         customer_id,
         room_id,
-        employee_id,
         check_in_date,
         check_out_date,
         total_price,

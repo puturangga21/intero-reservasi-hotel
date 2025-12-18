@@ -53,22 +53,17 @@ export type Reservation = $Result.DefaultSelection<Prisma.$ReservationPayload>
  * 
  */
 export type Transaction = $Result.DefaultSelection<Prisma.$TransactionPayload>
+/**
+ * Model Refund
+ * 
+ */
+export type Refund = $Result.DefaultSelection<Prisma.$RefundPayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
-  export const Role: {
-  ADMIN: 'ADMIN',
-  RECEPTIONIST: 'RECEPTIONIST',
-  CLEANING: 'CLEANING',
-  TECHNICIAN: 'TECHNICIAN'
-};
-
-export type Role = (typeof Role)[keyof typeof Role]
-
-
-export const RoomType: {
+  export const RoomType: {
   ROYAL: 'ROYAL',
   EXECUTIVE: 'EXECUTIVE',
   FAMILY: 'FAMILY',
@@ -110,7 +105,6 @@ export const ReservationStatus: {
   CHECKED_IN: 'CHECKED_IN',
   CHECKED_OUT: 'CHECKED_OUT',
   CANCELLED: 'CANCELLED',
-  NO_SHOW: 'NO_SHOW',
   REFUNDED: 'REFUNDED'
 };
 
@@ -120,16 +114,13 @@ export type ReservationStatus = (typeof ReservationStatus)[keyof typeof Reservat
 export const TransactionStatus: {
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
-  FAILED: 'FAILED'
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
 };
 
 export type TransactionStatus = (typeof TransactionStatus)[keyof typeof TransactionStatus]
 
 }
-
-export type Role = $Enums.Role
-
-export const Role: typeof $Enums.Role
 
 export type RoomType = $Enums.RoomType
 
@@ -351,6 +342,16 @@ export class PrismaClient<
     * ```
     */
   get transaction(): Prisma.TransactionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.refund`: Exposes CRUD operations for the **Refund** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Refunds
+    * const refunds = await prisma.refund.findMany()
+    * ```
+    */
+  get refund(): Prisma.RefundDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -792,7 +793,8 @@ export namespace Prisma {
     RoomGallery: 'RoomGallery',
     Maintenance: 'Maintenance',
     Reservation: 'Reservation',
-    Transaction: 'Transaction'
+    Transaction: 'Transaction',
+    Refund: 'Refund'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -808,7 +810,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "account" | "customer" | "employee" | "room" | "roomGallery" | "maintenance" | "reservation" | "transaction"
+      modelProps: "account" | "customer" | "employee" | "room" | "roomGallery" | "maintenance" | "reservation" | "transaction" | "refund"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1404,6 +1406,80 @@ export namespace Prisma {
           }
         }
       }
+      Refund: {
+        payload: Prisma.$RefundPayload<ExtArgs>
+        fields: Prisma.RefundFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RefundFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RefundFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          findFirst: {
+            args: Prisma.RefundFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RefundFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          findMany: {
+            args: Prisma.RefundFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>[]
+          }
+          create: {
+            args: Prisma.RefundCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          createMany: {
+            args: Prisma.RefundCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RefundCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>[]
+          }
+          delete: {
+            args: Prisma.RefundDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          update: {
+            args: Prisma.RefundUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          deleteMany: {
+            args: Prisma.RefundDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RefundUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RefundUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>[]
+          }
+          upsert: {
+            args: Prisma.RefundUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RefundPayload>
+          }
+          aggregate: {
+            args: Prisma.RefundAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRefund>
+          }
+          groupBy: {
+            args: Prisma.RefundGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RefundGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RefundCountArgs<ExtArgs>
+            result: $Utils.Optional<RefundCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1520,6 +1596,7 @@ export namespace Prisma {
     maintenance?: MaintenanceOmit
     reservation?: ReservationOmit
     transaction?: TransactionOmit
+    refund?: RefundOmit
   }
 
   /* Types for Logging */
@@ -1640,15 +1717,15 @@ export namespace Prisma {
    */
 
   export type EmployeeCountOutputType = {
-    reservation: number
     maintenance: number
     account: number
+    refund: number
   }
 
   export type EmployeeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    reservation?: boolean | EmployeeCountOutputTypeCountReservationArgs
     maintenance?: boolean | EmployeeCountOutputTypeCountMaintenanceArgs
     account?: boolean | EmployeeCountOutputTypeCountAccountArgs
+    refund?: boolean | EmployeeCountOutputTypeCountRefundArgs
   }
 
   // Custom InputTypes
@@ -1665,13 +1742,6 @@ export namespace Prisma {
   /**
    * EmployeeCountOutputType without action
    */
-  export type EmployeeCountOutputTypeCountReservationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReservationWhereInput
-  }
-
-  /**
-   * EmployeeCountOutputType without action
-   */
   export type EmployeeCountOutputTypeCountMaintenanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MaintenanceWhereInput
   }
@@ -1681,6 +1751,13 @@ export namespace Prisma {
    */
   export type EmployeeCountOutputTypeCountAccountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AccountWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountRefundArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RefundWhereInput
   }
 
 
@@ -4102,7 +4179,6 @@ export namespace Prisma {
     fullname: string | null
     email: string | null
     password: string | null
-    role: $Enums.Role | null
   }
 
   export type EmployeeMaxAggregateOutputType = {
@@ -4110,7 +4186,6 @@ export namespace Prisma {
     fullname: string | null
     email: string | null
     password: string | null
-    role: $Enums.Role | null
   }
 
   export type EmployeeCountAggregateOutputType = {
@@ -4118,7 +4193,6 @@ export namespace Prisma {
     fullname: number
     email: number
     password: number
-    role: number
     _all: number
   }
 
@@ -4128,7 +4202,6 @@ export namespace Prisma {
     fullname?: true
     email?: true
     password?: true
-    role?: true
   }
 
   export type EmployeeMaxAggregateInputType = {
@@ -4136,7 +4209,6 @@ export namespace Prisma {
     fullname?: true
     email?: true
     password?: true
-    role?: true
   }
 
   export type EmployeeCountAggregateInputType = {
@@ -4144,7 +4216,6 @@ export namespace Prisma {
     fullname?: true
     email?: true
     password?: true
-    role?: true
     _all?: true
   }
 
@@ -4225,7 +4296,6 @@ export namespace Prisma {
     fullname: string
     email: string
     password: string
-    role: $Enums.Role
     _count: EmployeeCountAggregateOutputType | null
     _min: EmployeeMinAggregateOutputType | null
     _max: EmployeeMaxAggregateOutputType | null
@@ -4250,10 +4320,9 @@ export namespace Prisma {
     fullname?: boolean
     email?: boolean
     password?: boolean
-    role?: boolean
-    reservation?: boolean | Employee$reservationArgs<ExtArgs>
     maintenance?: boolean | Employee$maintenanceArgs<ExtArgs>
     account?: boolean | Employee$accountArgs<ExtArgs>
+    refund?: boolean | Employee$refundArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
@@ -4262,7 +4331,6 @@ export namespace Prisma {
     fullname?: boolean
     email?: boolean
     password?: boolean
-    role?: boolean
   }, ExtArgs["result"]["employee"]>
 
   export type EmployeeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4270,7 +4338,6 @@ export namespace Prisma {
     fullname?: boolean
     email?: boolean
     password?: boolean
-    role?: boolean
   }, ExtArgs["result"]["employee"]>
 
   export type EmployeeSelectScalar = {
@@ -4278,14 +4345,13 @@ export namespace Prisma {
     fullname?: boolean
     email?: boolean
     password?: boolean
-    role?: boolean
   }
 
-  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"employee_id" | "fullname" | "email" | "password" | "role", ExtArgs["result"]["employee"]>
+  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"employee_id" | "fullname" | "email" | "password", ExtArgs["result"]["employee"]>
   export type EmployeeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    reservation?: boolean | Employee$reservationArgs<ExtArgs>
     maintenance?: boolean | Employee$maintenanceArgs<ExtArgs>
     account?: boolean | Employee$accountArgs<ExtArgs>
+    refund?: boolean | Employee$refundArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmployeeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4294,16 +4360,15 @@ export namespace Prisma {
   export type $EmployeePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Employee"
     objects: {
-      reservation: Prisma.$ReservationPayload<ExtArgs>[]
       maintenance: Prisma.$MaintenancePayload<ExtArgs>[]
       account: Prisma.$AccountPayload<ExtArgs>[]
+      refund: Prisma.$RefundPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       employee_id: string
       fullname: string
       email: string
       password: string
-      role: $Enums.Role
     }, ExtArgs["result"]["employee"]>
     composites: {}
   }
@@ -4698,9 +4763,9 @@ export namespace Prisma {
    */
   export interface Prisma__EmployeeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    reservation<T extends Employee$reservationArgs<ExtArgs> = {}>(args?: Subset<T, Employee$reservationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     maintenance<T extends Employee$maintenanceArgs<ExtArgs> = {}>(args?: Subset<T, Employee$maintenanceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MaintenancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     account<T extends Employee$accountArgs<ExtArgs> = {}>(args?: Subset<T, Employee$accountArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    refund<T extends Employee$refundArgs<ExtArgs> = {}>(args?: Subset<T, Employee$refundArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4734,7 +4799,6 @@ export namespace Prisma {
     readonly fullname: FieldRef<"Employee", 'String'>
     readonly email: FieldRef<"Employee", 'String'>
     readonly password: FieldRef<"Employee", 'String'>
-    readonly role: FieldRef<"Employee", 'Role'>
   }
     
 
@@ -5123,30 +5187,6 @@ export namespace Prisma {
   }
 
   /**
-   * Employee.reservation
-   */
-  export type Employee$reservationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Reservation
-     */
-    select?: ReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Reservation
-     */
-    omit?: ReservationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReservationInclude<ExtArgs> | null
-    where?: ReservationWhereInput
-    orderBy?: ReservationOrderByWithRelationInput | ReservationOrderByWithRelationInput[]
-    cursor?: ReservationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ReservationScalarFieldEnum | ReservationScalarFieldEnum[]
-  }
-
-  /**
    * Employee.maintenance
    */
   export type Employee$maintenanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5192,6 +5232,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.refund
+   */
+  export type Employee$refundArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    where?: RefundWhereInput
+    orderBy?: RefundOrderByWithRelationInput | RefundOrderByWithRelationInput[]
+    cursor?: RefundWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RefundScalarFieldEnum | RefundScalarFieldEnum[]
   }
 
   /**
@@ -8490,7 +8554,6 @@ export namespace Prisma {
     reservation_id: string | null
     customer_id: string | null
     room_id: string | null
-    employee_id: string | null
     check_in_date: Date | null
     check_out_date: Date | null
     total_price: Decimal | null
@@ -8503,7 +8566,6 @@ export namespace Prisma {
     reservation_id: string | null
     customer_id: string | null
     room_id: string | null
-    employee_id: string | null
     check_in_date: Date | null
     check_out_date: Date | null
     total_price: Decimal | null
@@ -8516,7 +8578,6 @@ export namespace Prisma {
     reservation_id: number
     customer_id: number
     room_id: number
-    employee_id: number
     check_in_date: number
     check_out_date: number
     total_price: number
@@ -8541,7 +8602,6 @@ export namespace Prisma {
     reservation_id?: true
     customer_id?: true
     room_id?: true
-    employee_id?: true
     check_in_date?: true
     check_out_date?: true
     total_price?: true
@@ -8554,7 +8614,6 @@ export namespace Prisma {
     reservation_id?: true
     customer_id?: true
     room_id?: true
-    employee_id?: true
     check_in_date?: true
     check_out_date?: true
     total_price?: true
@@ -8567,7 +8626,6 @@ export namespace Prisma {
     reservation_id?: true
     customer_id?: true
     room_id?: true
-    employee_id?: true
     check_in_date?: true
     check_out_date?: true
     total_price?: true
@@ -8667,7 +8725,6 @@ export namespace Prisma {
     reservation_id: string
     customer_id: string
     room_id: string
-    employee_id: string | null
     check_in_date: Date
     check_out_date: Date
     total_price: Decimal
@@ -8699,7 +8756,6 @@ export namespace Prisma {
     reservation_id?: boolean
     customer_id?: boolean
     room_id?: boolean
-    employee_id?: boolean
     check_in_date?: boolean
     check_out_date?: boolean
     total_price?: boolean
@@ -8708,8 +8764,8 @@ export namespace Prisma {
     created_at?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     room?: boolean | RoomDefaultArgs<ExtArgs>
-    employee?: boolean | Reservation$employeeArgs<ExtArgs>
     transaction?: boolean | Reservation$transactionArgs<ExtArgs>
+    refund?: boolean | Reservation$refundArgs<ExtArgs>
     _count?: boolean | ReservationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
@@ -8717,7 +8773,6 @@ export namespace Prisma {
     reservation_id?: boolean
     customer_id?: boolean
     room_id?: boolean
-    employee_id?: boolean
     check_in_date?: boolean
     check_out_date?: boolean
     total_price?: boolean
@@ -8726,14 +8781,12 @@ export namespace Prisma {
     created_at?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     room?: boolean | RoomDefaultArgs<ExtArgs>
-    employee?: boolean | Reservation$employeeArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
   export type ReservationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     reservation_id?: boolean
     customer_id?: boolean
     room_id?: boolean
-    employee_id?: boolean
     check_in_date?: boolean
     check_out_date?: boolean
     total_price?: boolean
@@ -8742,14 +8795,12 @@ export namespace Prisma {
     created_at?: boolean
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     room?: boolean | RoomDefaultArgs<ExtArgs>
-    employee?: boolean | Reservation$employeeArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
   export type ReservationSelectScalar = {
     reservation_id?: boolean
     customer_id?: boolean
     room_id?: boolean
-    employee_id?: boolean
     check_in_date?: boolean
     check_out_date?: boolean
     total_price?: boolean
@@ -8758,23 +8809,21 @@ export namespace Prisma {
     created_at?: boolean
   }
 
-  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"reservation_id" | "customer_id" | "room_id" | "employee_id" | "check_in_date" | "check_out_date" | "total_price" | "total_nights" | "status" | "created_at", ExtArgs["result"]["reservation"]>
+  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"reservation_id" | "customer_id" | "room_id" | "check_in_date" | "check_out_date" | "total_price" | "total_nights" | "status" | "created_at", ExtArgs["result"]["reservation"]>
   export type ReservationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     room?: boolean | RoomDefaultArgs<ExtArgs>
-    employee?: boolean | Reservation$employeeArgs<ExtArgs>
     transaction?: boolean | Reservation$transactionArgs<ExtArgs>
+    refund?: boolean | Reservation$refundArgs<ExtArgs>
     _count?: boolean | ReservationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ReservationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     room?: boolean | RoomDefaultArgs<ExtArgs>
-    employee?: boolean | Reservation$employeeArgs<ExtArgs>
   }
   export type ReservationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | CustomerDefaultArgs<ExtArgs>
     room?: boolean | RoomDefaultArgs<ExtArgs>
-    employee?: boolean | Reservation$employeeArgs<ExtArgs>
   }
 
   export type $ReservationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8782,14 +8831,13 @@ export namespace Prisma {
     objects: {
       customer: Prisma.$CustomerPayload<ExtArgs>
       room: Prisma.$RoomPayload<ExtArgs>
-      employee: Prisma.$EmployeePayload<ExtArgs> | null
       transaction: Prisma.$TransactionPayload<ExtArgs>[]
+      refund: Prisma.$RefundPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       reservation_id: string
       customer_id: string
       room_id: string
-      employee_id: string | null
       check_in_date: Date
       check_out_date: Date
       total_price: Prisma.Decimal
@@ -9192,8 +9240,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer<T extends CustomerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CustomerDefaultArgs<ExtArgs>>): Prisma__CustomerClient<$Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    employee<T extends Reservation$employeeArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$employeeArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     transaction<T extends Reservation$transactionArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$transactionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    refund<T extends Reservation$refundArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$refundArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9226,7 +9274,6 @@ export namespace Prisma {
     readonly reservation_id: FieldRef<"Reservation", 'String'>
     readonly customer_id: FieldRef<"Reservation", 'String'>
     readonly room_id: FieldRef<"Reservation", 'String'>
-    readonly employee_id: FieldRef<"Reservation", 'String'>
     readonly check_in_date: FieldRef<"Reservation", 'DateTime'>
     readonly check_out_date: FieldRef<"Reservation", 'DateTime'>
     readonly total_price: FieldRef<"Reservation", 'Decimal'>
@@ -9629,25 +9676,6 @@ export namespace Prisma {
   }
 
   /**
-   * Reservation.employee
-   */
-  export type Reservation$employeeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Employee
-     */
-    select?: EmployeeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Employee
-     */
-    omit?: EmployeeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmployeeInclude<ExtArgs> | null
-    where?: EmployeeWhereInput
-  }
-
-  /**
    * Reservation.transaction
    */
   export type Reservation$transactionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9669,6 +9697,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
+  }
+
+  /**
+   * Reservation.refund
+   */
+  export type Reservation$refundArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    where?: RefundWhereInput
   }
 
   /**
@@ -10822,6 +10869,1119 @@ export namespace Prisma {
 
 
   /**
+   * Model Refund
+   */
+
+  export type AggregateRefund = {
+    _count: RefundCountAggregateOutputType | null
+    _avg: RefundAvgAggregateOutputType | null
+    _sum: RefundSumAggregateOutputType | null
+    _min: RefundMinAggregateOutputType | null
+    _max: RefundMaxAggregateOutputType | null
+  }
+
+  export type RefundAvgAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type RefundSumAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type RefundMinAggregateOutputType = {
+    refund_id: string | null
+    reservation_id: string | null
+    employee_id: string | null
+    amount: Decimal | null
+    reason: string | null
+    refund_date: Date | null
+  }
+
+  export type RefundMaxAggregateOutputType = {
+    refund_id: string | null
+    reservation_id: string | null
+    employee_id: string | null
+    amount: Decimal | null
+    reason: string | null
+    refund_date: Date | null
+  }
+
+  export type RefundCountAggregateOutputType = {
+    refund_id: number
+    reservation_id: number
+    employee_id: number
+    amount: number
+    reason: number
+    refund_date: number
+    _all: number
+  }
+
+
+  export type RefundAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type RefundSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type RefundMinAggregateInputType = {
+    refund_id?: true
+    reservation_id?: true
+    employee_id?: true
+    amount?: true
+    reason?: true
+    refund_date?: true
+  }
+
+  export type RefundMaxAggregateInputType = {
+    refund_id?: true
+    reservation_id?: true
+    employee_id?: true
+    amount?: true
+    reason?: true
+    refund_date?: true
+  }
+
+  export type RefundCountAggregateInputType = {
+    refund_id?: true
+    reservation_id?: true
+    employee_id?: true
+    amount?: true
+    reason?: true
+    refund_date?: true
+    _all?: true
+  }
+
+  export type RefundAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Refund to aggregate.
+     */
+    where?: RefundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundOrderByWithRelationInput | RefundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RefundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Refunds
+    **/
+    _count?: true | RefundCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RefundAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RefundSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RefundMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RefundMaxAggregateInputType
+  }
+
+  export type GetRefundAggregateType<T extends RefundAggregateArgs> = {
+        [P in keyof T & keyof AggregateRefund]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRefund[P]>
+      : GetScalarType<T[P], AggregateRefund[P]>
+  }
+
+
+
+
+  export type RefundGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RefundWhereInput
+    orderBy?: RefundOrderByWithAggregationInput | RefundOrderByWithAggregationInput[]
+    by: RefundScalarFieldEnum[] | RefundScalarFieldEnum
+    having?: RefundScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RefundCountAggregateInputType | true
+    _avg?: RefundAvgAggregateInputType
+    _sum?: RefundSumAggregateInputType
+    _min?: RefundMinAggregateInputType
+    _max?: RefundMaxAggregateInputType
+  }
+
+  export type RefundGroupByOutputType = {
+    refund_id: string
+    reservation_id: string
+    employee_id: string
+    amount: Decimal
+    reason: string
+    refund_date: Date
+    _count: RefundCountAggregateOutputType | null
+    _avg: RefundAvgAggregateOutputType | null
+    _sum: RefundSumAggregateOutputType | null
+    _min: RefundMinAggregateOutputType | null
+    _max: RefundMaxAggregateOutputType | null
+  }
+
+  type GetRefundGroupByPayload<T extends RefundGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RefundGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RefundGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RefundGroupByOutputType[P]>
+            : GetScalarType<T[P], RefundGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RefundSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    refund_id?: boolean
+    reservation_id?: boolean
+    employee_id?: boolean
+    amount?: boolean
+    reason?: boolean
+    refund_date?: boolean
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["refund"]>
+
+  export type RefundSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    refund_id?: boolean
+    reservation_id?: boolean
+    employee_id?: boolean
+    amount?: boolean
+    reason?: boolean
+    refund_date?: boolean
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["refund"]>
+
+  export type RefundSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    refund_id?: boolean
+    reservation_id?: boolean
+    employee_id?: boolean
+    amount?: boolean
+    reason?: boolean
+    refund_date?: boolean
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["refund"]>
+
+  export type RefundSelectScalar = {
+    refund_id?: boolean
+    reservation_id?: boolean
+    employee_id?: boolean
+    amount?: boolean
+    reason?: boolean
+    refund_date?: boolean
+  }
+
+  export type RefundOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"refund_id" | "reservation_id" | "employee_id" | "amount" | "reason" | "refund_date", ExtArgs["result"]["refund"]>
+  export type RefundInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type RefundIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type RefundIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $RefundPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Refund"
+    objects: {
+      reservation: Prisma.$ReservationPayload<ExtArgs>
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      refund_id: string
+      reservation_id: string
+      employee_id: string
+      amount: Prisma.Decimal
+      reason: string
+      refund_date: Date
+    }, ExtArgs["result"]["refund"]>
+    composites: {}
+  }
+
+  type RefundGetPayload<S extends boolean | null | undefined | RefundDefaultArgs> = $Result.GetResult<Prisma.$RefundPayload, S>
+
+  type RefundCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RefundFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RefundCountAggregateInputType | true
+    }
+
+  export interface RefundDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Refund'], meta: { name: 'Refund' } }
+    /**
+     * Find zero or one Refund that matches the filter.
+     * @param {RefundFindUniqueArgs} args - Arguments to find a Refund
+     * @example
+     * // Get one Refund
+     * const refund = await prisma.refund.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RefundFindUniqueArgs>(args: SelectSubset<T, RefundFindUniqueArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Refund that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RefundFindUniqueOrThrowArgs} args - Arguments to find a Refund
+     * @example
+     * // Get one Refund
+     * const refund = await prisma.refund.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RefundFindUniqueOrThrowArgs>(args: SelectSubset<T, RefundFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Refund that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundFindFirstArgs} args - Arguments to find a Refund
+     * @example
+     * // Get one Refund
+     * const refund = await prisma.refund.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RefundFindFirstArgs>(args?: SelectSubset<T, RefundFindFirstArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Refund that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundFindFirstOrThrowArgs} args - Arguments to find a Refund
+     * @example
+     * // Get one Refund
+     * const refund = await prisma.refund.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RefundFindFirstOrThrowArgs>(args?: SelectSubset<T, RefundFindFirstOrThrowArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Refunds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Refunds
+     * const refunds = await prisma.refund.findMany()
+     * 
+     * // Get first 10 Refunds
+     * const refunds = await prisma.refund.findMany({ take: 10 })
+     * 
+     * // Only select the `refund_id`
+     * const refundWithRefund_idOnly = await prisma.refund.findMany({ select: { refund_id: true } })
+     * 
+     */
+    findMany<T extends RefundFindManyArgs>(args?: SelectSubset<T, RefundFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Refund.
+     * @param {RefundCreateArgs} args - Arguments to create a Refund.
+     * @example
+     * // Create one Refund
+     * const Refund = await prisma.refund.create({
+     *   data: {
+     *     // ... data to create a Refund
+     *   }
+     * })
+     * 
+     */
+    create<T extends RefundCreateArgs>(args: SelectSubset<T, RefundCreateArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Refunds.
+     * @param {RefundCreateManyArgs} args - Arguments to create many Refunds.
+     * @example
+     * // Create many Refunds
+     * const refund = await prisma.refund.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RefundCreateManyArgs>(args?: SelectSubset<T, RefundCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Refunds and returns the data saved in the database.
+     * @param {RefundCreateManyAndReturnArgs} args - Arguments to create many Refunds.
+     * @example
+     * // Create many Refunds
+     * const refund = await prisma.refund.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Refunds and only return the `refund_id`
+     * const refundWithRefund_idOnly = await prisma.refund.createManyAndReturn({
+     *   select: { refund_id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RefundCreateManyAndReturnArgs>(args?: SelectSubset<T, RefundCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Refund.
+     * @param {RefundDeleteArgs} args - Arguments to delete one Refund.
+     * @example
+     * // Delete one Refund
+     * const Refund = await prisma.refund.delete({
+     *   where: {
+     *     // ... filter to delete one Refund
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RefundDeleteArgs>(args: SelectSubset<T, RefundDeleteArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Refund.
+     * @param {RefundUpdateArgs} args - Arguments to update one Refund.
+     * @example
+     * // Update one Refund
+     * const refund = await prisma.refund.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RefundUpdateArgs>(args: SelectSubset<T, RefundUpdateArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Refunds.
+     * @param {RefundDeleteManyArgs} args - Arguments to filter Refunds to delete.
+     * @example
+     * // Delete a few Refunds
+     * const { count } = await prisma.refund.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RefundDeleteManyArgs>(args?: SelectSubset<T, RefundDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Refunds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Refunds
+     * const refund = await prisma.refund.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RefundUpdateManyArgs>(args: SelectSubset<T, RefundUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Refunds and returns the data updated in the database.
+     * @param {RefundUpdateManyAndReturnArgs} args - Arguments to update many Refunds.
+     * @example
+     * // Update many Refunds
+     * const refund = await prisma.refund.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Refunds and only return the `refund_id`
+     * const refundWithRefund_idOnly = await prisma.refund.updateManyAndReturn({
+     *   select: { refund_id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RefundUpdateManyAndReturnArgs>(args: SelectSubset<T, RefundUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Refund.
+     * @param {RefundUpsertArgs} args - Arguments to update or create a Refund.
+     * @example
+     * // Update or create a Refund
+     * const refund = await prisma.refund.upsert({
+     *   create: {
+     *     // ... data to create a Refund
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Refund we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RefundUpsertArgs>(args: SelectSubset<T, RefundUpsertArgs<ExtArgs>>): Prisma__RefundClient<$Result.GetResult<Prisma.$RefundPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Refunds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundCountArgs} args - Arguments to filter Refunds to count.
+     * @example
+     * // Count the number of Refunds
+     * const count = await prisma.refund.count({
+     *   where: {
+     *     // ... the filter for the Refunds we want to count
+     *   }
+     * })
+    **/
+    count<T extends RefundCountArgs>(
+      args?: Subset<T, RefundCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RefundCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Refund.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RefundAggregateArgs>(args: Subset<T, RefundAggregateArgs>): Prisma.PrismaPromise<GetRefundAggregateType<T>>
+
+    /**
+     * Group by Refund.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RefundGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RefundGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RefundGroupByArgs['orderBy'] }
+        : { orderBy?: RefundGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RefundGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRefundGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Refund model
+   */
+  readonly fields: RefundFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Refund.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RefundClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    reservation<T extends ReservationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ReservationDefaultArgs<ExtArgs>>): Prisma__ReservationClient<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Refund model
+   */
+  interface RefundFieldRefs {
+    readonly refund_id: FieldRef<"Refund", 'String'>
+    readonly reservation_id: FieldRef<"Refund", 'String'>
+    readonly employee_id: FieldRef<"Refund", 'String'>
+    readonly amount: FieldRef<"Refund", 'Decimal'>
+    readonly reason: FieldRef<"Refund", 'String'>
+    readonly refund_date: FieldRef<"Refund", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Refund findUnique
+   */
+  export type RefundFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter, which Refund to fetch.
+     */
+    where: RefundWhereUniqueInput
+  }
+
+  /**
+   * Refund findUniqueOrThrow
+   */
+  export type RefundFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter, which Refund to fetch.
+     */
+    where: RefundWhereUniqueInput
+  }
+
+  /**
+   * Refund findFirst
+   */
+  export type RefundFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter, which Refund to fetch.
+     */
+    where?: RefundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundOrderByWithRelationInput | RefundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Refunds.
+     */
+    cursor?: RefundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Refunds.
+     */
+    distinct?: RefundScalarFieldEnum | RefundScalarFieldEnum[]
+  }
+
+  /**
+   * Refund findFirstOrThrow
+   */
+  export type RefundFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter, which Refund to fetch.
+     */
+    where?: RefundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundOrderByWithRelationInput | RefundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Refunds.
+     */
+    cursor?: RefundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Refunds.
+     */
+    distinct?: RefundScalarFieldEnum | RefundScalarFieldEnum[]
+  }
+
+  /**
+   * Refund findMany
+   */
+  export type RefundFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter, which Refunds to fetch.
+     */
+    where?: RefundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Refunds to fetch.
+     */
+    orderBy?: RefundOrderByWithRelationInput | RefundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Refunds.
+     */
+    cursor?: RefundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Refunds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Refunds.
+     */
+    skip?: number
+    distinct?: RefundScalarFieldEnum | RefundScalarFieldEnum[]
+  }
+
+  /**
+   * Refund create
+   */
+  export type RefundCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Refund.
+     */
+    data: XOR<RefundCreateInput, RefundUncheckedCreateInput>
+  }
+
+  /**
+   * Refund createMany
+   */
+  export type RefundCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Refunds.
+     */
+    data: RefundCreateManyInput | RefundCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Refund createManyAndReturn
+   */
+  export type RefundCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * The data used to create many Refunds.
+     */
+    data: RefundCreateManyInput | RefundCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Refund update
+   */
+  export type RefundUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Refund.
+     */
+    data: XOR<RefundUpdateInput, RefundUncheckedUpdateInput>
+    /**
+     * Choose, which Refund to update.
+     */
+    where: RefundWhereUniqueInput
+  }
+
+  /**
+   * Refund updateMany
+   */
+  export type RefundUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Refunds.
+     */
+    data: XOR<RefundUpdateManyMutationInput, RefundUncheckedUpdateManyInput>
+    /**
+     * Filter which Refunds to update
+     */
+    where?: RefundWhereInput
+    /**
+     * Limit how many Refunds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Refund updateManyAndReturn
+   */
+  export type RefundUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * The data used to update Refunds.
+     */
+    data: XOR<RefundUpdateManyMutationInput, RefundUncheckedUpdateManyInput>
+    /**
+     * Filter which Refunds to update
+     */
+    where?: RefundWhereInput
+    /**
+     * Limit how many Refunds to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Refund upsert
+   */
+  export type RefundUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Refund to update in case it exists.
+     */
+    where: RefundWhereUniqueInput
+    /**
+     * In case the Refund found by the `where` argument doesn't exist, create a new Refund with this data.
+     */
+    create: XOR<RefundCreateInput, RefundUncheckedCreateInput>
+    /**
+     * In case the Refund was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RefundUpdateInput, RefundUncheckedUpdateInput>
+  }
+
+  /**
+   * Refund delete
+   */
+  export type RefundDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+    /**
+     * Filter which Refund to delete.
+     */
+    where: RefundWhereUniqueInput
+  }
+
+  /**
+   * Refund deleteMany
+   */
+  export type RefundDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Refunds to delete
+     */
+    where?: RefundWhereInput
+    /**
+     * Limit how many Refunds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Refund without action
+   */
+  export type RefundDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Refund
+     */
+    select?: RefundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Refund
+     */
+    omit?: RefundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RefundInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -10871,8 +12031,7 @@ export namespace Prisma {
     employee_id: 'employee_id',
     fullname: 'fullname',
     email: 'email',
-    password: 'password',
-    role: 'role'
+    password: 'password'
   };
 
   export type EmployeeScalarFieldEnum = (typeof EmployeeScalarFieldEnum)[keyof typeof EmployeeScalarFieldEnum]
@@ -10918,7 +12077,6 @@ export namespace Prisma {
     reservation_id: 'reservation_id',
     customer_id: 'customer_id',
     room_id: 'room_id',
-    employee_id: 'employee_id',
     check_in_date: 'check_in_date',
     check_out_date: 'check_out_date',
     total_price: 'total_price',
@@ -10942,6 +12100,18 @@ export namespace Prisma {
   };
 
   export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+  export const RefundScalarFieldEnum: {
+    refund_id: 'refund_id',
+    reservation_id: 'reservation_id',
+    employee_id: 'employee_id',
+    amount: 'amount',
+    reason: 'reason',
+    refund_date: 'refund_date'
+  };
+
+  export type RefundScalarFieldEnum = (typeof RefundScalarFieldEnum)[keyof typeof RefundScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11012,20 +12182,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Role'
-   */
-  export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
-    
-
-
-  /**
-   * Reference to a field of type 'Role[]'
-   */
-  export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
     
 
 
@@ -11321,10 +12477,9 @@ export namespace Prisma {
     fullname?: StringFilter<"Employee"> | string
     email?: StringFilter<"Employee"> | string
     password?: StringFilter<"Employee"> | string
-    role?: EnumRoleFilter<"Employee"> | $Enums.Role
-    reservation?: ReservationListRelationFilter
     maintenance?: MaintenanceListRelationFilter
     account?: AccountListRelationFilter
+    refund?: RefundListRelationFilter
   }
 
   export type EmployeeOrderByWithRelationInput = {
@@ -11332,10 +12487,9 @@ export namespace Prisma {
     fullname?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    role?: SortOrder
-    reservation?: ReservationOrderByRelationAggregateInput
     maintenance?: MaintenanceOrderByRelationAggregateInput
     account?: AccountOrderByRelationAggregateInput
+    refund?: RefundOrderByRelationAggregateInput
   }
 
   export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
@@ -11346,10 +12500,9 @@ export namespace Prisma {
     NOT?: EmployeeWhereInput | EmployeeWhereInput[]
     fullname?: StringFilter<"Employee"> | string
     password?: StringFilter<"Employee"> | string
-    role?: EnumRoleFilter<"Employee"> | $Enums.Role
-    reservation?: ReservationListRelationFilter
     maintenance?: MaintenanceListRelationFilter
     account?: AccountListRelationFilter
+    refund?: RefundListRelationFilter
   }, "employee_id" | "email">
 
   export type EmployeeOrderByWithAggregationInput = {
@@ -11357,7 +12510,6 @@ export namespace Prisma {
     fullname?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    role?: SortOrder
     _count?: EmployeeCountOrderByAggregateInput
     _max?: EmployeeMaxOrderByAggregateInput
     _min?: EmployeeMinOrderByAggregateInput
@@ -11371,7 +12523,6 @@ export namespace Prisma {
     fullname?: StringWithAggregatesFilter<"Employee"> | string
     email?: StringWithAggregatesFilter<"Employee"> | string
     password?: StringWithAggregatesFilter<"Employee"> | string
-    role?: EnumRoleWithAggregatesFilter<"Employee"> | $Enums.Role
   }
 
   export type RoomWhereInput = {
@@ -11566,7 +12717,6 @@ export namespace Prisma {
     reservation_id?: StringFilter<"Reservation"> | string
     customer_id?: StringFilter<"Reservation"> | string
     room_id?: StringFilter<"Reservation"> | string
-    employee_id?: StringNullableFilter<"Reservation"> | string | null
     check_in_date?: DateTimeFilter<"Reservation"> | Date | string
     check_out_date?: DateTimeFilter<"Reservation"> | Date | string
     total_price?: DecimalFilter<"Reservation"> | Decimal | DecimalJsLike | number | string
@@ -11575,15 +12725,14 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"Reservation"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
-    employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     transaction?: TransactionListRelationFilter
+    refund?: XOR<RefundNullableScalarRelationFilter, RefundWhereInput> | null
   }
 
   export type ReservationOrderByWithRelationInput = {
     reservation_id?: SortOrder
     customer_id?: SortOrder
     room_id?: SortOrder
-    employee_id?: SortOrderInput | SortOrder
     check_in_date?: SortOrder
     check_out_date?: SortOrder
     total_price?: SortOrder
@@ -11592,8 +12741,8 @@ export namespace Prisma {
     created_at?: SortOrder
     customer?: CustomerOrderByWithRelationInput
     room?: RoomOrderByWithRelationInput
-    employee?: EmployeeOrderByWithRelationInput
     transaction?: TransactionOrderByRelationAggregateInput
+    refund?: RefundOrderByWithRelationInput
   }
 
   export type ReservationWhereUniqueInput = Prisma.AtLeast<{
@@ -11603,7 +12752,6 @@ export namespace Prisma {
     NOT?: ReservationWhereInput | ReservationWhereInput[]
     customer_id?: StringFilter<"Reservation"> | string
     room_id?: StringFilter<"Reservation"> | string
-    employee_id?: StringNullableFilter<"Reservation"> | string | null
     check_in_date?: DateTimeFilter<"Reservation"> | Date | string
     check_out_date?: DateTimeFilter<"Reservation"> | Date | string
     total_price?: DecimalFilter<"Reservation"> | Decimal | DecimalJsLike | number | string
@@ -11612,15 +12760,14 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"Reservation"> | Date | string
     customer?: XOR<CustomerScalarRelationFilter, CustomerWhereInput>
     room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
-    employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     transaction?: TransactionListRelationFilter
+    refund?: XOR<RefundNullableScalarRelationFilter, RefundWhereInput> | null
   }, "reservation_id">
 
   export type ReservationOrderByWithAggregationInput = {
     reservation_id?: SortOrder
     customer_id?: SortOrder
     room_id?: SortOrder
-    employee_id?: SortOrderInput | SortOrder
     check_in_date?: SortOrder
     check_out_date?: SortOrder
     total_price?: SortOrder
@@ -11641,7 +12788,6 @@ export namespace Prisma {
     reservation_id?: StringWithAggregatesFilter<"Reservation"> | string
     customer_id?: StringWithAggregatesFilter<"Reservation"> | string
     room_id?: StringWithAggregatesFilter<"Reservation"> | string
-    employee_id?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
     check_in_date?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     check_out_date?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     total_price?: DecimalWithAggregatesFilter<"Reservation"> | Decimal | DecimalJsLike | number | string
@@ -11720,6 +12866,71 @@ export namespace Prisma {
     status?: EnumTransactionStatusNullableWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus | null
     code?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     invoice_url?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+  }
+
+  export type RefundWhereInput = {
+    AND?: RefundWhereInput | RefundWhereInput[]
+    OR?: RefundWhereInput[]
+    NOT?: RefundWhereInput | RefundWhereInput[]
+    refund_id?: StringFilter<"Refund"> | string
+    reservation_id?: StringFilter<"Refund"> | string
+    employee_id?: StringFilter<"Refund"> | string
+    amount?: DecimalFilter<"Refund"> | Decimal | DecimalJsLike | number | string
+    reason?: StringFilter<"Refund"> | string
+    refund_date?: DateTimeFilter<"Refund"> | Date | string
+    reservation?: XOR<ReservationScalarRelationFilter, ReservationWhereInput>
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type RefundOrderByWithRelationInput = {
+    refund_id?: SortOrder
+    reservation_id?: SortOrder
+    employee_id?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    refund_date?: SortOrder
+    reservation?: ReservationOrderByWithRelationInput
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type RefundWhereUniqueInput = Prisma.AtLeast<{
+    refund_id?: string
+    reservation_id?: string
+    AND?: RefundWhereInput | RefundWhereInput[]
+    OR?: RefundWhereInput[]
+    NOT?: RefundWhereInput | RefundWhereInput[]
+    employee_id?: StringFilter<"Refund"> | string
+    amount?: DecimalFilter<"Refund"> | Decimal | DecimalJsLike | number | string
+    reason?: StringFilter<"Refund"> | string
+    refund_date?: DateTimeFilter<"Refund"> | Date | string
+    reservation?: XOR<ReservationScalarRelationFilter, ReservationWhereInput>
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "refund_id" | "reservation_id">
+
+  export type RefundOrderByWithAggregationInput = {
+    refund_id?: SortOrder
+    reservation_id?: SortOrder
+    employee_id?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    refund_date?: SortOrder
+    _count?: RefundCountOrderByAggregateInput
+    _avg?: RefundAvgOrderByAggregateInput
+    _max?: RefundMaxOrderByAggregateInput
+    _min?: RefundMinOrderByAggregateInput
+    _sum?: RefundSumOrderByAggregateInput
+  }
+
+  export type RefundScalarWhereWithAggregatesInput = {
+    AND?: RefundScalarWhereWithAggregatesInput | RefundScalarWhereWithAggregatesInput[]
+    OR?: RefundScalarWhereWithAggregatesInput[]
+    NOT?: RefundScalarWhereWithAggregatesInput | RefundScalarWhereWithAggregatesInput[]
+    refund_id?: StringWithAggregatesFilter<"Refund"> | string
+    reservation_id?: StringWithAggregatesFilter<"Refund"> | string
+    employee_id?: StringWithAggregatesFilter<"Refund"> | string
+    amount?: DecimalWithAggregatesFilter<"Refund"> | Decimal | DecimalJsLike | number | string
+    reason?: StringWithAggregatesFilter<"Refund"> | string
+    refund_date?: DateTimeWithAggregatesFilter<"Refund"> | Date | string
   }
 
   export type AccountCreateInput = {
@@ -11915,10 +13126,9 @@ export namespace Prisma {
     fullname: string
     email: string
     password: string
-    role?: $Enums.Role
-    reservation?: ReservationCreateNestedManyWithoutEmployeeInput
     maintenance?: MaintenanceCreateNestedManyWithoutEmployeeInput
     account?: AccountCreateNestedManyWithoutEmployeeInput
+    refund?: RefundCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateInput = {
@@ -11926,10 +13136,9 @@ export namespace Prisma {
     fullname: string
     email: string
     password: string
-    role?: $Enums.Role
-    reservation?: ReservationUncheckedCreateNestedManyWithoutEmployeeInput
     maintenance?: MaintenanceUncheckedCreateNestedManyWithoutEmployeeInput
     account?: AccountUncheckedCreateNestedManyWithoutEmployeeInput
+    refund?: RefundUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUpdateInput = {
@@ -11937,10 +13146,9 @@ export namespace Prisma {
     fullname?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    reservation?: ReservationUpdateManyWithoutEmployeeNestedInput
     maintenance?: MaintenanceUpdateManyWithoutEmployeeNestedInput
     account?: AccountUpdateManyWithoutEmployeeNestedInput
+    refund?: RefundUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateInput = {
@@ -11948,10 +13156,9 @@ export namespace Prisma {
     fullname?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    reservation?: ReservationUncheckedUpdateManyWithoutEmployeeNestedInput
     maintenance?: MaintenanceUncheckedUpdateManyWithoutEmployeeNestedInput
     account?: AccountUncheckedUpdateManyWithoutEmployeeNestedInput
+    refund?: RefundUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateManyInput = {
@@ -11959,7 +13166,6 @@ export namespace Prisma {
     fullname: string
     email: string
     password: string
-    role?: $Enums.Role
   }
 
   export type EmployeeUpdateManyMutationInput = {
@@ -11967,7 +13173,6 @@ export namespace Prisma {
     fullname?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
 
   export type EmployeeUncheckedUpdateManyInput = {
@@ -11975,7 +13180,6 @@ export namespace Prisma {
     fullname?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
   }
 
   export type RoomCreateInput = {
@@ -12181,15 +13385,14 @@ export namespace Prisma {
     created_at?: Date | string
     customer: CustomerCreateNestedOneWithoutReservationInput
     room: RoomCreateNestedOneWithoutReservationInput
-    employee?: EmployeeCreateNestedOneWithoutReservationInput
     transaction?: TransactionCreateNestedManyWithoutReservationInput
+    refund?: RefundCreateNestedOneWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateInput = {
     reservation_id?: string
     customer_id: string
     room_id: string
-    employee_id?: string | null
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
@@ -12197,6 +13400,7 @@ export namespace Prisma {
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     transaction?: TransactionUncheckedCreateNestedManyWithoutReservationInput
+    refund?: RefundUncheckedCreateNestedOneWithoutReservationInput
   }
 
   export type ReservationUpdateInput = {
@@ -12209,15 +13413,14 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutReservationNestedInput
     room?: RoomUpdateOneRequiredWithoutReservationNestedInput
-    employee?: EmployeeUpdateOneWithoutReservationNestedInput
     transaction?: TransactionUpdateManyWithoutReservationNestedInput
+    refund?: RefundUpdateOneWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateInput = {
     reservation_id?: StringFieldUpdateOperationsInput | string
     customer_id?: StringFieldUpdateOperationsInput | string
     room_id?: StringFieldUpdateOperationsInput | string
-    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -12225,13 +13428,13 @@ export namespace Prisma {
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     transaction?: TransactionUncheckedUpdateManyWithoutReservationNestedInput
+    refund?: RefundUncheckedUpdateOneWithoutReservationNestedInput
   }
 
   export type ReservationCreateManyInput = {
     reservation_id?: string
     customer_id: string
     room_id: string
-    employee_id?: string | null
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
@@ -12254,7 +13457,6 @@ export namespace Prisma {
     reservation_id?: StringFieldUpdateOperationsInput | string
     customer_id?: StringFieldUpdateOperationsInput | string
     room_id?: StringFieldUpdateOperationsInput | string
-    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -12337,6 +13539,67 @@ export namespace Prisma {
     status?: NullableEnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus | null
     code?: NullableStringFieldUpdateOperationsInput | string | null
     invoice_url?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RefundCreateInput = {
+    refund_id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    reason: string
+    refund_date?: Date | string
+    reservation: ReservationCreateNestedOneWithoutRefundInput
+    employee: EmployeeCreateNestedOneWithoutRefundInput
+  }
+
+  export type RefundUncheckedCreateInput = {
+    refund_id?: string
+    reservation_id: string
+    employee_id: string
+    amount: Decimal | DecimalJsLike | number | string
+    reason: string
+    refund_date?: Date | string
+  }
+
+  export type RefundUpdateInput = {
+    refund_id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    refund_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    reservation?: ReservationUpdateOneRequiredWithoutRefundNestedInput
+    employee?: EmployeeUpdateOneRequiredWithoutRefundNestedInput
+  }
+
+  export type RefundUncheckedUpdateInput = {
+    refund_id?: StringFieldUpdateOperationsInput | string
+    reservation_id?: StringFieldUpdateOperationsInput | string
+    employee_id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    refund_date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundCreateManyInput = {
+    refund_id?: string
+    reservation_id: string
+    employee_id: string
+    amount: Decimal | DecimalJsLike | number | string
+    reason: string
+    refund_date?: Date | string
+  }
+
+  export type RefundUpdateManyMutationInput = {
+    refund_id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    refund_date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundUncheckedUpdateManyInput = {
+    refund_id?: StringFieldUpdateOperationsInput | string
+    reservation_id?: StringFieldUpdateOperationsInput | string
+    employee_id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    refund_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -12583,20 +13846,23 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type EnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
   export type MaintenanceListRelationFilter = {
     every?: MaintenanceWhereInput
     some?: MaintenanceWhereInput
     none?: MaintenanceWhereInput
   }
 
+  export type RefundListRelationFilter = {
+    every?: RefundWhereInput
+    some?: RefundWhereInput
+    none?: RefundWhereInput
+  }
+
   export type MaintenanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RefundOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12605,7 +13871,6 @@ export namespace Prisma {
     fullname?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    role?: SortOrder
   }
 
   export type EmployeeMaxOrderByAggregateInput = {
@@ -12613,7 +13878,6 @@ export namespace Prisma {
     fullname?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    role?: SortOrder
   }
 
   export type EmployeeMinOrderByAggregateInput = {
@@ -12621,17 +13885,6 @@ export namespace Prisma {
     fullname?: SortOrder
     email?: SortOrder
     password?: SortOrder
-    role?: SortOrder
-  }
-
-  export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -12901,6 +14154,11 @@ export namespace Prisma {
     none?: TransactionWhereInput
   }
 
+  export type RefundNullableScalarRelationFilter = {
+    is?: RefundWhereInput | null
+    isNot?: RefundWhereInput | null
+  }
+
   export type TransactionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -12909,7 +14167,6 @@ export namespace Prisma {
     reservation_id?: SortOrder
     customer_id?: SortOrder
     room_id?: SortOrder
-    employee_id?: SortOrder
     check_in_date?: SortOrder
     check_out_date?: SortOrder
     total_price?: SortOrder
@@ -12927,7 +14184,6 @@ export namespace Prisma {
     reservation_id?: SortOrder
     customer_id?: SortOrder
     room_id?: SortOrder
-    employee_id?: SortOrder
     check_in_date?: SortOrder
     check_out_date?: SortOrder
     total_price?: SortOrder
@@ -12940,7 +14196,6 @@ export namespace Prisma {
     reservation_id?: SortOrder
     customer_id?: SortOrder
     room_id?: SortOrder
-    employee_id?: SortOrder
     check_in_date?: SortOrder
     check_out_date?: SortOrder
     total_price?: SortOrder
@@ -13052,6 +14307,41 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumTransactionStatusNullableFilter<$PrismaModel>
     _max?: NestedEnumTransactionStatusNullableFilter<$PrismaModel>
+  }
+
+  export type RefundCountOrderByAggregateInput = {
+    refund_id?: SortOrder
+    reservation_id?: SortOrder
+    employee_id?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    refund_date?: SortOrder
+  }
+
+  export type RefundAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type RefundMaxOrderByAggregateInput = {
+    refund_id?: SortOrder
+    reservation_id?: SortOrder
+    employee_id?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    refund_date?: SortOrder
+  }
+
+  export type RefundMinOrderByAggregateInput = {
+    refund_id?: SortOrder
+    reservation_id?: SortOrder
+    employee_id?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    refund_date?: SortOrder
+  }
+
+  export type RefundSumOrderByAggregateInput = {
+    amount?: SortOrder
   }
 
   export type CustomerCreateNestedOneWithoutAccountInput = {
@@ -13186,13 +14476,6 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type ReservationCreateNestedManyWithoutEmployeeInput = {
-    create?: XOR<ReservationCreateWithoutEmployeeInput, ReservationUncheckedCreateWithoutEmployeeInput> | ReservationCreateWithoutEmployeeInput[] | ReservationUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutEmployeeInput | ReservationCreateOrConnectWithoutEmployeeInput[]
-    createMany?: ReservationCreateManyEmployeeInputEnvelope
-    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-  }
-
   export type MaintenanceCreateNestedManyWithoutEmployeeInput = {
     create?: XOR<MaintenanceCreateWithoutEmployeeInput, MaintenanceUncheckedCreateWithoutEmployeeInput> | MaintenanceCreateWithoutEmployeeInput[] | MaintenanceUncheckedCreateWithoutEmployeeInput[]
     connectOrCreate?: MaintenanceCreateOrConnectWithoutEmployeeInput | MaintenanceCreateOrConnectWithoutEmployeeInput[]
@@ -13207,11 +14490,11 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type ReservationUncheckedCreateNestedManyWithoutEmployeeInput = {
-    create?: XOR<ReservationCreateWithoutEmployeeInput, ReservationUncheckedCreateWithoutEmployeeInput> | ReservationCreateWithoutEmployeeInput[] | ReservationUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutEmployeeInput | ReservationCreateOrConnectWithoutEmployeeInput[]
-    createMany?: ReservationCreateManyEmployeeInputEnvelope
-    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+  export type RefundCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<RefundCreateWithoutEmployeeInput, RefundUncheckedCreateWithoutEmployeeInput> | RefundCreateWithoutEmployeeInput[] | RefundUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: RefundCreateOrConnectWithoutEmployeeInput | RefundCreateOrConnectWithoutEmployeeInput[]
+    createMany?: RefundCreateManyEmployeeInputEnvelope
+    connect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
   }
 
   export type MaintenanceUncheckedCreateNestedManyWithoutEmployeeInput = {
@@ -13228,22 +14511,11 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type EnumRoleFieldUpdateOperationsInput = {
-    set?: $Enums.Role
-  }
-
-  export type ReservationUpdateManyWithoutEmployeeNestedInput = {
-    create?: XOR<ReservationCreateWithoutEmployeeInput, ReservationUncheckedCreateWithoutEmployeeInput> | ReservationCreateWithoutEmployeeInput[] | ReservationUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutEmployeeInput | ReservationCreateOrConnectWithoutEmployeeInput[]
-    upsert?: ReservationUpsertWithWhereUniqueWithoutEmployeeInput | ReservationUpsertWithWhereUniqueWithoutEmployeeInput[]
-    createMany?: ReservationCreateManyEmployeeInputEnvelope
-    set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    update?: ReservationUpdateWithWhereUniqueWithoutEmployeeInput | ReservationUpdateWithWhereUniqueWithoutEmployeeInput[]
-    updateMany?: ReservationUpdateManyWithWhereWithoutEmployeeInput | ReservationUpdateManyWithWhereWithoutEmployeeInput[]
-    deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  export type RefundUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<RefundCreateWithoutEmployeeInput, RefundUncheckedCreateWithoutEmployeeInput> | RefundCreateWithoutEmployeeInput[] | RefundUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: RefundCreateOrConnectWithoutEmployeeInput | RefundCreateOrConnectWithoutEmployeeInput[]
+    createMany?: RefundCreateManyEmployeeInputEnvelope
+    connect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
   }
 
   export type MaintenanceUpdateManyWithoutEmployeeNestedInput = {
@@ -13274,18 +14546,18 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type ReservationUncheckedUpdateManyWithoutEmployeeNestedInput = {
-    create?: XOR<ReservationCreateWithoutEmployeeInput, ReservationUncheckedCreateWithoutEmployeeInput> | ReservationCreateWithoutEmployeeInput[] | ReservationUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutEmployeeInput | ReservationCreateOrConnectWithoutEmployeeInput[]
-    upsert?: ReservationUpsertWithWhereUniqueWithoutEmployeeInput | ReservationUpsertWithWhereUniqueWithoutEmployeeInput[]
-    createMany?: ReservationCreateManyEmployeeInputEnvelope
-    set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    update?: ReservationUpdateWithWhereUniqueWithoutEmployeeInput | ReservationUpdateWithWhereUniqueWithoutEmployeeInput[]
-    updateMany?: ReservationUpdateManyWithWhereWithoutEmployeeInput | ReservationUpdateManyWithWhereWithoutEmployeeInput[]
-    deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  export type RefundUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<RefundCreateWithoutEmployeeInput, RefundUncheckedCreateWithoutEmployeeInput> | RefundCreateWithoutEmployeeInput[] | RefundUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: RefundCreateOrConnectWithoutEmployeeInput | RefundCreateOrConnectWithoutEmployeeInput[]
+    upsert?: RefundUpsertWithWhereUniqueWithoutEmployeeInput | RefundUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: RefundCreateManyEmployeeInputEnvelope
+    set?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    disconnect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    delete?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    connect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    update?: RefundUpdateWithWhereUniqueWithoutEmployeeInput | RefundUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: RefundUpdateManyWithWhereWithoutEmployeeInput | RefundUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: RefundScalarWhereInput | RefundScalarWhereInput[]
   }
 
   export type MaintenanceUncheckedUpdateManyWithoutEmployeeNestedInput = {
@@ -13314,6 +14586,20 @@ export namespace Prisma {
     update?: AccountUpdateWithWhereUniqueWithoutEmployeeInput | AccountUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: AccountUpdateManyWithWhereWithoutEmployeeInput | AccountUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
+  }
+
+  export type RefundUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<RefundCreateWithoutEmployeeInput, RefundUncheckedCreateWithoutEmployeeInput> | RefundCreateWithoutEmployeeInput[] | RefundUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: RefundCreateOrConnectWithoutEmployeeInput | RefundCreateOrConnectWithoutEmployeeInput[]
+    upsert?: RefundUpsertWithWhereUniqueWithoutEmployeeInput | RefundUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: RefundCreateManyEmployeeInputEnvelope
+    set?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    disconnect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    delete?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    connect?: RefundWhereUniqueInput | RefundWhereUniqueInput[]
+    update?: RefundUpdateWithWhereUniqueWithoutEmployeeInput | RefundUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: RefundUpdateManyWithWhereWithoutEmployeeInput | RefundUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: RefundScalarWhereInput | RefundScalarWhereInput[]
   }
 
   export type ReservationCreateNestedManyWithoutRoomInput = {
@@ -13487,12 +14773,6 @@ export namespace Prisma {
     connect?: RoomWhereUniqueInput
   }
 
-  export type EmployeeCreateNestedOneWithoutReservationInput = {
-    create?: XOR<EmployeeCreateWithoutReservationInput, EmployeeUncheckedCreateWithoutReservationInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutReservationInput
-    connect?: EmployeeWhereUniqueInput
-  }
-
   export type TransactionCreateNestedManyWithoutReservationInput = {
     create?: XOR<TransactionCreateWithoutReservationInput, TransactionUncheckedCreateWithoutReservationInput> | TransactionCreateWithoutReservationInput[] | TransactionUncheckedCreateWithoutReservationInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutReservationInput | TransactionCreateOrConnectWithoutReservationInput[]
@@ -13500,11 +14780,23 @@ export namespace Prisma {
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
+  export type RefundCreateNestedOneWithoutReservationInput = {
+    create?: XOR<RefundCreateWithoutReservationInput, RefundUncheckedCreateWithoutReservationInput>
+    connectOrCreate?: RefundCreateOrConnectWithoutReservationInput
+    connect?: RefundWhereUniqueInput
+  }
+
   export type TransactionUncheckedCreateNestedManyWithoutReservationInput = {
     create?: XOR<TransactionCreateWithoutReservationInput, TransactionUncheckedCreateWithoutReservationInput> | TransactionCreateWithoutReservationInput[] | TransactionUncheckedCreateWithoutReservationInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutReservationInput | TransactionCreateOrConnectWithoutReservationInput[]
     createMany?: TransactionCreateManyReservationInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type RefundUncheckedCreateNestedOneWithoutReservationInput = {
+    create?: XOR<RefundCreateWithoutReservationInput, RefundUncheckedCreateWithoutReservationInput>
+    connectOrCreate?: RefundCreateOrConnectWithoutReservationInput
+    connect?: RefundWhereUniqueInput
   }
 
   export type EnumReservationStatusFieldUpdateOperationsInput = {
@@ -13527,16 +14819,6 @@ export namespace Prisma {
     update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutReservationInput, RoomUpdateWithoutReservationInput>, RoomUncheckedUpdateWithoutReservationInput>
   }
 
-  export type EmployeeUpdateOneWithoutReservationNestedInput = {
-    create?: XOR<EmployeeCreateWithoutReservationInput, EmployeeUncheckedCreateWithoutReservationInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutReservationInput
-    upsert?: EmployeeUpsertWithoutReservationInput
-    disconnect?: EmployeeWhereInput | boolean
-    delete?: EmployeeWhereInput | boolean
-    connect?: EmployeeWhereUniqueInput
-    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutReservationInput, EmployeeUpdateWithoutReservationInput>, EmployeeUncheckedUpdateWithoutReservationInput>
-  }
-
   export type TransactionUpdateManyWithoutReservationNestedInput = {
     create?: XOR<TransactionCreateWithoutReservationInput, TransactionUncheckedCreateWithoutReservationInput> | TransactionCreateWithoutReservationInput[] | TransactionUncheckedCreateWithoutReservationInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutReservationInput | TransactionCreateOrConnectWithoutReservationInput[]
@@ -13551,6 +14833,16 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
+  export type RefundUpdateOneWithoutReservationNestedInput = {
+    create?: XOR<RefundCreateWithoutReservationInput, RefundUncheckedCreateWithoutReservationInput>
+    connectOrCreate?: RefundCreateOrConnectWithoutReservationInput
+    upsert?: RefundUpsertWithoutReservationInput
+    disconnect?: RefundWhereInput | boolean
+    delete?: RefundWhereInput | boolean
+    connect?: RefundWhereUniqueInput
+    update?: XOR<XOR<RefundUpdateToOneWithWhereWithoutReservationInput, RefundUpdateWithoutReservationInput>, RefundUncheckedUpdateWithoutReservationInput>
+  }
+
   export type TransactionUncheckedUpdateManyWithoutReservationNestedInput = {
     create?: XOR<TransactionCreateWithoutReservationInput, TransactionUncheckedCreateWithoutReservationInput> | TransactionCreateWithoutReservationInput[] | TransactionUncheckedCreateWithoutReservationInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutReservationInput | TransactionCreateOrConnectWithoutReservationInput[]
@@ -13563,6 +14855,16 @@ export namespace Prisma {
     update?: TransactionUpdateWithWhereUniqueWithoutReservationInput | TransactionUpdateWithWhereUniqueWithoutReservationInput[]
     updateMany?: TransactionUpdateManyWithWhereWithoutReservationInput | TransactionUpdateManyWithWhereWithoutReservationInput[]
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type RefundUncheckedUpdateOneWithoutReservationNestedInput = {
+    create?: XOR<RefundCreateWithoutReservationInput, RefundUncheckedCreateWithoutReservationInput>
+    connectOrCreate?: RefundCreateOrConnectWithoutReservationInput
+    upsert?: RefundUpsertWithoutReservationInput
+    disconnect?: RefundWhereInput | boolean
+    delete?: RefundWhereInput | boolean
+    connect?: RefundWhereUniqueInput
+    update?: XOR<XOR<RefundUpdateToOneWithWhereWithoutReservationInput, RefundUpdateWithoutReservationInput>, RefundUncheckedUpdateWithoutReservationInput>
   }
 
   export type ReservationCreateNestedOneWithoutTransactionInput = {
@@ -13589,6 +14891,34 @@ export namespace Prisma {
     upsert?: ReservationUpsertWithoutTransactionInput
     connect?: ReservationWhereUniqueInput
     update?: XOR<XOR<ReservationUpdateToOneWithWhereWithoutTransactionInput, ReservationUpdateWithoutTransactionInput>, ReservationUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type ReservationCreateNestedOneWithoutRefundInput = {
+    create?: XOR<ReservationCreateWithoutRefundInput, ReservationUncheckedCreateWithoutRefundInput>
+    connectOrCreate?: ReservationCreateOrConnectWithoutRefundInput
+    connect?: ReservationWhereUniqueInput
+  }
+
+  export type EmployeeCreateNestedOneWithoutRefundInput = {
+    create?: XOR<EmployeeCreateWithoutRefundInput, EmployeeUncheckedCreateWithoutRefundInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutRefundInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type ReservationUpdateOneRequiredWithoutRefundNestedInput = {
+    create?: XOR<ReservationCreateWithoutRefundInput, ReservationUncheckedCreateWithoutRefundInput>
+    connectOrCreate?: ReservationCreateOrConnectWithoutRefundInput
+    upsert?: ReservationUpsertWithoutRefundInput
+    connect?: ReservationWhereUniqueInput
+    update?: XOR<XOR<ReservationUpdateToOneWithWhereWithoutRefundInput, ReservationUpdateWithoutRefundInput>, ReservationUncheckedUpdateWithoutRefundInput>
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutRefundNestedInput = {
+    create?: XOR<EmployeeCreateWithoutRefundInput, EmployeeUncheckedCreateWithoutRefundInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutRefundInput
+    upsert?: EmployeeUpsertWithoutRefundInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutRefundInput, EmployeeUpdateWithoutRefundInput>, EmployeeUncheckedUpdateWithoutRefundInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -13725,23 +15055,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedEnumRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
-  export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumRoleWithAggregatesFilter<$PrismaModel> | $Enums.Role
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumRoleFilter<$PrismaModel>
-    _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
   export type NestedEnumRoomTypeFilter<$PrismaModel = never> = {
@@ -13984,9 +15297,8 @@ export namespace Prisma {
     fullname: string
     email: string
     password: string
-    role?: $Enums.Role
-    reservation?: ReservationCreateNestedManyWithoutEmployeeInput
     maintenance?: MaintenanceCreateNestedManyWithoutEmployeeInput
+    refund?: RefundCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutAccountInput = {
@@ -13994,9 +15306,8 @@ export namespace Prisma {
     fullname: string
     email: string
     password: string
-    role?: $Enums.Role
-    reservation?: ReservationUncheckedCreateNestedManyWithoutEmployeeInput
     maintenance?: MaintenanceUncheckedCreateNestedManyWithoutEmployeeInput
+    refund?: RefundUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutAccountInput = {
@@ -14053,9 +15364,8 @@ export namespace Prisma {
     fullname?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    reservation?: ReservationUpdateManyWithoutEmployeeNestedInput
     maintenance?: MaintenanceUpdateManyWithoutEmployeeNestedInput
+    refund?: RefundUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAccountInput = {
@@ -14063,9 +15373,8 @@ export namespace Prisma {
     fullname?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    reservation?: ReservationUncheckedUpdateManyWithoutEmployeeNestedInput
     maintenance?: MaintenanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    refund?: RefundUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type ReservationCreateWithoutCustomerInput = {
@@ -14077,14 +15386,13 @@ export namespace Prisma {
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     room: RoomCreateNestedOneWithoutReservationInput
-    employee?: EmployeeCreateNestedOneWithoutReservationInput
     transaction?: TransactionCreateNestedManyWithoutReservationInput
+    refund?: RefundCreateNestedOneWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutCustomerInput = {
     reservation_id?: string
     room_id: string
-    employee_id?: string | null
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
@@ -14092,6 +15400,7 @@ export namespace Prisma {
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     transaction?: TransactionUncheckedCreateNestedManyWithoutReservationInput
+    refund?: RefundUncheckedCreateNestedOneWithoutReservationInput
   }
 
   export type ReservationCreateOrConnectWithoutCustomerInput = {
@@ -14167,7 +15476,6 @@ export namespace Prisma {
     reservation_id?: StringFilter<"Reservation"> | string
     customer_id?: StringFilter<"Reservation"> | string
     room_id?: StringFilter<"Reservation"> | string
-    employee_id?: StringNullableFilter<"Reservation"> | string | null
     check_in_date?: DateTimeFilter<"Reservation"> | Date | string
     check_out_date?: DateTimeFilter<"Reservation"> | Date | string
     total_price?: DecimalFilter<"Reservation"> | Decimal | DecimalJsLike | number | string
@@ -14209,42 +15517,6 @@ export namespace Prisma {
     scope?: StringNullableFilter<"Account"> | string | null
     id_token?: StringNullableFilter<"Account"> | string | null
     session_state?: StringNullableFilter<"Account"> | string | null
-  }
-
-  export type ReservationCreateWithoutEmployeeInput = {
-    reservation_id?: string
-    check_in_date: Date | string
-    check_out_date: Date | string
-    total_price: Decimal | DecimalJsLike | number | string
-    total_nights: number
-    status?: $Enums.ReservationStatus
-    created_at?: Date | string
-    customer: CustomerCreateNestedOneWithoutReservationInput
-    room: RoomCreateNestedOneWithoutReservationInput
-    transaction?: TransactionCreateNestedManyWithoutReservationInput
-  }
-
-  export type ReservationUncheckedCreateWithoutEmployeeInput = {
-    reservation_id?: string
-    customer_id: string
-    room_id: string
-    check_in_date: Date | string
-    check_out_date: Date | string
-    total_price: Decimal | DecimalJsLike | number | string
-    total_nights: number
-    status?: $Enums.ReservationStatus
-    created_at?: Date | string
-    transaction?: TransactionUncheckedCreateNestedManyWithoutReservationInput
-  }
-
-  export type ReservationCreateOrConnectWithoutEmployeeInput = {
-    where: ReservationWhereUniqueInput
-    create: XOR<ReservationCreateWithoutEmployeeInput, ReservationUncheckedCreateWithoutEmployeeInput>
-  }
-
-  export type ReservationCreateManyEmployeeInputEnvelope = {
-    data: ReservationCreateManyEmployeeInput | ReservationCreateManyEmployeeInput[]
-    skipDuplicates?: boolean
   }
 
   export type MaintenanceCreateWithoutEmployeeInput = {
@@ -14317,20 +15589,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ReservationUpsertWithWhereUniqueWithoutEmployeeInput = {
-    where: ReservationWhereUniqueInput
-    update: XOR<ReservationUpdateWithoutEmployeeInput, ReservationUncheckedUpdateWithoutEmployeeInput>
-    create: XOR<ReservationCreateWithoutEmployeeInput, ReservationUncheckedCreateWithoutEmployeeInput>
+  export type RefundCreateWithoutEmployeeInput = {
+    refund_id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    reason: string
+    refund_date?: Date | string
+    reservation: ReservationCreateNestedOneWithoutRefundInput
   }
 
-  export type ReservationUpdateWithWhereUniqueWithoutEmployeeInput = {
-    where: ReservationWhereUniqueInput
-    data: XOR<ReservationUpdateWithoutEmployeeInput, ReservationUncheckedUpdateWithoutEmployeeInput>
+  export type RefundUncheckedCreateWithoutEmployeeInput = {
+    refund_id?: string
+    reservation_id: string
+    amount: Decimal | DecimalJsLike | number | string
+    reason: string
+    refund_date?: Date | string
   }
 
-  export type ReservationUpdateManyWithWhereWithoutEmployeeInput = {
-    where: ReservationScalarWhereInput
-    data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutEmployeeInput>
+  export type RefundCreateOrConnectWithoutEmployeeInput = {
+    where: RefundWhereUniqueInput
+    create: XOR<RefundCreateWithoutEmployeeInput, RefundUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type RefundCreateManyEmployeeInputEnvelope = {
+    data: RefundCreateManyEmployeeInput | RefundCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
   }
 
   export type MaintenanceUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -14379,6 +15661,34 @@ export namespace Prisma {
     data: XOR<AccountUpdateManyMutationInput, AccountUncheckedUpdateManyWithoutEmployeeInput>
   }
 
+  export type RefundUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: RefundWhereUniqueInput
+    update: XOR<RefundUpdateWithoutEmployeeInput, RefundUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<RefundCreateWithoutEmployeeInput, RefundUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type RefundUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: RefundWhereUniqueInput
+    data: XOR<RefundUpdateWithoutEmployeeInput, RefundUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type RefundUpdateManyWithWhereWithoutEmployeeInput = {
+    where: RefundScalarWhereInput
+    data: XOR<RefundUpdateManyMutationInput, RefundUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type RefundScalarWhereInput = {
+    AND?: RefundScalarWhereInput | RefundScalarWhereInput[]
+    OR?: RefundScalarWhereInput[]
+    NOT?: RefundScalarWhereInput | RefundScalarWhereInput[]
+    refund_id?: StringFilter<"Refund"> | string
+    reservation_id?: StringFilter<"Refund"> | string
+    employee_id?: StringFilter<"Refund"> | string
+    amount?: DecimalFilter<"Refund"> | Decimal | DecimalJsLike | number | string
+    reason?: StringFilter<"Refund"> | string
+    refund_date?: DateTimeFilter<"Refund"> | Date | string
+  }
+
   export type ReservationCreateWithoutRoomInput = {
     reservation_id?: string
     check_in_date: Date | string
@@ -14388,14 +15698,13 @@ export namespace Prisma {
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     customer: CustomerCreateNestedOneWithoutReservationInput
-    employee?: EmployeeCreateNestedOneWithoutReservationInput
     transaction?: TransactionCreateNestedManyWithoutReservationInput
+    refund?: RefundCreateNestedOneWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutRoomInput = {
     reservation_id?: string
     customer_id: string
-    employee_id?: string | null
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
@@ -14403,6 +15712,7 @@ export namespace Prisma {
     status?: $Enums.ReservationStatus
     created_at?: Date | string
     transaction?: TransactionUncheckedCreateNestedManyWithoutReservationInput
+    refund?: RefundUncheckedCreateNestedOneWithoutReservationInput
   }
 
   export type ReservationCreateOrConnectWithoutRoomInput = {
@@ -14507,9 +15817,8 @@ export namespace Prisma {
     fullname: string
     email: string
     password: string
-    role?: $Enums.Role
-    reservation?: ReservationCreateNestedManyWithoutEmployeeInput
     account?: AccountCreateNestedManyWithoutEmployeeInput
+    refund?: RefundCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutMaintenanceInput = {
@@ -14517,9 +15826,8 @@ export namespace Prisma {
     fullname: string
     email: string
     password: string
-    role?: $Enums.Role
-    reservation?: ReservationUncheckedCreateNestedManyWithoutEmployeeInput
     account?: AccountUncheckedCreateNestedManyWithoutEmployeeInput
+    refund?: RefundUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutMaintenanceInput = {
@@ -14573,9 +15881,8 @@ export namespace Prisma {
     fullname?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    reservation?: ReservationUpdateManyWithoutEmployeeNestedInput
     account?: AccountUpdateManyWithoutEmployeeNestedInput
+    refund?: RefundUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutMaintenanceInput = {
@@ -14583,9 +15890,8 @@ export namespace Prisma {
     fullname?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    reservation?: ReservationUncheckedUpdateManyWithoutEmployeeNestedInput
     account?: AccountUncheckedUpdateManyWithoutEmployeeNestedInput
+    refund?: RefundUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type CustomerCreateWithoutReservationInput = {
@@ -14640,31 +15946,6 @@ export namespace Prisma {
     create: XOR<RoomCreateWithoutReservationInput, RoomUncheckedCreateWithoutReservationInput>
   }
 
-  export type EmployeeCreateWithoutReservationInput = {
-    employee_id?: string
-    fullname: string
-    email: string
-    password: string
-    role?: $Enums.Role
-    maintenance?: MaintenanceCreateNestedManyWithoutEmployeeInput
-    account?: AccountCreateNestedManyWithoutEmployeeInput
-  }
-
-  export type EmployeeUncheckedCreateWithoutReservationInput = {
-    employee_id?: string
-    fullname: string
-    email: string
-    password: string
-    role?: $Enums.Role
-    maintenance?: MaintenanceUncheckedCreateNestedManyWithoutEmployeeInput
-    account?: AccountUncheckedCreateNestedManyWithoutEmployeeInput
-  }
-
-  export type EmployeeCreateOrConnectWithoutReservationInput = {
-    where: EmployeeWhereUniqueInput
-    create: XOR<EmployeeCreateWithoutReservationInput, EmployeeUncheckedCreateWithoutReservationInput>
-  }
-
   export type TransactionCreateWithoutReservationInput = {
     transaction_id?: string
     amount?: Decimal | DecimalJsLike | number | string | null
@@ -14693,6 +15974,27 @@ export namespace Prisma {
   export type TransactionCreateManyReservationInputEnvelope = {
     data: TransactionCreateManyReservationInput | TransactionCreateManyReservationInput[]
     skipDuplicates?: boolean
+  }
+
+  export type RefundCreateWithoutReservationInput = {
+    refund_id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    reason: string
+    refund_date?: Date | string
+    employee: EmployeeCreateNestedOneWithoutRefundInput
+  }
+
+  export type RefundUncheckedCreateWithoutReservationInput = {
+    refund_id?: string
+    employee_id: string
+    amount: Decimal | DecimalJsLike | number | string
+    reason: string
+    refund_date?: Date | string
+  }
+
+  export type RefundCreateOrConnectWithoutReservationInput = {
+    where: RefundWhereUniqueInput
+    create: XOR<RefundCreateWithoutReservationInput, RefundUncheckedCreateWithoutReservationInput>
   }
 
   export type CustomerUpsertWithoutReservationInput = {
@@ -14758,37 +16060,6 @@ export namespace Prisma {
     maintenance?: MaintenanceUncheckedUpdateManyWithoutRoomNestedInput
   }
 
-  export type EmployeeUpsertWithoutReservationInput = {
-    update: XOR<EmployeeUpdateWithoutReservationInput, EmployeeUncheckedUpdateWithoutReservationInput>
-    create: XOR<EmployeeCreateWithoutReservationInput, EmployeeUncheckedCreateWithoutReservationInput>
-    where?: EmployeeWhereInput
-  }
-
-  export type EmployeeUpdateToOneWithWhereWithoutReservationInput = {
-    where?: EmployeeWhereInput
-    data: XOR<EmployeeUpdateWithoutReservationInput, EmployeeUncheckedUpdateWithoutReservationInput>
-  }
-
-  export type EmployeeUpdateWithoutReservationInput = {
-    employee_id?: StringFieldUpdateOperationsInput | string
-    fullname?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    maintenance?: MaintenanceUpdateManyWithoutEmployeeNestedInput
-    account?: AccountUpdateManyWithoutEmployeeNestedInput
-  }
-
-  export type EmployeeUncheckedUpdateWithoutReservationInput = {
-    employee_id?: StringFieldUpdateOperationsInput | string
-    fullname?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    maintenance?: MaintenanceUncheckedUpdateManyWithoutEmployeeNestedInput
-    account?: AccountUncheckedUpdateManyWithoutEmployeeNestedInput
-  }
-
   export type TransactionUpsertWithWhereUniqueWithoutReservationInput = {
     where: TransactionWhereUniqueInput
     update: XOR<TransactionUpdateWithoutReservationInput, TransactionUncheckedUpdateWithoutReservationInput>
@@ -14819,6 +16090,33 @@ export namespace Prisma {
     invoice_url?: StringNullableFilter<"Transaction"> | string | null
   }
 
+  export type RefundUpsertWithoutReservationInput = {
+    update: XOR<RefundUpdateWithoutReservationInput, RefundUncheckedUpdateWithoutReservationInput>
+    create: XOR<RefundCreateWithoutReservationInput, RefundUncheckedCreateWithoutReservationInput>
+    where?: RefundWhereInput
+  }
+
+  export type RefundUpdateToOneWithWhereWithoutReservationInput = {
+    where?: RefundWhereInput
+    data: XOR<RefundUpdateWithoutReservationInput, RefundUncheckedUpdateWithoutReservationInput>
+  }
+
+  export type RefundUpdateWithoutReservationInput = {
+    refund_id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    refund_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutRefundNestedInput
+  }
+
+  export type RefundUncheckedUpdateWithoutReservationInput = {
+    refund_id?: StringFieldUpdateOperationsInput | string
+    employee_id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    refund_date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ReservationCreateWithoutTransactionInput = {
     reservation_id?: string
     check_in_date: Date | string
@@ -14829,20 +16127,20 @@ export namespace Prisma {
     created_at?: Date | string
     customer: CustomerCreateNestedOneWithoutReservationInput
     room: RoomCreateNestedOneWithoutReservationInput
-    employee?: EmployeeCreateNestedOneWithoutReservationInput
+    refund?: RefundCreateNestedOneWithoutReservationInput
   }
 
   export type ReservationUncheckedCreateWithoutTransactionInput = {
     reservation_id?: string
     customer_id: string
     room_id: string
-    employee_id?: string | null
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
     total_nights: number
     status?: $Enums.ReservationStatus
     created_at?: Date | string
+    refund?: RefundUncheckedCreateNestedOneWithoutReservationInput
   }
 
   export type ReservationCreateOrConnectWithoutTransactionInput = {
@@ -14871,26 +16169,145 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutReservationNestedInput
     room?: RoomUpdateOneRequiredWithoutReservationNestedInput
-    employee?: EmployeeUpdateOneWithoutReservationNestedInput
+    refund?: RefundUpdateOneWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutTransactionInput = {
     reservation_id?: StringFieldUpdateOperationsInput | string
     customer_id?: StringFieldUpdateOperationsInput | string
     room_id?: StringFieldUpdateOperationsInput | string
-    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total_nights?: IntFieldUpdateOperationsInput | number
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    refund?: RefundUncheckedUpdateOneWithoutReservationNestedInput
+  }
+
+  export type ReservationCreateWithoutRefundInput = {
+    reservation_id?: string
+    check_in_date: Date | string
+    check_out_date: Date | string
+    total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
+    status?: $Enums.ReservationStatus
+    created_at?: Date | string
+    customer: CustomerCreateNestedOneWithoutReservationInput
+    room: RoomCreateNestedOneWithoutReservationInput
+    transaction?: TransactionCreateNestedManyWithoutReservationInput
+  }
+
+  export type ReservationUncheckedCreateWithoutRefundInput = {
+    reservation_id?: string
+    customer_id: string
+    room_id: string
+    check_in_date: Date | string
+    check_out_date: Date | string
+    total_price: Decimal | DecimalJsLike | number | string
+    total_nights: number
+    status?: $Enums.ReservationStatus
+    created_at?: Date | string
+    transaction?: TransactionUncheckedCreateNestedManyWithoutReservationInput
+  }
+
+  export type ReservationCreateOrConnectWithoutRefundInput = {
+    where: ReservationWhereUniqueInput
+    create: XOR<ReservationCreateWithoutRefundInput, ReservationUncheckedCreateWithoutRefundInput>
+  }
+
+  export type EmployeeCreateWithoutRefundInput = {
+    employee_id?: string
+    fullname: string
+    email: string
+    password: string
+    maintenance?: MaintenanceCreateNestedManyWithoutEmployeeInput
+    account?: AccountCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutRefundInput = {
+    employee_id?: string
+    fullname: string
+    email: string
+    password: string
+    maintenance?: MaintenanceUncheckedCreateNestedManyWithoutEmployeeInput
+    account?: AccountUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutRefundInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutRefundInput, EmployeeUncheckedCreateWithoutRefundInput>
+  }
+
+  export type ReservationUpsertWithoutRefundInput = {
+    update: XOR<ReservationUpdateWithoutRefundInput, ReservationUncheckedUpdateWithoutRefundInput>
+    create: XOR<ReservationCreateWithoutRefundInput, ReservationUncheckedCreateWithoutRefundInput>
+    where?: ReservationWhereInput
+  }
+
+  export type ReservationUpdateToOneWithWhereWithoutRefundInput = {
+    where?: ReservationWhereInput
+    data: XOR<ReservationUpdateWithoutRefundInput, ReservationUncheckedUpdateWithoutRefundInput>
+  }
+
+  export type ReservationUpdateWithoutRefundInput = {
+    reservation_id?: StringFieldUpdateOperationsInput | string
+    check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: CustomerUpdateOneRequiredWithoutReservationNestedInput
+    room?: RoomUpdateOneRequiredWithoutReservationNestedInput
+    transaction?: TransactionUpdateManyWithoutReservationNestedInput
+  }
+
+  export type ReservationUncheckedUpdateWithoutRefundInput = {
+    reservation_id?: StringFieldUpdateOperationsInput | string
+    customer_id?: StringFieldUpdateOperationsInput | string
+    room_id?: StringFieldUpdateOperationsInput | string
+    check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_nights?: IntFieldUpdateOperationsInput | number
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    transaction?: TransactionUncheckedUpdateManyWithoutReservationNestedInput
+  }
+
+  export type EmployeeUpsertWithoutRefundInput = {
+    update: XOR<EmployeeUpdateWithoutRefundInput, EmployeeUncheckedUpdateWithoutRefundInput>
+    create: XOR<EmployeeCreateWithoutRefundInput, EmployeeUncheckedCreateWithoutRefundInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutRefundInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutRefundInput, EmployeeUncheckedUpdateWithoutRefundInput>
+  }
+
+  export type EmployeeUpdateWithoutRefundInput = {
+    employee_id?: StringFieldUpdateOperationsInput | string
+    fullname?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    maintenance?: MaintenanceUpdateManyWithoutEmployeeNestedInput
+    account?: AccountUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutRefundInput = {
+    employee_id?: StringFieldUpdateOperationsInput | string
+    fullname?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    maintenance?: MaintenanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    account?: AccountUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type ReservationCreateManyCustomerInput = {
     reservation_id?: string
     room_id: string
-    employee_id?: string | null
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
@@ -14923,14 +16340,13 @@ export namespace Prisma {
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     room?: RoomUpdateOneRequiredWithoutReservationNestedInput
-    employee?: EmployeeUpdateOneWithoutReservationNestedInput
     transaction?: TransactionUpdateManyWithoutReservationNestedInput
+    refund?: RefundUpdateOneWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutCustomerInput = {
     reservation_id?: StringFieldUpdateOperationsInput | string
     room_id?: StringFieldUpdateOperationsInput | string
-    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -14938,12 +16354,12 @@ export namespace Prisma {
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     transaction?: TransactionUncheckedUpdateManyWithoutReservationNestedInput
+    refund?: RefundUncheckedUpdateOneWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateManyWithoutCustomerInput = {
     reservation_id?: StringFieldUpdateOperationsInput | string
     room_id?: StringFieldUpdateOperationsInput | string
-    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -14997,18 +16413,6 @@ export namespace Prisma {
     session_state?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type ReservationCreateManyEmployeeInput = {
-    reservation_id?: string
-    customer_id: string
-    room_id: string
-    check_in_date: Date | string
-    check_out_date: Date | string
-    total_price: Decimal | DecimalJsLike | number | string
-    total_nights: number
-    status?: $Enums.ReservationStatus
-    created_at?: Date | string
-  }
-
   export type MaintenanceCreateManyEmployeeInput = {
     maintenance_id?: string
     room_id: string
@@ -15034,42 +16438,12 @@ export namespace Prisma {
     session_state?: string | null
   }
 
-  export type ReservationUpdateWithoutEmployeeInput = {
-    reservation_id?: StringFieldUpdateOperationsInput | string
-    check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    total_nights?: IntFieldUpdateOperationsInput | number
-    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    customer?: CustomerUpdateOneRequiredWithoutReservationNestedInput
-    room?: RoomUpdateOneRequiredWithoutReservationNestedInput
-    transaction?: TransactionUpdateManyWithoutReservationNestedInput
-  }
-
-  export type ReservationUncheckedUpdateWithoutEmployeeInput = {
-    reservation_id?: StringFieldUpdateOperationsInput | string
-    customer_id?: StringFieldUpdateOperationsInput | string
-    room_id?: StringFieldUpdateOperationsInput | string
-    check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    total_nights?: IntFieldUpdateOperationsInput | number
-    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    transaction?: TransactionUncheckedUpdateManyWithoutReservationNestedInput
-  }
-
-  export type ReservationUncheckedUpdateManyWithoutEmployeeInput = {
-    reservation_id?: StringFieldUpdateOperationsInput | string
-    customer_id?: StringFieldUpdateOperationsInput | string
-    room_id?: StringFieldUpdateOperationsInput | string
-    check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    total_nights?: IntFieldUpdateOperationsInput | number
-    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type RefundCreateManyEmployeeInput = {
+    refund_id?: string
+    reservation_id: string
+    amount: Decimal | DecimalJsLike | number | string
+    reason: string
+    refund_date?: Date | string
   }
 
   export type MaintenanceUpdateWithoutEmployeeInput = {
@@ -15147,10 +16521,33 @@ export namespace Prisma {
     session_state?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type RefundUpdateWithoutEmployeeInput = {
+    refund_id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    refund_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    reservation?: ReservationUpdateOneRequiredWithoutRefundNestedInput
+  }
+
+  export type RefundUncheckedUpdateWithoutEmployeeInput = {
+    refund_id?: StringFieldUpdateOperationsInput | string
+    reservation_id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    refund_date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RefundUncheckedUpdateManyWithoutEmployeeInput = {
+    refund_id?: StringFieldUpdateOperationsInput | string
+    reservation_id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    reason?: StringFieldUpdateOperationsInput | string
+    refund_date?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ReservationCreateManyRoomInput = {
     reservation_id?: string
     customer_id: string
-    employee_id?: string | null
     check_in_date: Date | string
     check_out_date: Date | string
     total_price: Decimal | DecimalJsLike | number | string
@@ -15178,14 +16575,13 @@ export namespace Prisma {
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: CustomerUpdateOneRequiredWithoutReservationNestedInput
-    employee?: EmployeeUpdateOneWithoutReservationNestedInput
     transaction?: TransactionUpdateManyWithoutReservationNestedInput
+    refund?: RefundUpdateOneWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutRoomInput = {
     reservation_id?: StringFieldUpdateOperationsInput | string
     customer_id?: StringFieldUpdateOperationsInput | string
-    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
@@ -15193,12 +16589,12 @@ export namespace Prisma {
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     transaction?: TransactionUncheckedUpdateManyWithoutReservationNestedInput
+    refund?: RefundUncheckedUpdateOneWithoutReservationNestedInput
   }
 
   export type ReservationUncheckedUpdateManyWithoutRoomInput = {
     reservation_id?: StringFieldUpdateOperationsInput | string
     customer_id?: StringFieldUpdateOperationsInput | string
-    employee_id?: NullableStringFieldUpdateOperationsInput | string | null
     check_in_date?: DateTimeFieldUpdateOperationsInput | Date | string
     check_out_date?: DateTimeFieldUpdateOperationsInput | Date | string
     total_price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string

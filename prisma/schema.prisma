@@ -8,13 +8,6 @@ datasource db {
 }
 
 // ENUM
-enum Role {
-  ADMIN
-  RECEPTIONIST
-  CLEANING
-  TECHNICIAN
-}
-
 enum RoomType {
   ROYAL
   EXECUTIVE
@@ -95,11 +88,10 @@ model Employee {
   fullname    String @db.VarChar(100)
   email       String @unique @db.VarChar(100)
   password    String @db.VarChar(255)
-  role        Role   @default(RECEPTIONIST)
 
-  reservation Reservation[]
   maintenance Maintenance[]
   account     Account[]
+  refund      Refund[]
 }
 
 model Room {
@@ -138,10 +130,9 @@ model Maintenance {
 }
 
 model Reservation {
-  reservation_id String  @id @default(cuid())
+  reservation_id String @id @default(cuid())
   customer_id    String
   room_id        String
-  employee_id    String?
 
   check_in_date  DateTime
   check_out_date DateTime
@@ -150,11 +141,11 @@ model Reservation {
   status         ReservationStatus @default(PENDING)
   created_at     DateTime          @default(now())
 
-  customer Customer  @relation(fields: [customer_id], references: [customer_id])
-  room     Room      @relation(fields: [room_id], references: [room_id])
-  employee Employee? @relation(fields: [employee_id], references: [employee_id])
+  customer Customer @relation(fields: [customer_id], references: [customer_id])
+  room     Room     @relation(fields: [room_id], references: [room_id])
 
   transaction Transaction[]
+  refund      Refund?
 }
 
 model Transaction {
@@ -168,4 +159,16 @@ model Transaction {
   invoice_url    String?            @db.Text
 
   reservation Reservation @relation(fields: [reservation_id], references: [reservation_id])
+}
+
+model Refund {
+  refund_id      String   @id @default(cuid())
+  reservation_id String   @unique
+  employee_id    String
+  amount         Decimal  @db.Decimal(10, 2)
+  reason         String   @db.Text
+  refund_date    DateTime @default(now())
+
+  reservation Reservation @relation(fields: [reservation_id], references: [reservation_id])
+  employee    Employee    @relation(fields: [employee_id], references: [employee_id])
 }

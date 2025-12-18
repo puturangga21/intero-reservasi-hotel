@@ -21,9 +21,11 @@ import { CodeFolderIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
 import { RefundForm } from './refund-form';
+import { auth } from '@/auth';
 
 export default async function DataTable() {
   let data = [];
+  const adminSession = await auth();
 
   try {
     const baseUrl = getBaseUrl();
@@ -33,7 +35,7 @@ export default async function DataTable() {
     console.log(error?.response?.data);
   }
 
-  console.log(data);
+  // console.log(data);
 
   if (data.length === 0) {
     return (
@@ -64,6 +66,7 @@ export default async function DataTable() {
           <TableHead>Payment Method</TableHead>
           <TableHead>Payment Date</TableHead>
           <TableHead>Status</TableHead>
+          <TableHead>Process By</TableHead>
           <TableHead>Refund Request</TableHead>
         </TableRow>
       </TableHeader>
@@ -76,17 +79,36 @@ export default async function DataTable() {
             <TableCell>{item.payment_method || 'NOT PAYED'}</TableCell>
             <TableCell>{formatWaktu(item.payment_date)}</TableCell>
             <TableCell>
-              <Badge variant={item.status === 'SUCCESS' ? 'default' : 'destructive'}>
+              <Badge
+                variant={
+                  item.status === 'SUCCESS'
+                    ? 'default'
+                    : item.status === 'REFUNDED'
+                    ? 'outline'
+                    : 'destructive'
+                }>
                 {item.status}
               </Badge>
             </TableCell>
             <TableCell>
+              {item.status === 'REFUNDED' ? (
+                <div className="flex flex-col">
+                  <span className="font-medium text-sm">
+                    {item.reservation.refund?.employee?.fullname || 'System'}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground">
+                    {formatWaktu(item.reservation.refund?.refund_date)}
+                  </span>
+                </div>
+              ) : (
+                <span className="text-muted-foreground text-xs">-</span>
+              )}
+            </TableCell>
+            <TableCell>
               <div className="flex items-center gap-1">
-                <RefundForm />
-                {/* <EditData />
-
-
-                <DeleteData /> */}
+                {item.status === 'SUCCESS' && (
+                  <RefundForm data={item} adminSession={adminSession} />
+                )}
               </div>
             </TableCell>
           </TableRow>
