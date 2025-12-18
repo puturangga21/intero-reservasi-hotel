@@ -104,7 +104,7 @@ export default async function DataTable() {
             </TableCell>
             <TableCell>
               <div className="flex items-center gap-1">
-                <EditData />
+                <EditData data={item} />
               </div>
             </TableCell>
           </TableRow>

@@ -108,24 +108,6 @@ export function AddData() {
                 required
               />
             </div>
-
-            <div className="grid gap-3">
-              <Label htmlFor="role">Role</Label>
-              <Select name="role" required>
-                <SelectTrigger className="w-full" id="role">
-                  <SelectValue placeholder="Select a role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Role</SelectLabel>
-                    <SelectItem value="ADMIN">ADMIN</SelectItem>
-                    <SelectItem value="RECEPTIONIST">RECEPTIONIST</SelectItem>
-                    <SelectItem value="CLEANING">CLEANING</SelectItem>
-                    <SelectItem value="TECHNICIAN">TECHNICIAN</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
           </div>
           <DialogFooter className="mt-4">
             <Button type="submit" disabled={loading}>

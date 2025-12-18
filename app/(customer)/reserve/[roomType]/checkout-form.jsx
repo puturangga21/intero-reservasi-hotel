@@ -17,7 +17,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
 import { differenceInCalendarDays, format } from 'date-fns';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import {
@@ -80,6 +80,8 @@ export default function CheckoutForm({ data, session, availableRooms }) {
         setDateStart(null);
         setDateEnd(null);
         setSelectedRoomId('');
+
+        redirect(`/my-reserve/${session?.user?.id}`);
       }
     } catch (error) {
       // console.log(error.response.data);

@@ -39,6 +39,7 @@ enum ReservationStatus {
   CHECKED_OUT
   CANCELLED
   REFUNDED
+  FAILED
 }
 
 enum TransactionStatus {

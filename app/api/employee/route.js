@@ -42,7 +42,6 @@ export async function POST(request) {
     const fullname = formData.get('fullname');
     const email = formData.get('email');
     const password = formData.get('password');
-    const role = formData.get('role');
 
     if (!fullname || !email || !password || !role) {
       return NextResponse.json(
@@ -73,7 +72,6 @@ export async function POST(request) {
         fullname,
         email,
         password,
-        role,
       },
     });
 
