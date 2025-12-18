@@ -42,14 +42,14 @@ const data = {
       icon: Image,
     },
     {
-      name: 'Customer Reserve',
-      url: '/customer-reserve',
-      icon: Book,
-    },
-    {
       name: 'Maintenance',
       url: '/maintenance',
       icon: ToolCase,
+    },
+    {
+      name: 'Customer Reserve',
+      url: '/customer-reserve',
+      icon: Book,
     },
     {
       name: 'Transaction',

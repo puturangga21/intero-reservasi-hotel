@@ -3,8 +3,9 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const room = await prisma.transaction.findMany({
+    const transaction = await prisma.transaction.findMany({
       select: {
+        transaction_id: true,
         amount: true,
         payment_method: true,
         payment_date: true,
@@ -20,23 +21,11 @@ export async function GET() {
       },
     });
 
-    const galleries = await prisma.roomGallery.findMany();
-
-    const roomsWithImages = room.map((room) => {
-      const galleryEntry = galleries.find((g) => g.room_type === room.room_type);
-      const images = galleryEntry ? galleryEntry.image : [];
-
-      return {
-        ...room,
-        image: images,
-      };
-    });
-
     return NextResponse.json(
       {
         success: true,
         message: 'Data room berhasil diambil',
-        data: roomsWithImages,
+        data: transaction,
       },
       {
         status: 200,

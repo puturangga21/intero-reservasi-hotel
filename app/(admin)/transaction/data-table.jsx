@@ -1,3 +1,12 @@
+import { Badge } from '@/components/ui/badge';
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/components/ui/empty';
 import {
   Table,
   TableBody,
@@ -7,24 +16,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { formatRupiah, getBaseUrl } from '@/lib/utils';
-import {
-  Delete01Icon,
-  PencilEdit02Icon,
-  CodeFolderIcon,
-} from '@hugeicons/core-free-icons';
+import { formatRupiah, formatWaktu, getBaseUrl } from '@/lib/utils';
+import { CodeFolderIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import axios from 'axios';
-import Link from 'next/link';
-import { Empty } from '@/components/ui/empty';
-import {
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from '@/components/ui/empty';
-import { Badge } from '@/components/ui/badge';
+import { RefundForm } from './refund-form';
 
 export default async function DataTable() {
   let data = [];
@@ -36,6 +32,8 @@ export default async function DataTable() {
   } catch (error) {
     console.log(error?.response?.data);
   }
+
+  console.log(data);
 
   if (data.length === 0) {
     return (
@@ -63,8 +61,10 @@ export default async function DataTable() {
           <TableHead>Customer Email</TableHead>
           <TableHead>Room Type</TableHead>
           <TableHead>Total Transaction</TableHead>
+          <TableHead>Payment Method</TableHead>
+          <TableHead>Payment Date</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead>Action</TableHead>
+          <TableHead>Refund Request</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -73,6 +73,8 @@ export default async function DataTable() {
             <TableCell>{item.reservation.customer.email}</TableCell>
             <TableCell>{item.reservation.room.room_type}</TableCell>
             <TableCell>{formatRupiah(item.amount)}</TableCell>
+            <TableCell>{item.payment_method || 'NOT PAYED'}</TableCell>
+            <TableCell>{formatWaktu(item.payment_date)}</TableCell>
             <TableCell>
               <Badge variant={item.status === 'SUCCESS' ? 'default' : 'destructive'}>
                 {item.status}
@@ -80,7 +82,9 @@ export default async function DataTable() {
             </TableCell>
             <TableCell>
               <div className="flex items-center gap-1">
+                <RefundForm />
                 {/* <EditData />
+
 
                 <DeleteData /> */}
               </div>
