@@ -7,8 +7,8 @@ export default function Page() {
     <div className="space-y-4">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Management Customer</h1>
-          <p className="text-sm text-muted-foreground">Management customer</p>
+          <h1 className="text-2xl font-semibold">Management Room</h1>
+          <p className="text-sm text-muted-foreground">Management room</p>
         </div>
 
         <AddData />

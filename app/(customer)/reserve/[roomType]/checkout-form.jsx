@@ -76,15 +76,15 @@ export default function CheckoutForm({ data, session, availableRooms }) {
 
       if (response.data.success) {
         toast.success(response?.data?.message);
-        router.refresh();
         setDateStart(null);
         setDateEnd(null);
         setSelectedRoomId('');
 
-        redirect(`/my-reserve/${session?.user?.id}`);
+        router.refresh();
+        router.push(`/my-reserve/${session?.user?.id}`);
       }
     } catch (error) {
-      // console.log(error.response.data);
+      console.log(error);
       toast.error(error?.response?.data?.message || 'Terjadi kesalahan pada server');
     } finally {
       setLoading(false);
